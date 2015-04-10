@@ -41,3 +41,7 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+CheezePizza/bin/logs/**
+CheezePizza/build/**
+CheezePizza/linklib/**
+CheezePizza/logs/**
