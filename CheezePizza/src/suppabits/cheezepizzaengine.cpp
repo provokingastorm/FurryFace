@@ -84,37 +84,19 @@ void CheezePizzaEngine::Shutdown()
 	if(HGEEngine != NULL)
 	{
 		// No need to delete render queue items. It's temp
+		CPAssert(RenderQueue.size() == 0, "Render queue should be empty when shutting down the engine");
 		RenderQueue.clear();
 
-		if(InputSub != NULL)
-		{
-			InputSub->Shutdown();
-			delete InputSub;
-		}
-
-		if(World != NULL)
-		{
-			World->Shutdown();
-			delete World;
-		}
+		SAFE_SHUTDOWN(InputSub);
+		SAFE_SHUTDOWN(World);
 
 		for(int i = 0; i < MAX_LOCAL_PLAYERS; ++i)
 		{
-			if(Players[i] != NULL)
-			{
-				delete Players[i];
-			}
+			SAFE_DELETE(Players[i]);
 		}
 
-		if(PlayerCreator != NULL)
-		{
-			delete PlayerCreator;
-		}
-
-		if(GameShortName != NULL)
-		{
-			delete[] GameShortName;
-		}
+		SAFE_DELETE(PlayerCreator);
+		SAFE_DELETE_ARRAY(GameShortName);
 
 		const int NumSubsystems = Subsystems.size();
 		for(int j = NumSubsystems-1; j >= 0; --j)
