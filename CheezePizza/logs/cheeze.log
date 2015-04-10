@@ -1,0 +1,19 @@
+origins/res/originsgame.res, line 19: Unsupported value 'BLEND_ALPHABLEND'.
+Can't create texture
+HGE Started..
+
+HGE version: 1.80
+Date: 04.04.2015, 16:29:44
+
+Application: CheezePizza
+OS: Windows 6.1.7601
+Memory: 4194303K total, 3050028K free
+
+D3D Driver: nvd3dum.dll
+Description: NVIDIA GeForce GT 630
+Version: 8.17.12.9628
+Hardware Vertex-processing device selected
+Mode: 640 x 480 x X8R8G8B8
+
+Init done.
+
