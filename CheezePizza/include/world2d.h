@@ -1,5 +1,5 @@
-#ifndef Scene2DManager_H_
-#define Scene2DManager_H_
+#ifndef World2D_H_
+#define World2D_H_
 
 #ifndef EngineSubsystem_H_
 #include "enginesubsystem.h"
@@ -13,16 +13,16 @@
 #include <map>
 #endif
 
-#ifndef Scene2DObject_H_
+#ifndef Scene2D_H_
 #include "scene2d.h"
 #endif
 
 
-class Scene2DManager : public EngineSubsystem
+class World2D : public EngineSubsystem
 {
 public:
-	Scene2DManager();
-	~Scene2DManager();
+	World2D();
+	~World2D();
 
 	void AddScene(class Scene2D& Scene, bool bIsCurrentScene);
 	void AddPersistentObject(class Scene2DObject& Object, ESceneObjectLayer DrawLayer);
@@ -37,7 +37,7 @@ protected:
 	void ShutdownInternal();
 
 private:
-	void AddScene(class Scene2D& Scene);
+	bool AddSceneInternal(class Scene2D& Scene);
 
 	bool HasPersistentObject(class Scene2DObject& Object) const;
 	bool HasPersistentObjectInLayer(class Scene2DObject& Object, ESceneObjectLayer DrawLayer) const;

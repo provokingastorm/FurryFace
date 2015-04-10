@@ -15,11 +15,11 @@ set( SUPPA_BITS_SRC
 	localplayer.cpp
 	playerfactory.cpp
 	scene2d.cpp
-	scene2dmanager.cpp
 	scene2dobject.cpp
     sharedrenderables.cpp
 	tickable.cpp
 	vector2d.cpp
+	world2d.cpp
     )
 
 #------ additional includes ------

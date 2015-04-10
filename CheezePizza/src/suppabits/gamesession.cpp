@@ -27,17 +27,14 @@ void GameSession::Initialize()
 
 	if(CheezeEngine == NULL)
 	{
-		CheezeEngine = new CheezePizzaEngine();
+		CheezeEngine = &CheezePizzaEngine::Instance();
 
-		if(CheezeEngine != NULL)
-		{
-			// First, initialize the engine
-			CheezeEngine->Initialize(GetGameName(), GetGameShortName());
-			//CheezeEngine->SetFirstTickCallback()
+		// First, initialize the engine
+		CheezeEngine->Initialize(GetGameName(), GetGameShortName());
+		//CheezeEngine->SetFirstTickCallback()
 
-			// Then, provide any game-specific configuration
-			PreInit();
-		}
+		// Then, provide any game-specific configuration
+		PreInit();
 	}
 }
 

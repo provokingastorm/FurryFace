@@ -42,11 +42,11 @@ set( HGECORE_SRC
     ${HGE_SOURCE_DIR}/include/playerfactory.h
     ${HGE_SOURCE_DIR}/include/point.h
     ${HGE_SOURCE_DIR}/include/scene2d.h
-    ${HGE_SOURCE_DIR}/include/scene2dmanager.h
     ${HGE_SOURCE_DIR}/include/scene2dobject.h
     ${HGE_SOURCE_DIR}/include/sharedrenderables.h
     ${HGE_SOURCE_DIR}/include/tickable.h
     ${HGE_SOURCE_DIR}/include/vector2d.h
+    ${HGE_SOURCE_DIR}/include/world2d.h
     )
 
 #------ additional includes ------

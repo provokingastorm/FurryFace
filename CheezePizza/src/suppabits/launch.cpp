@@ -9,6 +9,23 @@
 
 extern GameSession* CreateGameSession();
 GameSession* Session = NULL;
+HGE* HGEEngine = NULL;
+
+void Cleanup()
+{
+	if(Session != NULL)
+	{
+		Session->Shutdown();
+
+		if(HGEEngine != NULL)
+		{
+			HGEEngine->Release();
+			HGEEngine = NULL;
+		}
+
+		delete Session;
+	}
+}
 
 ////////////////////////////////////////////////
 // HGE Callbacks
@@ -36,7 +53,9 @@ bool FocusGainedFunc()
 
 bool ExitFunc()
 {
-	return Session->RouteEngineEvent(EE_Exit);
+	Session->RouteEngineEvent(EE_Exit);
+	Cleanup();
+	return true;
 }
 
 ////////////////////////////////////////////////
@@ -49,7 +68,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	if(Session != NULL)
 	{
-		HGE* HGEEngine = hgeCreate(HGE_VERSION);
+		HGEEngine = hgeCreate(HGE_VERSION);
 		Session->Initialize();
 
 		if(HGEEngine != NULL)
@@ -63,15 +82,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			Session->Startup();
 		}
 
-		Session->Shutdown();
-
-		if(HGEEngine != NULL)
-		{
-			HGEEngine->Release();
-			HGEEngine = NULL;
-		}
-
-		delete Session;
+		Cleanup();
 	}
 
 	// Dump memory leaks

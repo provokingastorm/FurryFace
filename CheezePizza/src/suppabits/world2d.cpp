@@ -1,29 +1,29 @@
 #include "cheezepizza.h"
-#include "scene2dmanager.h"
+#include "world2d.h"
 #include "scene2d.h"
 #include "scene2dobject.h"
 #include "cheezepizzaengine.h"
 
-Scene2DManager::Scene2DManager()
+World2D::World2D()
 	: CurrentScene(NULL)
 {
 }
 
-Scene2DManager::~Scene2DManager()
+World2D::~World2D()
 {
 }
 
-void Scene2DManager::AddScene(class Scene2D& Scene, bool bIsCurrentScene)
+void World2D::AddScene(class Scene2D& Scene, bool bIsCurrentScene)
 {
-	AddScene(Scene);
+	const bool bWasAdded = AddSceneInternal(Scene);
 
-	if(bIsCurrentScene)
+	if(bWasAdded && bIsCurrentScene)
 	{
 		CurrentScene = &Scene;
 	}
 }
 
-void Scene2DManager::AddScene(Scene2D& Scene)
+bool World2D::AddSceneInternal(Scene2D& Scene)
 {
 	bool bAlreadyTracked = false;
 	const int NumScenes = Scenes.size();
@@ -49,10 +49,13 @@ void Scene2DManager::AddScene(Scene2D& Scene)
 	if(!bAlreadyTracked)
 	{
 		Scenes.push_back(&Scene);
+		return true;
 	}
+
+	return false;
 }
 
-void Scene2DManager::AddPersistentObject(Scene2DObject& Object, ESceneObjectLayer DrawLayer)
+void World2D::AddPersistentObject(Scene2DObject& Object, ESceneObjectLayer DrawLayer)
 {
 	if(!HasPersistentObject(Object))
 	{
@@ -60,7 +63,7 @@ void Scene2DManager::AddPersistentObject(Scene2DObject& Object, ESceneObjectLaye
 	}
 }
 
-bool Scene2DManager::HasPersistentObject(Scene2DObject& Object) const
+bool World2D::HasPersistentObject(Scene2DObject& Object) const
 {
 	return (	
 				HasPersistentObjectInLayer(Object, SOL_Background)
@@ -70,7 +73,7 @@ bool Scene2DManager::HasPersistentObject(Scene2DObject& Object) const
 			);
 }
 
-bool Scene2DManager::HasPersistentObjectInLayer(Scene2DObject& Object, ESceneObjectLayer DrawLayer) const
+bool World2D::HasPersistentObjectInLayer(Scene2DObject& Object, ESceneObjectLayer DrawLayer) const
 {
 	CPAssert(DrawLayer != SOL_Max, "Scene2DManager::HasPersistentObjectInLayer() -  Using an invalid DrawLayer");
 
@@ -86,7 +89,7 @@ bool Scene2DManager::HasPersistentObjectInLayer(Scene2DObject& Object, ESceneObj
 	return false;
 }
 
-void Scene2DManager::AddObjectsToRenderQueue(CheezePizzaEngine& Engine)
+void World2D::AddObjectsToRenderQueue(CheezePizzaEngine& Engine)
 {
 	AddLayerToRenderQueue(Engine, SOL_Background);
 	AddLayerToRenderQueue(Engine, SOL_Layer1);
@@ -94,7 +97,7 @@ void Scene2DManager::AddObjectsToRenderQueue(CheezePizzaEngine& Engine)
 	AddLayerToRenderQueue(Engine, SOL_Foreground);
 }
 
-void Scene2DManager::AddLayerToRenderQueue(CheezePizzaEngine& Engine, ESceneObjectLayer DrawLayer)
+void World2D::AddLayerToRenderQueue(CheezePizzaEngine& Engine, ESceneObjectLayer DrawLayer)
 {
 	CPAssert(DrawLayer != SOL_Max, "Scene2DManager::AddLayerToRenderQueue() -  Using an invalid DrawLayer");
 
@@ -118,7 +121,7 @@ void Scene2DManager::AddLayerToRenderQueue(CheezePizzaEngine& Engine, ESceneObje
 	}
 }
 
-void Scene2DManager::ShutdownInternal()
+void World2D::ShutdownInternal()
 {
 	// Don't need to delete CurrentScene because it should be contained in the Scenes vector.
 	CurrentScene = NULL;

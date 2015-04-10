@@ -1,6 +1,7 @@
 #include "cheezepizza.h"
 #include "cheezepizzaengine.h"
 #include "inputsubsystem.h"
+#include "world2d.h"
 #include "playerfactory.h"
 #include "localplayer.h"
 #include "gamesession.h"
@@ -15,6 +16,7 @@ CheezePizzaEngine::CheezePizzaEngine()
 	: HGEEngine(NULL)
 	, ResourceManager(NULL)
 	, InputSub(NULL)
+	, World(NULL)
 	, PlayerCreator(NULL)
 	, bIsHGEInitialized(false)
 	, bTickedOnce(false)
@@ -30,20 +32,17 @@ CheezePizzaEngine::CheezePizzaEngine()
 
 CheezePizzaEngine::~CheezePizzaEngine()
 {
-	if(GameShortName != NULL)
-	{
-		delete[] GameShortName;
-	}
 }
 
 void CheezePizzaEngine::Initialize(char* InGameName, char* InGameShortName)
 {
+	CPAssert(bIsHGEInitialized == false, "Trying to initialize an already initialized engine");
 	HGEEngine = hgeCreate(HGE_VERSION);
 
 	GameName = InGameName;
 	GameShortName = ChzStrLower(InGameShortName);
 
-	if(HGEEngine != NULL)
+	if(HGEEngine != NULL && !bIsHGEInitialized)
 	{
 		// Setup the log file
 		char LogFilename[128];
@@ -73,6 +72,9 @@ void CheezePizzaEngine::Initialize(char* InGameName, char* InGameShortName)
 		InputSub = new InputSubsystem();
 		InputSub->Initialize();
 
+		World = new World2D();
+		World->Initialize();
+
 		bIsHGEInitialized = HGEEngine->System_Initiate();
 	}
 }
@@ -90,6 +92,12 @@ void CheezePizzaEngine::Shutdown()
 			delete InputSub;
 		}
 
+		if(World != NULL)
+		{
+			World->Shutdown();
+			delete World;
+		}
+
 		for(int i = 0; i < MAX_LOCAL_PLAYERS; ++i)
 		{
 			if(Players[i] != NULL)
@@ -101,6 +109,11 @@ void CheezePizzaEngine::Shutdown()
 		if(PlayerCreator != NULL)
 		{
 			delete PlayerCreator;
+		}
+
+		if(GameShortName != NULL)
+		{
+			delete[] GameShortName;
 		}
 
 		const int NumSubsystems = Subsystems.size();
@@ -167,10 +180,9 @@ bool CheezePizzaEngine::Tick()
 void CheezePizzaEngine::Render()
 {
 	// Populate the render queue
-	const int NumSubsystems = Subsystems.size();
-	for(int i = 0; i < NumSubsystems; ++i)
+	if(World != NULL)
 	{
-		Subsystems[i]->AddObjectsToRenderQueue(*this);
+		World->AddObjectsToRenderQueue(*this);
 	}
 
 	HGE& HGERef = *HGEEngine;

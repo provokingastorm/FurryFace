@@ -8,7 +8,7 @@
 #include "originslinkrenderobject.h"
 #include "sharedrenderables.h"
 #include "cheezepizzaengine.h"
-#include "scene2dmanager.h"
+#include "world2d.h"
 #include "scene2d.h"
 #include "scene2dobject.h"
 #include "hgeresource.h"
@@ -82,19 +82,20 @@ void OriginsGameSession::LoadGame()
 {
 	CheezePizzaEngine& CE = (*CheezeEngine);
 
-	Scene2D& PrototypeScene = *(new Scene2D());
-	hgeSprite* BGSprite = CE.ResourceManager->GetSprite("sprPrototypeBG");
-	if(BGSprite != NULL)
+	if(CE.World != NULL)
 	{
-		FullscreenBackground* FullscreenRO = new FullscreenBackground();
-		FullscreenRO->SetContent(*BGSprite);
+		Scene2D& PrototypeScene = *(new Scene2D());
+		hgeSprite* BGSprite = CE.ResourceManager->GetSprite("sprPrototypeBG");
+		if(BGSprite != NULL)
+		{
+			FullscreenBackground* FullscreenRO = new FullscreenBackground();
+			FullscreenRO->SetContent(*BGSprite);
 
-		Scene2DObject& SceneObect = *(new Scene2DObject());
-		SceneObect.SetRenderObject(*FullscreenRO);
-		PrototypeScene.Add(SceneObect, SOL_Background);
+			Scene2DObject& SceneObect = *(new Scene2DObject());
+			SceneObect.SetRenderObject(*FullscreenRO);
+			PrototypeScene.Add(SceneObect, SOL_Background);
+		}
+
+		CE.World->AddScene(PrototypeScene, true);
 	}
-	
-	Scene2DManager& Manager = *(new Scene2DManager());
-	Manager.AddScene(PrototypeScene, true);
-	CE.AddEngineSubsystem(Manager);
 }

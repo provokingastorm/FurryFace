@@ -28,7 +28,11 @@ enum EResourceGroup
 class CheezePizzaEngine
 {
 public:
-	CheezePizzaEngine();
+	static inline CheezePizzaEngine& Instance()
+	{
+		static CheezePizzaEngine Instance;
+		return Instance;
+	}
 	~CheezePizzaEngine();
 
 	void Initialize(char* InGameName, char* InGameShortName);
@@ -49,6 +53,7 @@ public:
 
 	// Engine subsystems
 	class InputSubsystem* InputSub;
+	class World2D* World;
 
 	const char* GetGameName() const { return GameName; }
 	const char* GetGameShortName() const { return GameShortName; }
@@ -69,6 +74,11 @@ private:
 	void OnFirstTick(float DeltaTime);
 
 	void SetupNewLocalPlayer(ELocalPlayerIndex PlayerIndex);
+
+	// Prevent the functions from getting called since this is a singleton
+	CheezePizzaEngine();
+	CheezePizzaEngine(const CheezePizzaEngine&);
+	CheezePizzaEngine& operator=(const CheezePizzaEngine&);
 
 	// Player
 	class LocalPlayer* Players[MAX_LOCAL_PLAYERS];
