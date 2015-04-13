@@ -45,6 +45,18 @@ void CheckIgnoreAssert( bool, char *, int, char * );
 
 
 #if defined(_DEBUG)
+#define CPForceAssert(Description) \
+{ \
+	CPAssert(true == false, Description) \
+}
+
+// When the Debug configuration is not running, turn off asserts
+#else
+#define CPForceAssert(Description)
+#endif
+
+
+#if defined(_DEBUG)
 #define CPBasicAssert( Expression, Description) \
     if( !Expression) _asm { int 3 } 
 

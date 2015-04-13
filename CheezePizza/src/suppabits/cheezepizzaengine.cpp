@@ -6,6 +6,7 @@
 #include "localplayer.h"
 #include "gamesession.h"
 #include "enginesubsystem.h"
+#include "tickable.h"
 #include "irenderable.h"
 #include "hgeresource.h"
 
@@ -23,6 +24,9 @@ CheezePizzaEngine::CheezePizzaEngine()
 	, FirstTickCallback(NULL)
 	, GameName(NULL)
 	, GameShortName(NULL)
+	, PreTickList(ETT_PreTick)
+	, TickList(ETT_Tick)
+	, PostTickList(ETT_PostTick)
 {
 	for(int i = 0; i < MAX_LOCAL_PLAYERS; ++i)
 	{
@@ -141,6 +145,64 @@ void CheezePizzaEngine::Startup()
 	}
 }
 
+void CheezePizzaEngine::AddTickObject(Tickable& InObject)
+{
+	switch(InObject.GetTickType())
+	{
+	case ETT_Tick:
+		TickList.Append(InObject);
+		break;
+
+	case ETT_PreTick:
+		PreTickList.Append(InObject);
+		break;
+
+	case ETT_PostTick:
+		PostTickList.Append(InObject);
+		break;
+
+	default:
+		CPForceAssert("Unhandled tick type");
+		break;
+	}
+}
+
+void CheezePizzaEngine::StopTickingObject(Tickable& InObject)
+{
+	// Don't immediately remove the object from the tick list until all ticking is finished. 
+	StopTickQueue.push_back(&InObject);
+}
+
+void CheezePizzaEngine::ProcessTickRemovals()
+{
+	const int NumTickRemovals = StopTickQueue.size();
+
+	for(int i = 0; i < NumTickRemovals; ++i)
+	{
+		Tickable& ToRemove = *StopTickQueue[i];
+		switch(ToRemove.GetTickType())
+		{
+		case ETT_Tick:
+			TickList.Remove(ToRemove);
+			break;
+
+		case ETT_PreTick:
+			PreTickList.Remove(ToRemove);
+			break;
+
+		case ETT_PostTick:
+			PostTickList.Remove(ToRemove);
+			break;
+
+		default:
+			CPForceAssert("Unhandled tick type");
+			break;
+		}
+	}
+
+	StopTickQueue.clear();
+}
+
 bool CheezePizzaEngine::Tick()
 {
 	float DeltaTime = HGEEngine->Timer_GetDelta();
@@ -155,6 +217,13 @@ bool CheezePizzaEngine::Tick()
 	{
 		InputSub->HandleInput();
 	}
+
+	PreTickList.Tick(DeltaTime);
+	TickList.Tick(DeltaTime);
+	PostTickList.Tick(DeltaTime);
+
+	// Objects are removed from the tick lists only after all the ticking is finished
+	ProcessTickRemovals();
 
 	return false;
 }

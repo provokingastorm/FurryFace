@@ -15,18 +15,21 @@ public:
 	virtual ~Tickable();
 
 	virtual void Tick(float DeltaTime) {}
+	virtual void OnTickStarted() {}
+	virtual void OnTickStopped() {}
 
 	EEngineTickType GetTickType() const { return TickType; }
 	void SetTickType(EEngineTickType NewTickType) { TickType = NewTickType; }
 
 	bool WillTick() const;
-	void StopTicking();
 
 private:
 	EEngineTickType TickType;
 
 	Tickable* ListPrevous;
 	Tickable* ListNext;
+
+	friend class TickLinkedList;
 };
 
 #endif

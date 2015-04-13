@@ -14,9 +14,5 @@ Tickable::~Tickable()
 
 bool Tickable::WillTick() const
 {
-	return (ListPrevous != NULL && ListNext != NULL);
-}
-
-void Tickable::StopTicking()
-{
+	return (ListPrevous != NULL || ListNext != NULL);
 }

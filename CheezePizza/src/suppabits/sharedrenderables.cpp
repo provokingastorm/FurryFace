@@ -1,6 +1,39 @@
 #include "cheezepizza.h"
 #include "sharedrenderables.h"
 #include "hgesprite.h"
+#include "hgeanim.h"
+
+
+AnimatedCharacter::AnimatedCharacter()
+	: CurrentAnim(NULL)
+{
+}
+
+AnimatedCharacter::~AnimatedCharacter()
+{
+	CurrentAnim = NULL;
+}
+
+void AnimatedCharacter::AddAnimation(hgeAnimation& InAnim)
+{
+	CurrentAnim = &InAnim;
+}
+
+void AnimatedCharacter::Tick(float DeltaTime)
+{
+	if(CurrentAnim != NULL)
+	{
+		CurrentAnim->Update(DeltaTime);
+	}
+}
+
+void AnimatedCharacter::Render(class HGE& Engine)
+{
+	if(CurrentAnim != NULL)
+	{
+		CurrentAnim->Render(200, 200);
+	}
+}
 
 FullscreenBackground::FullscreenBackground()
 	: Background(NULL)
@@ -9,11 +42,16 @@ FullscreenBackground::FullscreenBackground()
 
 FullscreenBackground::~FullscreenBackground()
 {
+	Background = NULL;
 }
 
 void FullscreenBackground::SetContent(hgeSprite& InBackground)
 {
 	Background = &InBackground;
+}
+
+void FullscreenBackground::Tick(float DeltaTime)
+{
 }
 
 void FullscreenBackground::Render(HGE& Engine)

@@ -35,14 +35,16 @@ OriginsGameSession::~OriginsGameSession()
 
 void OriginsGameSession::PreInit()
 {
+	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
+
 	if(HGEEngine != NULL)
 	{
 		// Provide the engine with a factory that will create Origins-specific players
 		OriginsPlayerFactory* Factory = new OriginsPlayerFactory(*this);
-		CheezeEngine->SetPlayerFactory(Factory);
+		CE.SetPlayerFactory(Factory);
 
 		OriginsGameConfig* OriginsInput = new OriginsGameConfig(*this);
-		CheezeEngine->InputSub->PushConfig(OriginsInput);
+		CE.InputSub->PushConfig(OriginsInput);
 
 		// TODO - pbennett - 3/28/15 - Load game-specific INI files
 	}
@@ -54,16 +56,16 @@ void OriginsGameSession::ShutdownInernal()
 
 void OriginsGameSession::OnPlayerCreated(LocalPlayer& NewPlayer)
 {
-	CheezePizzaEngine& CE = (*CheezeEngine);
-	Scene2DObject& Link = *(new Scene2DObject());
+	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
+	//Scene2DObject& Link = *(new Scene2DObject());
 
-	hgeSprite* LinkSprite = CE.ResourceManager->GetSprite("sprLinkUp");
-	if(LinkSprite != NULL)
-	{
-		OriginsLinkRenderObject& LinkRO = *(new OriginsLinkRenderObject());
-		LinkRO.SetContent(*LinkSprite);
-		Link.SetRenderObject(LinkRO);
-	}
+	//hgeSprite* LinkSprite = CE.ResourceManager->GetSprite("sprLinkUp");
+	//if(LinkSprite != NULL)
+	//{
+		//OriginsLinkRenderObject& LinkRO = *(new OriginsLinkRenderObject());
+		//LinkRO.SetContent(*LinkSprite);
+		//Link.SetRenderObject(LinkRO);
+	//}
 
 	//Manager.AddPersistentObject(Link, SOL_Foreground);
 }
@@ -80,11 +82,12 @@ char* OriginsGameSession::GetGameShortName() const
 
 void OriginsGameSession::LoadGame()
 {
-	CheezePizzaEngine& CE = (*CheezeEngine);
+	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
 
 	if(CE.World != NULL)
 	{
 		Scene2D& PrototypeScene = *(new Scene2D());
+
 		hgeSprite* BGSprite = CE.ResourceManager->GetSprite("sprPrototypeBG");
 		if(BGSprite != NULL)
 		{
@@ -94,6 +97,21 @@ void OriginsGameSession::LoadGame()
 			Scene2DObject& SceneObect = *(new Scene2DObject());
 			SceneObect.SetRenderObject(*FullscreenRO);
 			PrototypeScene.Add(SceneObect, SOL_Background);
+		}
+
+		hgeAnimation* Link = CE.ResourceManager->GetAnimation("sprLink");
+		if(Link != NULL)
+		{
+			AnimatedCharacter* LinkRO = new AnimatedCharacter();
+			LinkRO->AddAnimation(*Link);
+			Link->Play();
+			
+			Scene2DObject& SceneObject = *(new Scene2DObject());
+			SceneObject.SetRenderObject(*LinkRO);
+			PrototypeScene.Add(SceneObject, SOL_Foreground);
+
+			// TODO: Make the scene manager add to the tick list
+			CE.AddTickObject(SceneObject);
 		}
 
 		CE.World->AddScene(PrototypeScene, true);

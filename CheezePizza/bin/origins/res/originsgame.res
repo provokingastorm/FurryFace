@@ -49,3 +49,21 @@ Sprite sprLinkUp
  blendmode=COLORMUL,BLEND_ALPHABLEND,NOZWRITE
  resgroup=1
 }
+
+Texture link
+{
+ filename=origins\res\graphics\link_run.png
+ resgroup=1
+}
+
+Animation sprLink
+{
+ texture=link
+ rect=0,0,32,32
+ hotspot=16, 16
+ blendmode=COLORMUL,BLEND_ALPHABLEND,NOZWRITE
+ frames=6
+ fps=4.0
+ mode=FORWARD,LOOP
+ resgroup=1
+}

@@ -5,6 +5,10 @@
 #include <vector>
 #endif
 
+#ifndef TickLinkedList_H_
+#include "linkedlist.h"
+#endif
+
 
 #define MAX_LOCAL_PLAYERS	4
 
@@ -39,21 +43,26 @@ public:
 	void Startup();
 	void Shutdown();
 
+	// --------------------------------------------------------
+	//	Tick Methods
+
 	bool Tick();
+	void AddTickObject(class Tickable& InObject);
+	void StopTickingObject(Tickable& InObject);
+	void SetFirstTickCallback(CPCallback Callback) { FirstTickCallback = Callback; }
+
+
+	// --------------------------------------------------------
+	//	Rendering Methods
+
 	void Render();
+	// Returns true if the object was added to the render queue; false, otherwise.
+	bool AddToRenderQueue(class IRenderable& RenderableObject);
 
 	void OnFocusGained();
 	void OnFocusLost();
 
 	bool IsInitialized() const;
-
-	// HGE data structures
-	class HGE* HGEEngine;
-	class hgeResourceManager* ResourceManager;
-
-	// Engine subsystems
-	class InputSubsystem* InputSub;
-	class World2D* World;
 
 	const char* GetGameName() const { return GameName; }
 	const char* GetGameShortName() const { return GameShortName; }
@@ -63,15 +72,25 @@ public:
 
 	bool AddEngineSubsystem(class EngineSubsystem& Subsystem);
 
-	void SetFirstTickCallback(CPCallback Callback) { FirstTickCallback = Callback; }
 
-	// Returns true if the object was added to the render queue; false, otherwise.
-	bool AddToRenderQueue(class IRenderable& RenderableObject);
+
+	// HGE data structures
+	class HGE* HGEEngine;
+	class hgeResourceManager* ResourceManager;
+
+	// Engine subsystems
+	class InputSubsystem* InputSub;
+	class World2D* World;
 
 private:
 
 	void ImportEngineConfig();
+
+	// --------------------------------------------------------
+	//	Tick Methods
+
 	void OnFirstTick(float DeltaTime);
+	void ProcessTickRemovals();
 
 	void SetupNewLocalPlayer(ELocalPlayerIndex PlayerIndex);
 
@@ -87,10 +106,16 @@ private:
 	std::vector<class IRenderable*> RenderQueue;
 	std::vector<class EngineSubsystem*> Subsystems;
 
+	// Tick
+	TickLinkedList PreTickList;
+	TickLinkedList TickList;
+	TickLinkedList PostTickList;
+	std::vector<class Tickable*> StopTickQueue;
+	CPCallback FirstTickCallback;
+	bool bTickedOnce;
+
 	// Engine states
 	bool bIsHGEInitialized;
-	bool bTickedOnce;
-	CPCallback FirstTickCallback;
 
 	// Engine configuration
 	char* GameName;

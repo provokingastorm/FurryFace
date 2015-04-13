@@ -24,3 +24,11 @@ bool Scene2DObject::CanRender() const
 {
 	return RenderObject != NULL;
 }
+
+void Scene2DObject::Tick(float DeltaTime)
+{
+	if(RenderObject != NULL)
+	{
+		RenderObject->Tick(DeltaTime);
+	}
+}

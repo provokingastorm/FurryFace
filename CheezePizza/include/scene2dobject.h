@@ -24,6 +24,11 @@ public:
 	void SetRenderObject(class IRenderable& Object);
 	bool CanRender() const;
 
+	// --------------------------------------------------------
+	//	Tickable Methods
+
+	virtual void Tick(float DeltaTime);
+
 private:
 	class IRenderable* RenderObject;
 };

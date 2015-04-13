@@ -5,6 +5,7 @@ class IRenderable
 {
 public:
 	virtual void Render(class HGE& Engine) = 0;
+	virtual void Tick(float DeltaTime) = 0;
 };
 
 #endif

@@ -18,6 +18,7 @@ set( SUPPA_BITS_SRC
 	scene2dobject.cpp
     sharedrenderables.cpp
 	tickable.cpp
+	ticklinkedlist.cpp
 	vector2d.cpp
 	world2d.cpp
     )

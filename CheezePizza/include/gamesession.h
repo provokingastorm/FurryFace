@@ -52,7 +52,6 @@ protected:
 	virtual char* GetGameName() const;
 	virtual char* GetGameShortName() const;
 
-	class CheezePizzaEngine* CheezeEngine;
 	class HGE* HGEEngine;
 
 private:

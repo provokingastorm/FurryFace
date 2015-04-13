@@ -45,6 +45,7 @@ set( HGECORE_SRC
     ${HGE_SOURCE_DIR}/include/scene2dobject.h
     ${HGE_SOURCE_DIR}/include/sharedrenderables.h
     ${HGE_SOURCE_DIR}/include/tickable.h
+    ${HGE_SOURCE_DIR}/include/ticklinkedlist.h
     ${HGE_SOURCE_DIR}/include/vector2d.h
     ${HGE_SOURCE_DIR}/include/world2d.h
     )

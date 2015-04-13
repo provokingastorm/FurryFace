@@ -4,8 +4,7 @@
 
 
 GameSession::GameSession()
-	: CheezeEngine(NULL)
-	, HGEEngine(NULL)
+	: HGEEngine(NULL)
 	, bGameOver(false)
 	, bPaused(false)
 {
@@ -18,47 +17,35 @@ GameSession::~GameSession()
 
 void GameSession::Initialize()
 {
-	CPAssert(CheezeEngine == NULL, "Trying to initialize the engine again!");
-
 	if(HGEEngine == NULL)
 	{
 		HGEEngine = hgeCreate(HGE_VERSION);
 	}
 
-	if(CheezeEngine == NULL)
-	{
-		CheezeEngine = &CheezePizzaEngine::Instance();
+	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
 
-		// First, initialize the engine
-		CheezeEngine->Initialize(GetGameName(), GetGameShortName());
-		//CheezeEngine->SetFirstTickCallback()
+	// First, initialize the engine
+	CE.Initialize(GetGameName(), GetGameShortName());
+	//CE.SetFirstTickCallback()
 
-		// Then, provide any game-specific configuration
-		PreInit();
-	}
+	// Then, provide any game-specific configuration
+	PreInit();
 }
 
 void GameSession::Startup()
 {
-	if(CheezeEngine != NULL)
-	{
-		LoadGame();
+	LoadGame();
 
-		CheezeEngine->Startup();
+	CheezePizzaEngine::Instance().Startup();
 
-		// NOTE: Do not add any code after System_Start(). All other code must be handled by the HGE callbacks (Tick, Render, etc)
-	}
+	// NOTE: Do not add any code after System_Start(). All other code must be handled by the HGE callbacks (Tick, Render, etc)
 }
 
 void GameSession::Shutdown()
 {
 	ShutdownInernal();
 
-	if(CheezeEngine != NULL)
-	{
-		CheezeEngine->Shutdown();
-		delete CheezeEngine;
-	}
+	CheezePizzaEngine::Instance().Shutdown();
 
 	if(HGEEngine != NULL)
 	{
@@ -71,36 +58,33 @@ bool GameSession::RouteEngineEvent(EEngineEvent Event)
 {
 	bool EngineResponse = false;
 
-	if(CheezeEngine != NULL)
+	switch (Event)
 	{
-		switch (Event)
-		{
-		case EE_Tick:
-			EngineResponse = (bGameOver) ? true : CheezeEngine->Tick();
-			break;
+	case EE_Tick:
+		EngineResponse = (bGameOver) ? true : CheezePizzaEngine::Instance().Tick();
+		break;
 
-		case EE_Render:
-			CheezeEngine->Render();
-			EngineResponse = false;
-			break;
+	case EE_Render:
+		CheezePizzaEngine::Instance().Render();
+		EngineResponse = false;
+		break;
 
-		case EE_Exit:
-			EngineResponse = true;
-			break;
+	case EE_Exit:
+		EngineResponse = true;
+		break;
 
-		case EE_FocusGained:
-			CheezeEngine->OnFocusGained();
-			EngineResponse = false;
-			break;
+	case EE_FocusGained:
+		CheezePizzaEngine::Instance().OnFocusGained();
+		EngineResponse = false;
+		break;
 
-		case EE_FocusLost:
-			CheezeEngine->OnFocusLost();
-			EngineResponse = false;
-			break;
+	case EE_FocusLost:
+		CheezePizzaEngine::Instance().OnFocusLost();
+		EngineResponse = false;
+		break;
 
-		default:
-			break;
-		}
+	default:
+		break;
 	}
 
 	return EngineResponse;
