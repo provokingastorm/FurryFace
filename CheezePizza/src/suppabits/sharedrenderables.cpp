@@ -35,6 +35,25 @@ void AnimatedCharacter::Render(class HGE& Engine)
 	}
 }
 
+void AnimatedCharacter::OnStart()
+{
+	if(CurrentAnim != NULL)
+	{
+		CurrentAnim->Play();
+	}
+}
+
+void AnimatedCharacter::OnStop()
+{
+}
+
+void AnimatedCharacter::OnPause()
+{
+}
+
+
+
+
 FullscreenBackground::FullscreenBackground()
 	: Background(NULL)
 {
@@ -62,4 +81,16 @@ void FullscreenBackground::Render(HGE& Engine)
 		Background->GetHotSpot(&HotspotX, &HotspotY);
 		Background->Render(HotspotX, HotspotY);
 	}
+}
+
+void FullscreenBackground::OnStart()
+{
+}
+
+void FullscreenBackground::OnStop()
+{
+}
+
+void FullscreenBackground::OnPause()
+{
 }

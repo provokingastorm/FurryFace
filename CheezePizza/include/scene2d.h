@@ -1,7 +1,7 @@
 #ifndef Scene2D_H_
 #define Scene2D_H_
 
-#ifndef Vector_STL_H_
+#ifndef _VECTOR_
 #include <vector>
 #endif
 
@@ -17,12 +17,14 @@ enum ESceneObjectLayer
 class Scene2D
 {
 public:
-
 	Scene2D();
-	virtual ~Scene2D();
+	~Scene2D();
 
 	void Add(class Scene2DObject& Object, ESceneObjectLayer DrawLayer);
 	void AddLayerToRenderQueue(class CheezePizzaEngine& Engine, ESceneObjectLayer DrawLayer);
+
+	void EnterScene();
+	void ExitScene();
 
 private:
 	bool HasSceneObject(class Scene2DObject& Object);

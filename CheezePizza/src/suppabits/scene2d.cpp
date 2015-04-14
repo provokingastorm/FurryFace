@@ -46,6 +46,34 @@ void Scene2D::AddLayerToRenderQueue(CheezePizzaEngine& Engine, ESceneObjectLayer
 	}
 }
 
+void Scene2D::EnterScene()
+{
+	for(int i = 0; i < SOL_Max; ++i)
+	{
+		const int DrawLayer = i;
+		const int NumObjects = SceneObjects[i].size();
+
+		for(int j = 0; j < NumObjects; ++j)
+		{
+			SceneObjects[i][j]->Start();
+		}
+	}
+}
+
+void Scene2D::ExitScene()
+{
+	for(int i = 0; i < SOL_Max; ++i)
+	{
+		const int DrawLayer = i;
+		const int NumObjects = SceneObjects[i].size();
+
+		for(int j = 0; j < NumObjects; ++j)
+		{
+			SceneObjects[i][j]->Stop();
+		}
+	}
+}
+
 bool Scene2D::HasSceneObject(Scene2DObject& Object)
 {
 	return ( HasSceneObject(Object, SOL_Background) || HasSceneObject(Object, SOL_Layer1) || HasSceneObject(Object, SOL_Layer2) || HasSceneObject(Object, SOL_Foreground) );
@@ -56,7 +84,6 @@ bool Scene2D::HasSceneObject(Scene2DObject& Object, ESceneObjectLayer DrawLayer)
 	bool bHasObject = false;
 
 	const int NumObjects = SceneObjects[DrawLayer].size();
-
 	for(int i = 0; i < NumObjects; ++i)
 	{
 		if(SceneObjects[DrawLayer][i] == &Object)

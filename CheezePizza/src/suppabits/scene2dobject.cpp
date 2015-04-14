@@ -32,3 +32,27 @@ void Scene2DObject::Tick(float DeltaTime)
 		RenderObject->Tick(DeltaTime);
 	}
 }
+
+void Scene2DObject::Start()
+{
+	if(RenderObject != NULL)
+	{
+		RenderObject->OnStart();
+	}
+}
+
+void Scene2DObject::Stop()
+{
+	if(RenderObject != NULL)
+	{
+		RenderObject->OnStop();
+	}
+}
+
+void Scene2DObject::Pause()
+{
+	if(RenderObject != NULL)
+	{
+		RenderObject->OnPause();
+	}
+}

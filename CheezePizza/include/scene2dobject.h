@@ -29,6 +29,10 @@ public:
 
 	virtual void Tick(float DeltaTime);
 
+	virtual void Start();
+	virtual void Stop();
+	virtual void Pause();
+
 private:
 	class IRenderable* RenderObject;
 };

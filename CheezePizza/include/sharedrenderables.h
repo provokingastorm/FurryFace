@@ -12,8 +12,12 @@ public:
 	~AnimatedCharacter();
 
 	void AddAnimation(class hgeAnimation& InAnim);
+
 	void Tick(float DeltaTime);
 	void Render(class HGE& Engine);
+	void OnStart();
+	void OnStop();
+	void OnPause();
 
 private:
 	class hgeAnimation* CurrentAnim;
@@ -26,8 +30,12 @@ public:
 	~FullscreenBackground();
 
 	void SetContent(class hgeSprite& InBackground);
+
 	void Tick(float DeltaTime);
 	void Render(class HGE& Engine);
+	void OnStart();
+	void OnStop();
+	void OnPause();
 
 private:
 	class hgeSprite* Background;

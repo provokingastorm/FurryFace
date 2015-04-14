@@ -6,7 +6,7 @@
 #endif
 
 #ifndef TickLinkedList_H_
-#include "linkedlist.h"
+#include "ticklinkedlist.h"
 #endif
 
 

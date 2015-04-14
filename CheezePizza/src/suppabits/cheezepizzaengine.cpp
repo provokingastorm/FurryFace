@@ -169,7 +169,7 @@ void CheezePizzaEngine::AddTickObject(Tickable& InObject)
 
 void CheezePizzaEngine::StopTickingObject(Tickable& InObject)
 {
-	// Don't immediately remove the object from the tick list until all ticking is finished. 
+	// Defer removing the object from the tick list until all ticking is finished. 
 	StopTickQueue.push_back(&InObject);
 }
 
@@ -292,6 +292,8 @@ void CheezePizzaEngine::OnFirstTick(float DeltaTime)
 	{
 		Subsystems[i]->OnFirstEngineTick();
 	}
+
+	World->Start();
 }
 
 bool CheezePizzaEngine::IsInitialized() const

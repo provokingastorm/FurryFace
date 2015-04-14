@@ -146,3 +146,25 @@ void World2D::ShutdownInternal()
 		PersistentObjects[j].clear();
 	}
 }
+
+void World2D::Start()
+{
+	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
+
+	if(CurrentScene != NULL)
+	{
+		CurrentScene->EnterScene();
+	}
+
+	for(int i = 0; i < SOL_Max; ++i)
+	{
+		const int NumObjs = PersistentObjects[i].size();
+
+		for(int j = 0; j < NumObjs; ++j)
+		{
+			Scene2DObject& Object = *PersistentObjects[i][j];
+			CE.AddTickObject(Object);
+			Object.Start();
+		}
+	}
+}

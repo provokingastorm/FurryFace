@@ -29,6 +29,8 @@ public:
 
 	void AddObjectsToRenderQueue(class CheezePizzaEngine& Engine);
 
+	void Start();
+
 protected:
 
 	// --------------------------------------------------------
