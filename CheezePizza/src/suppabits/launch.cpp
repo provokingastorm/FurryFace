@@ -17,13 +17,13 @@ void Cleanup()
 	{
 		Session->Shutdown();
 
+		delete Session;
+
 		if(HGEEngine != NULL)
 		{
 			HGEEngine->Release();
 			HGEEngine = NULL;
 		}
-
-		delete Session;
 	}
 }
 

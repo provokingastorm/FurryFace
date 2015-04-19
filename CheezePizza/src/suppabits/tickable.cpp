@@ -10,6 +10,8 @@ Tickable::Tickable()
 
 Tickable::~Tickable()
 {
+	ListPrevous = NULL;
+	ListNext = NULL;
 }
 
 bool Tickable::WillTick() const

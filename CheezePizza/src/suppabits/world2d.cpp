@@ -6,11 +6,97 @@
 
 World2D::World2D()
 	: CurrentScene(NULL)
+	, ElapsedGameTime(0.0f)
+	, bIsGamePaused(false)
+	, PreTickList(ETT_PreTick)
+	, TickList(ETT_Tick)
+	, PostTickList(ETT_PostTick)
 {
 }
 
 World2D::~World2D()
 {
+}
+
+void World2D::Tick(float DeltaTime)
+{
+	if(!IsGamePaused())
+	{
+		ElapsedGameTime += DeltaTime;
+
+		PreTickList.Tick(DeltaTime);
+		TickList.Tick(DeltaTime);
+		PostTickList.Tick(DeltaTime);
+	}
+
+	// Objects are removed from the tick lists only after all the ticking is finished
+	ProcessTickRemovals();
+}
+
+void World2D::Pause()
+{
+	if(!bIsGamePaused)
+	{
+		bIsGamePaused = true;
+	}
+}
+
+void World2D::AddTickObject(Tickable& InObject)
+{
+	switch(InObject.GetTickType())
+	{
+	case ETT_Tick:
+		TickList.Append(InObject);
+		break;
+
+	case ETT_PreTick:
+		PreTickList.Append(InObject);
+		break;
+
+	case ETT_PostTick:
+		PostTickList.Append(InObject);
+		break;
+
+	default:
+		CPForceAssert("Unhandled tick type");
+		break;
+	}
+}
+
+void World2D::StopTickingObject(Tickable& InObject)
+{
+	// Defer removing the object from the tick list until all ticking is finished. 
+	StopTickQueue.push_back(&InObject);
+}
+
+void World2D::ProcessTickRemovals()
+{
+	const int NumTickRemovals = StopTickQueue.size();
+
+	for(int i = 0; i < NumTickRemovals; ++i)
+	{
+		Tickable& ToRemove = *StopTickQueue[i];
+		switch(ToRemove.GetTickType())
+		{
+		case ETT_Tick:
+			TickList.Remove(ToRemove);
+			break;
+
+		case ETT_PreTick:
+			PreTickList.Remove(ToRemove);
+			break;
+
+		case ETT_PostTick:
+			PostTickList.Remove(ToRemove);
+			break;
+
+		default:
+			CPForceAssert("Unhandled tick type");
+			break;
+		}
+	}
+
+	StopTickQueue.clear();
 }
 
 void World2D::AddScene(class Scene2D& Scene, bool bIsCurrentScene)
@@ -149,8 +235,6 @@ void World2D::ShutdownInternal()
 
 void World2D::Start()
 {
-	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
-
 	if(CurrentScene != NULL)
 	{
 		CurrentScene->EnterScene();
@@ -163,7 +247,7 @@ void World2D::Start()
 		for(int j = 0; j < NumObjs; ++j)
 		{
 			Scene2DObject& Object = *PersistentObjects[i][j];
-			CE.AddTickObject(Object);
+			AddTickObject(Object);
 			Object.Start();
 		}
 	}

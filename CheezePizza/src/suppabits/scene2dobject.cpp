@@ -12,6 +12,7 @@ Scene2DObject::~Scene2DObject()
 	if(RenderObject != NULL)
 	{
 		delete RenderObject;
+		RenderObject = NULL;
 	}
 }
 
@@ -55,4 +56,20 @@ void Scene2DObject::Pause()
 	{
 		RenderObject->OnPause();
 	}
+}
+
+void Scene2DObject::Move(int NewX, int NewY)
+{
+	X = NewX;
+	Y = NewY;
+}
+
+void Scene2DObject::MoveVertical(int NewX)
+{
+	X = NewX;
+}
+
+void Scene2DObject::MoveHorizontal(int NewY)
+{
+	Y = NewY;
 }

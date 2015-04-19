@@ -26,7 +26,6 @@ void GameSession::Initialize()
 
 	// First, initialize the engine
 	CE.Initialize(GetGameName(), GetGameShortName());
-	//CE.SetFirstTickCallback()
 
 	// Then, provide any game-specific configuration
 	PreInit();

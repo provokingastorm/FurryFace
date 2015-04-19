@@ -15,6 +15,12 @@ TickLinkedList::TickLinkedList()
 {
 }
 
+TickLinkedList::~TickLinkedList()
+{
+	First = NULL;
+	Last = NULL;
+}
+
 void TickLinkedList::Append(Tickable& LinkObj)
 {
 	// Immediately exit the function if the Tickable object is already in a tick list

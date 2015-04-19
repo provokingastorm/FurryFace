@@ -16,6 +16,7 @@ set( SUPPA_BITS_SRC
 	playerfactory.cpp
 	scene2d.cpp
 	scene2dobject.cpp
+    sharedinputconfigs.cpp
     sharedrenderables.cpp
 	tickable.cpp
 	ticklinkedlist.cpp

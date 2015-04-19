@@ -1,5 +1,6 @@
 #include "cheezepizza.h"
 #include "inputsubsystem.h"
+#include "sharedinputconfigs.h"
 #include "inputconfig.h"
 #include "debugutilities.h"
 
@@ -17,6 +18,9 @@ InputSubsystem::~InputSubsystem()
 
 void InputSubsystem::InitializeInternal()
 {
+	// Always provide one input config when running the game to catch basic stuff like closing the application.
+	//DefaultEngineConfig& DefaultConfig = *(new DefaultEngineConfig());
+	//PushConfig(DefaultConfig);
 }
 
 void InputSubsystem::ShutdownInternal()
@@ -28,25 +32,27 @@ void InputSubsystem::ShutdownInternal()
 	}
 
 	ConfigStack.clear();
+	KeyDownEvents.clear();
+	KeyUpEvents.clear();
 }
 
-void InputSubsystem::PushConfig(InputConfig* Config)
+void InputSubsystem::PushConfig(InputConfig& Config)
 {
-	CPAssert(Config != NULL, "Passed an invalid InputConfig to the InputSubsystem");
+	ClearCurrentConfig();
 
-	if(Config != NULL)
+	ConfigStack.push_back(&Config);
+	AssignLastConfig();
+}
+
+void InputSubsystem::PopConfig(InputConfig& Config)
+{
+	// Pop the current input config only if it matches the current input config
+	if(ConfigStack[ConfigStack.size()-1] == &Config)
 	{
-		ClearCurrentConfig();
-
-		ConfigStack.push_back(Config);
+		// TODO - pbennett - 4/20/15 - Do we need to delete the input config when popping?
+		ConfigStack.pop_back();
 		AssignLastConfig();
 	}
-}
-
-void InputSubsystem::PopConfig(InputConfig* Config)
-{
-	ConfigStack.pop_back();
-	AssignLastConfig();
 }
 
 void InputSubsystem::ClearCurrentConfig()
@@ -81,6 +87,15 @@ void InputSubsystem::HandleInput()
 			if(HGEEngine->Input_KeyUp(KeyUpEvents[i]))
 			{
 				CurrentConfig->OnKeyUp(KeyUpEvents[i]);
+			}
+		}
+
+		const int KeyDownSize = KeyDownEvents.size();
+		for(int j = 0; j < KeyDownSize; ++j)
+		{
+			if(HGEEngine->Input_KeyDown(KeyDownEvents[j]))
+			{
+				CurrentConfig->OnKeyDown(KeyDownEvents[j]);
 			}
 		}
 	}

@@ -40,11 +40,8 @@ void OriginsGameSession::PreInit()
 	if(HGEEngine != NULL)
 	{
 		// Provide the engine with a factory that will create Origins-specific players
-		OriginsPlayerFactory* Factory = new OriginsPlayerFactory(*this);
+		OriginsPlayerFactory& Factory = *(new OriginsPlayerFactory(*this));
 		CE.SetPlayerFactory(Factory);
-
-		OriginsGameConfig* OriginsInput = new OriginsGameConfig(*this);
-		CE.InputSub->PushConfig(OriginsInput);
 
 		// TODO - pbennett - 3/28/15 - Load game-specific INI files
 	}
@@ -59,6 +56,8 @@ void OriginsGameSession::OnPlayerCreated(LocalPlayer& NewPlayer)
 	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
 	World2D& World = *CE.World;
 
+	OriginsGameConfig& OriginsInput = *(new OriginsGameConfig(*this));
+
 	hgeAnimation* Link = CE.ResourceManager->GetAnimation("sprLink");
 	if(Link != NULL)
 	{
@@ -67,8 +66,11 @@ void OriginsGameSession::OnPlayerCreated(LocalPlayer& NewPlayer)
 
 		Scene2DObject& SceneObject = *(new Scene2DObject());
 		SceneObject.SetRenderObject(*LinkRO);
+		OriginsInput.AssociateSceneObject(SceneObject);
 		World.AddPersistentObject(SceneObject, SOL_Foreground);
 	}
+
+	CE.InputSub->PushConfig(OriginsInput);
 }
 
 char* OriginsGameSession::GetGameName() const

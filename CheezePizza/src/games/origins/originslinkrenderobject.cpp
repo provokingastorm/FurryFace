@@ -9,6 +9,7 @@ OriginsLinkRenderObject::OriginsLinkRenderObject()
 
 OriginsLinkRenderObject::~OriginsLinkRenderObject()
 {
+	LinkSprite = NULL;
 }
 
 void OriginsLinkRenderObject::SetContent(hgeSprite& InLinkSprite)

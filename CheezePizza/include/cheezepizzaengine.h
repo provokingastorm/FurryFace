@@ -5,14 +5,8 @@
 #include <vector>
 #endif
 
-#ifndef TickLinkedList_H_
-#include "ticklinkedlist.h"
-#endif
-
 
 #define MAX_LOCAL_PLAYERS	4
-
-typedef void (*CPCallback)();
 
 enum ELocalPlayerIndex
 {
@@ -43,13 +37,7 @@ public:
 	void Startup();
 	void Shutdown();
 
-	// --------------------------------------------------------
-	//	Tick Methods
-
 	bool Tick();
-	void AddTickObject(class Tickable& InObject);
-	void StopTickingObject(Tickable& InObject);
-	void SetFirstTickCallback(CPCallback Callback) { FirstTickCallback = Callback; }
 
 
 	// --------------------------------------------------------
@@ -67,7 +55,7 @@ public:
 	const char* GetGameName() const { return GameName; }
 	const char* GetGameShortName() const { return GameShortName; }
 
-	void SetPlayerFactory(class PlayerFactory* Factory);
+	void SetPlayerFactory(class PlayerFactory& Factory);
 	bool IsLocalPlayerLoggedIn(ELocalPlayerIndex PlayerIndex) const;
 
 	bool AddEngineSubsystem(class EngineSubsystem& Subsystem);
@@ -86,11 +74,7 @@ private:
 
 	void ImportEngineConfig();
 
-	// --------------------------------------------------------
-	//	Tick Methods
-
 	void OnFirstTick(float DeltaTime);
-	void ProcessTickRemovals();
 
 	void SetupNewLocalPlayer(ELocalPlayerIndex PlayerIndex);
 
@@ -107,11 +91,6 @@ private:
 	std::vector<class EngineSubsystem*> Subsystems;
 
 	// Tick
-	TickLinkedList PreTickList;
-	TickLinkedList TickList;
-	TickLinkedList PostTickList;
-	std::vector<class Tickable*> StopTickQueue;
-	CPCallback FirstTickCallback;
 	bool bTickedOnce;
 
 	// Engine states

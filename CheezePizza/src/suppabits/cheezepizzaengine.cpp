@@ -21,12 +21,8 @@ CheezePizzaEngine::CheezePizzaEngine()
 	, PlayerCreator(NULL)
 	, bIsHGEInitialized(false)
 	, bTickedOnce(false)
-	, FirstTickCallback(NULL)
 	, GameName(NULL)
 	, GameShortName(NULL)
-	, PreTickList(ETT_PreTick)
-	, TickList(ETT_Tick)
-	, PostTickList(ETT_PostTick)
 {
 	for(int i = 0; i < MAX_LOCAL_PLAYERS; ++i)
 	{
@@ -50,9 +46,7 @@ void CheezePizzaEngine::Initialize(char* InGameName, char* InGameShortName)
 	{
 		// Setup the log file
 		char LogFilename[128];
-		strcpy(LogFilename, "logs/");
-		strcat(LogFilename, GameShortName);
-		strcat(LogFilename, ".log");
+		sprintf(LogFilename, "logs/%s.log", GameShortName);
 		HGEEngine->System_SetState(HGE_LOGFILE, LogFilename);
 
 		HGEEngine->System_SetState(HGE_SHOWSPLASH, true);
@@ -66,10 +60,7 @@ void CheezePizzaEngine::Initialize(char* InGameName, char* InGameShortName)
 
 		// Set the resource manager
 		char ResourceFilename[128];
-		strcpy(ResourceFilename, GameShortName);
-		strcat(ResourceFilename, "/res/");
-		strcat(ResourceFilename, GameShortName);
-		strcat(ResourceFilename, "game.res");
+		sprintf(ResourceFilename, "%s/res/%sgame.res", GameShortName, GameShortName);
 		ResourceManager = new hgeResourceManager(ResourceFilename);
 		ResourceManager->Precache(RG_AlwaysLoaded);
 
@@ -85,39 +76,38 @@ void CheezePizzaEngine::Initialize(char* InGameName, char* InGameShortName)
 
 void CheezePizzaEngine::Shutdown()
 {
+	// No need to delete render queue items. It's temp
+	CPAssert(RenderQueue.size() == 0, "Render queue should be empty when shutting down the engine");
+	RenderQueue.clear();
+
+	SAFE_SHUTDOWN(InputSub);
+	SAFE_SHUTDOWN(World);
+
+	for(int i = 0; i < MAX_LOCAL_PLAYERS; ++i)
+	{
+		SAFE_DELETE(Players[i]);
+	}
+
+	SAFE_DELETE(PlayerCreator);
+	SAFE_DELETE_ARRAY(GameShortName);
+
+	const int NumSubsystems = Subsystems.size();
+	for(int j = NumSubsystems-1; j >= 0; --j)
+	{
+		SAFE_SHUTDOWN(Subsystems[j]);
+		Subsystems.pop_back();
+	}
+	CPAssert(Subsystems.size() == 0, "");
+
+	// Delete all loaded resources
+	if(ResourceManager != NULL)
+	{
+		ResourceManager->Purge();
+		SAFE_DELETE(ResourceManager);
+	}
+
 	if(HGEEngine != NULL)
 	{
-		// No need to delete render queue items. It's temp
-		CPAssert(RenderQueue.size() == 0, "Render queue should be empty when shutting down the engine");
-		RenderQueue.clear();
-
-		SAFE_SHUTDOWN(InputSub);
-		SAFE_SHUTDOWN(World);
-
-		for(int i = 0; i < MAX_LOCAL_PLAYERS; ++i)
-		{
-			SAFE_DELETE(Players[i]);
-		}
-
-		SAFE_DELETE(PlayerCreator);
-		SAFE_DELETE_ARRAY(GameShortName);
-
-		const int NumSubsystems = Subsystems.size();
-		for(int j = NumSubsystems-1; j >= 0; --j)
-		{
-			Subsystems[j]->Shutdown();
-			delete Subsystems[j];
-			Subsystems.pop_back();
-		}
-		CPAssert(Subsystems.size() == 0, "");
-
-		// Delete all loaded resources
-		if(ResourceManager != NULL)
-		{
-			ResourceManager->Purge();
-			delete ResourceManager;
-		}
-
 		// Restore video mode and free all allocated resources
 		HGEEngine->System_Shutdown();
 
@@ -145,64 +135,6 @@ void CheezePizzaEngine::Startup()
 	}
 }
 
-void CheezePizzaEngine::AddTickObject(Tickable& InObject)
-{
-	switch(InObject.GetTickType())
-	{
-	case ETT_Tick:
-		TickList.Append(InObject);
-		break;
-
-	case ETT_PreTick:
-		PreTickList.Append(InObject);
-		break;
-
-	case ETT_PostTick:
-		PostTickList.Append(InObject);
-		break;
-
-	default:
-		CPForceAssert("Unhandled tick type");
-		break;
-	}
-}
-
-void CheezePizzaEngine::StopTickingObject(Tickable& InObject)
-{
-	// Defer removing the object from the tick list until all ticking is finished. 
-	StopTickQueue.push_back(&InObject);
-}
-
-void CheezePizzaEngine::ProcessTickRemovals()
-{
-	const int NumTickRemovals = StopTickQueue.size();
-
-	for(int i = 0; i < NumTickRemovals; ++i)
-	{
-		Tickable& ToRemove = *StopTickQueue[i];
-		switch(ToRemove.GetTickType())
-		{
-		case ETT_Tick:
-			TickList.Remove(ToRemove);
-			break;
-
-		case ETT_PreTick:
-			PreTickList.Remove(ToRemove);
-			break;
-
-		case ETT_PostTick:
-			PostTickList.Remove(ToRemove);
-			break;
-
-		default:
-			CPForceAssert("Unhandled tick type");
-			break;
-		}
-	}
-
-	StopTickQueue.clear();
-}
-
 bool CheezePizzaEngine::Tick()
 {
 	float DeltaTime = HGEEngine->Timer_GetDelta();
@@ -218,12 +150,15 @@ bool CheezePizzaEngine::Tick()
 		InputSub->HandleInput();
 	}
 
-	PreTickList.Tick(DeltaTime);
-	TickList.Tick(DeltaTime);
-	PostTickList.Tick(DeltaTime);
-
-	// Objects are removed from the tick lists only after all the ticking is finished
-	ProcessTickRemovals();
+	if(World != NULL)
+	{
+		// TODO: Remove this pause test code
+		if(World->GetGameTime() >= 20.0f)
+		{
+			World->Pause();
+		}
+		World->Tick(DeltaTime);
+	}
 
 	return false;
 }
@@ -301,10 +236,9 @@ bool CheezePizzaEngine::IsInitialized() const
 	return (HGEEngine != NULL && bIsHGEInitialized && ResourceManager != NULL);
 }
 
-void CheezePizzaEngine::SetPlayerFactory(PlayerFactory* Factory)
+void CheezePizzaEngine::SetPlayerFactory(PlayerFactory& Factory)
 {
-	CPAssert(Factory != NULL, "Invalid player factory given to the engine");
-	PlayerCreator = Factory;
+	PlayerCreator = &Factory;
 }
 
 bool CheezePizzaEngine::IsLocalPlayerLoggedIn(ELocalPlayerIndex PlayerIndex) const

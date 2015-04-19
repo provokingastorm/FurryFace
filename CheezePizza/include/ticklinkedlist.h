@@ -14,7 +14,7 @@ class TickLinkedList
 {
 public:
 	TickLinkedList(EEngineTickType AssociatedTickType);
-	~TickLinkedList() {}
+	~TickLinkedList();
 
 	void Append(Tickable& LinkObj);
 	void Remove(Tickable& LinkObj);

@@ -33,8 +33,18 @@ public:
 	virtual void Stop();
 	virtual void Pause();
 
+	int GetX() const;
+	int GetY() const;
+
+	void Move(int NewX, int NewY);
+	void MoveVertical(int NewX);
+	void MoveHorizontal(int NewY);
+
 private:
 	class IRenderable* RenderObject;
+
+	int X;
+	int Y;
 };
 
 
@@ -45,6 +55,16 @@ private:
 inline class IRenderable* Scene2DObject::GetRenderObject() const
 {
 	return RenderObject;
+}
+
+inline int Scene2DObject::GetX() const
+{
+	return X;
+}
+
+inline int Scene2DObject::GetY() const
+{
+	return Y;
 }
 
 #endif

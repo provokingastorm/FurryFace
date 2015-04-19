@@ -16,8 +16,8 @@ public:
 	InputSubsystem();
 	~InputSubsystem();
 
-	void PushConfig(class InputConfig* Config);
-	void PopConfig(class InputConfig* Config);
+	void PushConfig(class InputConfig& Config);
+	void PopConfig(class InputConfig& Config);
 
 	void HandleInput();
 
