@@ -1,12 +1,14 @@
-#ifndef _DEBUGUTILITIES_H_
-#define _DEBUGUTILITIES_H_
+#ifndef DebugUtilities_H_
+#define DebugUtilities_H_
 
 #ifndef _CASSERT_H_
 #define _CASSERT_H_
 #include <cassert>
 #endif
 
+#ifdef _WIN32
 #include <Windows.h>
+#endif
 
 
 bool AssertDetailed( bool, char *, int, char * );
@@ -20,10 +22,7 @@ void CheckIgnoreAssert( bool, char *, int, char * );
  * Out of Assert" (Page 109 - 114) in Game Programming Gems.
  *
  * @param Expression A boolean expression to be evaluated.
- *
  * @param Description The output text to display if the assert fails.
- *
- * @author Peter Bennett (curlyhairedgreatness@gmail.com)
  */
 #if defined(_DEBUG)
 
@@ -68,4 +67,4 @@ void CheckIgnoreAssert( bool, char *, int, char * );
 
 
 
-#endif // END #ifndef _DEBUGUTILITIES_H_
+#endif // END #ifndef DebugUtilities_H_

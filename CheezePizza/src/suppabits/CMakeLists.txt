@@ -13,6 +13,7 @@ set( SUPPA_BITS_SRC
 	inputsubsystem.cpp
 	launch.cpp
 	localplayer.cpp
+	messagepump.cpp
 	playerfactory.cpp
 	scene2d.cpp
 	scene2dobject.cpp

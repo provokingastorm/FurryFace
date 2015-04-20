@@ -6,6 +6,7 @@
 #include "localplayer.h"
 #include "gamesession.h"
 #include "enginesubsystem.h"
+#include "messagepump.h"
 #include "tickable.h"
 #include "irenderable.h"
 #include "hgeresource.h"
@@ -63,6 +64,8 @@ void CheezePizzaEngine::Initialize(char* InGameName, char* InGameShortName)
 		sprintf(ResourceFilename, "%s/res/%sgame.res", GameShortName, GameShortName);
 		ResourceManager = new hgeResourceManager(ResourceFilename);
 		ResourceManager->Precache(RG_AlwaysLoaded);
+
+		Pump = new MessagePump();
 
 		InputSub = new InputSubsystem();
 		InputSub->Initialize();
@@ -143,6 +146,11 @@ bool CheezePizzaEngine::Tick()
 	{
 		bTickedOnce = true;
 		OnFirstTick(DeltaTime);
+	}
+
+	if(Pump != NULL)
+	{
+		Pump->ProcessMessages(DeltaTime);
 	}
 
 	if(InputSub != NULL)

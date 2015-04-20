@@ -39,6 +39,8 @@ set( HGECORE_SRC
     ${HGE_SOURCE_DIR}/include/inputsubsystem.h
     ${HGE_SOURCE_DIR}/include/irenderable.h
     ${HGE_SOURCE_DIR}/include/localplayer.h
+    ${HGE_SOURCE_DIR}/include/messagepump.h
+    ${HGE_SOURCE_DIR}/include/messagetypes.h
     ${HGE_SOURCE_DIR}/include/playerfactory.h
     ${HGE_SOURCE_DIR}/include/point.h
     ${HGE_SOURCE_DIR}/include/scene2d.h
