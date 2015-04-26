@@ -1,6 +1,15 @@
 #ifndef EngineSubsystem_H_
 #define EngineSubsystem_H_
 
+#define DECLARE_SUBSYSTEM(ClassName) \
+private: \
+	ClassName() {} \
+	ClassName(const ClassName&); \
+	ClassName& operator=(const ClassName&); \
+public: \
+	static ClassName& Instance() { static ClassName SubInstance; return SubInstance; }
+
+
 enum EEngineSubsystemMessages
 {
 	ESM_Invalid			= 0,

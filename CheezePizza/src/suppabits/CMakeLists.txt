@@ -3,26 +3,50 @@ cmake_minimum_required( VERSION 2.8 )
 
 #------ sources ------
 set( SUPPA_BITS_SRC
+	actor.h
+    cheezepizza.h
 	cheezepizzacore.cpp
+    cheezepizzacore.h
 	cheezepizzaengine.cpp
+    cheezepizzaengine.h
 	debugutilities.cpp
+    debugutilities.h
 	enginesubsystem.cpp
+    enginesubsystem.h
 	gamesession.cpp
+    gamesession.h
 	hud.cpp
+    hud.h
 	inputconfig.cpp
+    inputconfig.h
 	inputsubsystem.cpp
+    inputsubsystem.h
+    irenderable.h
 	launch.cpp
 	localplayer.cpp
+    localplayer.h
 	messagepump.cpp
+    messagepump.h
+    messagetypes.h
 	playerfactory.cpp
+    playerfactory.h
+    point.h
 	scene2d.cpp
+    scene2d.h
 	scene2dobject.cpp
+    scene2dobject.h
     sharedinputconfigs.cpp
+    sharedinputconfigs.h
     sharedrenderables.cpp
+    sharedrenderables.h
 	tickable.cpp
+    tickable.h
 	ticklinkedlist.cpp
+    ticklinkedlist.h
 	vector2d.cpp
+    vector2d.h
 	world2d.cpp
+    world2d.h
     )
 
 #------ additional includes ------

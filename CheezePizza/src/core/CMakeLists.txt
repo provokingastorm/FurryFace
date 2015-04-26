@@ -28,29 +28,6 @@ set( HGECORE_SRC
     ${HGE_SOURCE_DIR}/include/hgesprite.h
     ${HGE_SOURCE_DIR}/include/hgestrings.h
     ${HGE_SOURCE_DIR}/include/hgevector.h
-    ${HGE_SOURCE_DIR}/include/cheezepizza.h
-    ${HGE_SOURCE_DIR}/include/cheezepizzacore.h
-    ${HGE_SOURCE_DIR}/include/cheezepizzaengine.h
-    ${HGE_SOURCE_DIR}/include/debugutilities.h
-    ${HGE_SOURCE_DIR}/include/enginesubsystem.h
-    ${HGE_SOURCE_DIR}/include/gamesession.h
-    ${HGE_SOURCE_DIR}/include/hud.h
-    ${HGE_SOURCE_DIR}/include/inputconfig.h
-    ${HGE_SOURCE_DIR}/include/inputsubsystem.h
-    ${HGE_SOURCE_DIR}/include/irenderable.h
-    ${HGE_SOURCE_DIR}/include/localplayer.h
-    ${HGE_SOURCE_DIR}/include/messagepump.h
-    ${HGE_SOURCE_DIR}/include/messagetypes.h
-    ${HGE_SOURCE_DIR}/include/playerfactory.h
-    ${HGE_SOURCE_DIR}/include/point.h
-    ${HGE_SOURCE_DIR}/include/scene2d.h
-    ${HGE_SOURCE_DIR}/include/scene2dobject.h
-    ${HGE_SOURCE_DIR}/include/sharedinputconfigs.h
-    ${HGE_SOURCE_DIR}/include/sharedrenderables.h
-    ${HGE_SOURCE_DIR}/include/tickable.h
-    ${HGE_SOURCE_DIR}/include/ticklinkedlist.h
-    ${HGE_SOURCE_DIR}/include/vector2d.h
-    ${HGE_SOURCE_DIR}/include/world2d.h
     )
 
 #------ additional includes ------

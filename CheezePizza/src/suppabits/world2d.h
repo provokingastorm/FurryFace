@@ -25,7 +25,7 @@
 class World2D : public EngineSubsystem
 {
 public:
-	World2D();
+	DECLARE_SUBSYSTEM(World2D);
 	~World2D();
 
 	// --------------------------------------------------------
@@ -37,7 +37,7 @@ public:
 	void AddScene(class Scene2D& Scene, bool bIsCurrentScene);
 	void AddPersistentObject(class Scene2DObject& Object, ESceneObjectLayer DrawLayer);
 
-	void AddObjectsToRenderQueue(class CheezePizzaEngine& Engine);
+	void AddObjectsToRenderQueue();
 
 	void Start();
 	void Tick(float DeltaTime);
@@ -52,6 +52,7 @@ protected:
 	// --------------------------------------------------------
 	//	EngineSubsystem inherited methods
 
+	void InitializeInternal();
 	void ShutdownInternal();
 
 private:
@@ -61,7 +62,7 @@ private:
 	bool HasPersistentObject(class Scene2DObject& Object) const;
 	bool HasPersistentObjectInLayer(class Scene2DObject& Object, ESceneObjectLayer DrawLayer) const;
 
-	void AddLayerToRenderQueue(class CheezePizzaEngine& Engine, ESceneObjectLayer DrawLayer);
+	void AddLayerToRenderQueue(ESceneObjectLayer DrawLayer);
 
 	class Scene2D* CurrentScene;
 	std::vector<class Scene2D*> Scenes;

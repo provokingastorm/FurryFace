@@ -17,8 +17,6 @@
 CheezePizzaEngine::CheezePizzaEngine()
 	: HGEEngine(NULL)
 	, ResourceManager(NULL)
-	, InputSub(NULL)
-	, World(NULL)
 	, PlayerCreator(NULL)
 	, bIsHGEInitialized(false)
 	, bTickedOnce(false)
@@ -65,13 +63,8 @@ void CheezePizzaEngine::Initialize(char* InGameName, char* InGameShortName)
 		ResourceManager = new hgeResourceManager(ResourceFilename);
 		ResourceManager->Precache(RG_AlwaysLoaded);
 
-		Pump = new MessagePump();
-
-		InputSub = new InputSubsystem();
-		InputSub->Initialize();
-
-		World = new World2D();
-		World->Initialize();
+		AddEngineSubsystem(InputSubsystem::Instance());
+		AddEngineSubsystem(World2D::Instance());
 
 		bIsHGEInitialized = HGEEngine->System_Initiate();
 	}
@@ -81,10 +74,7 @@ void CheezePizzaEngine::Shutdown()
 {
 	// No need to delete render queue items. It's temp
 	CPAssert(RenderQueue.size() == 0, "Render queue should be empty when shutting down the engine");
-	RenderQueue.clear();
-
-	SAFE_SHUTDOWN(InputSub);
-	SAFE_SHUTDOWN(World);
+	RenderQueue.~vector();
 
 	for(int i = 0; i < MAX_LOCAL_PLAYERS; ++i)
 	{
@@ -95,12 +85,11 @@ void CheezePizzaEngine::Shutdown()
 	SAFE_DELETE_ARRAY(GameShortName);
 
 	const int NumSubsystems = Subsystems.size();
-	for(int j = NumSubsystems-1; j >= 0; --j)
+	for(int j = 0; j < NumSubsystems; ++j)
 	{
 		SAFE_SHUTDOWN(Subsystems[j]);
-		Subsystems.pop_back();
 	}
-	CPAssert(Subsystems.size() == 0, "");
+	Subsystems.~vector();
 
 	// Delete all loaded resources
 	if(ResourceManager != NULL)
@@ -148,25 +137,14 @@ bool CheezePizzaEngine::Tick()
 		OnFirstTick(DeltaTime);
 	}
 
-	if(Pump != NULL)
-	{
-		Pump->ProcessMessages(DeltaTime);
-	}
+	InputSubsystem::Instance().HandleInput();
 
-	if(InputSub != NULL)
+	// TODO: Remove this pause test code
+	if(World2D::Instance().GetGameTime() >= 20.0f)
 	{
-		InputSub->HandleInput();
+		World2D::Instance().Pause();
 	}
-
-	if(World != NULL)
-	{
-		// TODO: Remove this pause test code
-		if(World->GetGameTime() >= 20.0f)
-		{
-			World->Pause();
-		}
-		World->Tick(DeltaTime);
-	}
+	World2D::Instance().Tick(DeltaTime);
 
 	return false;
 }
@@ -174,10 +152,7 @@ bool CheezePizzaEngine::Tick()
 void CheezePizzaEngine::Render()
 {
 	// Populate the render queue
-	if(World != NULL)
-	{
-		World->AddObjectsToRenderQueue(*this);
-	}
+	World2D::Instance().AddObjectsToRenderQueue();
 
 	HGE& HGERef = *HGEEngine;
 	HGERef.Gfx_BeginScene();
@@ -236,7 +211,7 @@ void CheezePizzaEngine::OnFirstTick(float DeltaTime)
 		Subsystems[i]->OnFirstEngineTick();
 	}
 
-	World->Start();
+	World2D::Instance().Start();
 }
 
 bool CheezePizzaEngine::IsInitialized() const

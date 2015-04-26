@@ -54,7 +54,6 @@ void OriginsGameSession::ShutdownInernal()
 void OriginsGameSession::OnPlayerCreated(LocalPlayer& NewPlayer)
 {
 	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
-	World2D& World = *CE.World;
 
 	OriginsGameConfig& OriginsInput = *(new OriginsGameConfig(*this));
 
@@ -67,10 +66,10 @@ void OriginsGameSession::OnPlayerCreated(LocalPlayer& NewPlayer)
 		Scene2DObject& SceneObject = *(new Scene2DObject());
 		SceneObject.SetRenderObject(*LinkRO);
 		OriginsInput.AssociateSceneObject(SceneObject);
-		World.AddPersistentObject(SceneObject, SOL_Foreground);
+		World2D::Instance().AddPersistentObject(SceneObject, SOL_Foreground);
 	}
 
-	CE.InputSub->PushConfig(OriginsInput);
+	InputSubsystem::Instance().PushConfig(OriginsInput);
 }
 
 char* OriginsGameSession::GetGameName() const
@@ -86,22 +85,18 @@ char* OriginsGameSession::GetGameShortName() const
 void OriginsGameSession::LoadGame()
 {
 	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
+	Scene2D& PrototypeScene = *(new Scene2D());
 
-	if(CE.World != NULL)
+	hgeSprite* BGSprite = CE.ResourceManager->GetSprite("sprPrototypeBG");
+	if(BGSprite != NULL)
 	{
-		Scene2D& PrototypeScene = *(new Scene2D());
+		FullscreenBackground* FullscreenRO = new FullscreenBackground();
+		FullscreenRO->SetContent(*BGSprite);
 
-		hgeSprite* BGSprite = CE.ResourceManager->GetSprite("sprPrototypeBG");
-		if(BGSprite != NULL)
-		{
-			FullscreenBackground* FullscreenRO = new FullscreenBackground();
-			FullscreenRO->SetContent(*BGSprite);
-
-			Scene2DObject& SceneObect = *(new Scene2DObject());
-			SceneObect.SetRenderObject(*FullscreenRO);
-			PrototypeScene.Add(SceneObect, SOL_Background);
-		}
-
-		CE.World->AddScene(PrototypeScene, true);
+		Scene2DObject& SceneObect = *(new Scene2DObject());
+		SceneObect.SetRenderObject(*FullscreenRO);
+		PrototypeScene.Add(SceneObect, SOL_Background);
 	}
+
+	World2D::Instance().AddScene(PrototypeScene, true);
 }

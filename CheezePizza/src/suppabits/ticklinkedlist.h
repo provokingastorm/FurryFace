@@ -13,8 +13,10 @@
 class TickLinkedList
 {
 public:
-	TickLinkedList(EEngineTickType AssociatedTickType);
+	TickLinkedList();
 	~TickLinkedList();
+
+	void SetTickType(EEngineTickType AssociatedTickType);
 
 	void Append(Tickable& LinkObj);
 	void Remove(Tickable& LinkObj);
@@ -22,7 +24,6 @@ public:
 	void Tick(float DeltaTime);
 
 private:
-	TickLinkedList();
 
 	Tickable* First;
 	Tickable* Last;

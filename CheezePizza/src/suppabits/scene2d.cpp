@@ -30,7 +30,7 @@ void Scene2D::Add(Scene2DObject& Object , ESceneObjectLayer DrawLayer)
 	}
 }
 
-void Scene2D::AddLayerToRenderQueue(CheezePizzaEngine& Engine, ESceneObjectLayer DrawLayer)
+void Scene2D::AddLayerToRenderQueue(ESceneObjectLayer DrawLayer)
 {
 	CPAssert(DrawLayer != SOL_Max, "");
 
@@ -41,7 +41,7 @@ void Scene2D::AddLayerToRenderQueue(CheezePizzaEngine& Engine, ESceneObjectLayer
 
 		if(RenderObject != NULL)
 		{
-			Engine.AddToRenderQueue(*RenderObject);
+			CheezePizzaEngine::Instance().AddToRenderQueue(*RenderObject);
 		}
 	}
 }

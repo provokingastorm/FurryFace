@@ -6,18 +6,15 @@
 
 #define DEFAULT_EVENT_SIZE 20
 
-InputSubsystem::InputSubsystem()
-{
-	KeyUpEvents.reserve(DEFAULT_EVENT_SIZE);
-	KeyDownEvents.reserve(DEFAULT_EVENT_SIZE);
-}
-
 InputSubsystem::~InputSubsystem()
 {
 }
 
 void InputSubsystem::InitializeInternal()
 {
+	KeyUpEvents.reserve(DEFAULT_EVENT_SIZE);
+	KeyDownEvents.reserve(DEFAULT_EVENT_SIZE);
+
 	// Always provide one input config when running the game to catch basic stuff like closing the application.
 	//DefaultEngineConfig& DefaultConfig = *(new DefaultEngineConfig());
 	//PushConfig(DefaultConfig);
@@ -34,6 +31,10 @@ void InputSubsystem::ShutdownInternal()
 	ConfigStack.clear();
 	KeyDownEvents.clear();
 	KeyUpEvents.clear();
+
+	ConfigStack.~vector();
+	KeyDownEvents.~vector();
+	KeyUpEvents.~vector();
 }
 
 void InputSubsystem::PushConfig(InputConfig& Config)

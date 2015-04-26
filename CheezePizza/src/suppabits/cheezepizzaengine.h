@@ -66,11 +66,6 @@ public:
 	class HGE* HGEEngine;
 	class hgeResourceManager* ResourceManager;
 
-	// Engine subsystems
-	class InputSubsystem* InputSub;
-	class World2D* World;
-	class MessagePump* Pump;
-
 private:
 
 	void ImportEngineConfig();

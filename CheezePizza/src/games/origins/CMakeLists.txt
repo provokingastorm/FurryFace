@@ -20,6 +20,7 @@ set( ORIGINS_SRC
     )
 
 #------ additional includes ------
+include_directories( ${SUPPA_BITS_SOURCE_DIR} )
 include_directories( ${HGE_SOURCE_DIR}/include )
 include_directories( ${DIRECTX_SDK_DIR}/include )
 

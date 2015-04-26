@@ -13,7 +13,7 @@
 class InputSubsystem : public EngineSubsystem
 {
 public:
-	InputSubsystem();
+	DECLARE_SUBSYSTEM(InputSubsystem);
 	~InputSubsystem();
 
 	void PushConfig(class InputConfig& Config);

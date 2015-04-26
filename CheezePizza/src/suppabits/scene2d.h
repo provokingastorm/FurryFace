@@ -21,7 +21,7 @@ public:
 	~Scene2D();
 
 	void Add(class Scene2DObject& Object, ESceneObjectLayer DrawLayer);
-	void AddLayerToRenderQueue(class CheezePizzaEngine& Engine, ESceneObjectLayer DrawLayer);
+	void AddLayerToRenderQueue(ESceneObjectLayer DrawLayer);
 
 	void EnterScene();
 	void ExitScene();

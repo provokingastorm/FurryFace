@@ -2,16 +2,10 @@
 #include "ticklinkedlist.h"
 #include "tickable.h"
 
-TickLinkedList::TickLinkedList(EEngineTickType AssociatedTickType)
-	: First(NULL)
-	, Last(NULL)
-	, TickType(AssociatedTickType)
-{
-}
-
 TickLinkedList::TickLinkedList()
 	: First(NULL)
 	, Last(NULL)
+	, TickType(ETT_Tick)
 {
 }
 
@@ -19,6 +13,11 @@ TickLinkedList::~TickLinkedList()
 {
 	First = NULL;
 	Last = NULL;
+}
+
+void TickLinkedList::SetTickType(EEngineTickType AssociatedTickType)
+{
+	TickType = AssociatedTickType;
 }
 
 void TickLinkedList::Append(Tickable& LinkObj)
