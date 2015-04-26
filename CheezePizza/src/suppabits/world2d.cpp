@@ -4,18 +4,49 @@
 #include "scene2dobject.h"
 #include "cheezepizzaengine.h"
 
-World2D::World2D()
-	: CurrentScene(NULL)
-	, ElapsedGameTime(0.0f)
-	, bIsGamePaused(false)
-	, PreTickList(ETT_PreTick)
-	, TickList(ETT_Tick)
-	, PostTickList(ETT_PostTick)
+World2D::~World2D()
 {
 }
 
-World2D::~World2D()
+void World2D::InitializeInternal()
 {
+	CurrentScene = NULL;
+	ElapsedGameTime = 0.0f;
+	bIsGamePaused = false;
+
+	StopTickQueue.clear();
+
+	PreTickList.SetTickType(ETT_PreTick);
+	TickList.SetTickType(ETT_Tick);
+	PostTickList.SetTickType(ETT_PostTick);
+}
+
+void World2D::ShutdownInternal()
+{
+	// Don't need to delete CurrentScene because it should be contained in the Scenes vector.
+	CurrentScene = NULL;
+
+	const int NumScenes = Scenes.size();
+	for(int i = 0; i < NumScenes; ++i)
+	{
+		delete Scenes[i];
+	}
+
+	Scenes.~vector();
+
+	for(int j = 0; j < SOL_Max; ++j)
+	{
+		const int NumObjs = PersistentObjects[j].size();
+
+		for(int h = 0; h < NumObjs; ++h)
+		{
+			delete PersistentObjects[j][h];
+		}
+
+		PersistentObjects[j].~vector();
+	}
+
+	StopTickQueue.~vector();
 }
 
 void World2D::Tick(float DeltaTime)
@@ -175,22 +206,22 @@ bool World2D::HasPersistentObjectInLayer(Scene2DObject& Object, ESceneObjectLaye
 	return false;
 }
 
-void World2D::AddObjectsToRenderQueue(CheezePizzaEngine& Engine)
+void World2D::AddObjectsToRenderQueue()
 {
-	AddLayerToRenderQueue(Engine, SOL_Background);
-	AddLayerToRenderQueue(Engine, SOL_Layer1);
-	AddLayerToRenderQueue(Engine, SOL_Layer2);
-	AddLayerToRenderQueue(Engine, SOL_Foreground);
+	AddLayerToRenderQueue(SOL_Background);
+	AddLayerToRenderQueue(SOL_Layer1);
+	AddLayerToRenderQueue(SOL_Layer2);
+	AddLayerToRenderQueue(SOL_Foreground);
 }
 
-void World2D::AddLayerToRenderQueue(CheezePizzaEngine& Engine, ESceneObjectLayer DrawLayer)
+void World2D::AddLayerToRenderQueue(ESceneObjectLayer DrawLayer)
 {
 	CPAssert(DrawLayer != SOL_Max, "Scene2DManager::AddLayerToRenderQueue() -  Using an invalid DrawLayer");
 
 	// First, add objects associated to the given layer from the current visible scene
 	if(CurrentScene != NULL)
 	{
-		CurrentScene->AddLayerToRenderQueue(Engine, DrawLayer);
+		CurrentScene->AddLayerToRenderQueue(DrawLayer);
 	}
 
 	// Now, add all persistent objects associated to the given layer
@@ -202,34 +233,8 @@ void World2D::AddLayerToRenderQueue(CheezePizzaEngine& Engine, ESceneObjectLayer
 
 		if(RenderObject != NULL)
 		{
-			Engine.AddToRenderQueue(*RenderObject);
+			CheezePizzaEngine::Instance().AddToRenderQueue(*RenderObject);
 		}
-	}
-}
-
-void World2D::ShutdownInternal()
-{
-	// Don't need to delete CurrentScene because it should be contained in the Scenes vector.
-	CurrentScene = NULL;
-
-	const int NumScenes = Scenes.size();
-	for(int i = 0; i < NumScenes; ++i)
-	{
-		delete Scenes[i];
-	}
-
-	Scenes.clear();
-
-	for(int j = 0; j < SOL_Max; ++j)
-	{
-		const int NumObjs = PersistentObjects[j].size();
-
-		for(int h = 0; h < NumObjs; ++h)
-		{
-			delete PersistentObjects[j][h];
-		}
-
-		PersistentObjects[j].clear();
 	}
 }
 

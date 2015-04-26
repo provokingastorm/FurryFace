@@ -45,8 +45,6 @@ CheezePizza/bin/logs/**
 CheezePizza/build/**
 CheezePizza/linklib/**
 CheezePizza/logs/**
+CheezePizza/bin/*.ilk
 CheezePizza/bin/origins.exe
-CheezePizza/bin/origins.exe
-CheezePizza/bin/origins.ilk
 CheezePizza/bin/origins.pdb
-CheezePizza/bin/origins.exe
