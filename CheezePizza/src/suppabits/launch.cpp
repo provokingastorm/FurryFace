@@ -1,4 +1,5 @@
 #include "gamesession.h"
+#include "cheezepizzaengine.h"
 #include "..\..\include\hge.h"
 
 #define CRTDBG_MAP_ALLOC
@@ -6,61 +7,46 @@
 #include <crtdbg.h>
 
 
-
 extern GameSession* CreateGameSession();
 GameSession* Session = NULL;
 HGE* HGEEngine = NULL;
 
-void Cleanup()
-{
-	if(Session != NULL)
-	{
-		Session->Shutdown();
 
-		delete Session;
-
-		if(HGEEngine != NULL)
-		{
-			HGEEngine->Release();
-			HGEEngine = NULL;
-		}
-	}
-}
-
-////////////////////////////////////////////////
-// HGE Callbacks
-////////////////////////////////////////////////
+// ----------------------------------------------------------------------------
+// HGE - Callbacks
+// ----------------------------------------------------------------------------
 
 bool FrameFunc()
 {
-	return Session->RouteEngineEvent(EE_Tick);
+	return CheezePizzaEngine::Instance().Tick();
 }
 
 bool RenderFunc()
 {
-	return Session->RouteEngineEvent(EE_Render);
+	CheezePizzaEngine::Instance().Render();
+	return false;
 }
 
 bool FocusLostFunc()
 {
-	return Session->RouteEngineEvent(EE_FocusLost);
+	CheezePizzaEngine::Instance().OnFocusLost();
+	return false;
 }
 
 bool FocusGainedFunc()
 {
-	return Session->RouteEngineEvent(EE_FocusGained);
+	CheezePizzaEngine::Instance().OnFocusGained();
+	return false;
 }
 
 bool ExitFunc()
 {
-	Session->RouteEngineEvent(EE_Exit);
-	Cleanup();
 	return true;
 }
 
-////////////////////////////////////////////////
+// ----------------------------------------------------------------------------
 // WinMain
-////////////////////////////////////////////////
+// ----------------------------------------------------------------------------
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -68,8 +54,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	if(Session != NULL)
 	{
+		// Initialize the game engine
 		HGEEngine = hgeCreate(HGE_VERSION);
-		Session->Initialize();
+		CheezePizzaEngine::Instance().Initialize(Session->GetGameName(), Session->GetGameShortName());
+
+		// Provides game-specific initialization
+		Session->PreInit();
 
 		if(HGEEngine != NULL)
 		{
@@ -79,10 +69,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			HGEEngine->System_SetState(HGE_FOCUSGAINFUNC, FocusGainedFunc);
 			HGEEngine->System_SetState(HGE_EXITFUNC, ExitFunc);
 
-			Session->Startup();
+			// After the engine is configured, load up starting assets
+			Session->LoadGame();
+
+			// Now, run the game
+			CheezePizzaEngine::Instance().Startup();
 		}
 
-		Cleanup();
+		// At this point, the player exited the application in the game-specific way
+		delete Session;
+		CheezePizzaEngine::Instance().Shutdown();
+
+		if(HGEEngine != NULL)
+		{
+			HGEEngine->Release();
+			HGEEngine = NULL;
+		}
 	}
 
 	// Dump memory leaks

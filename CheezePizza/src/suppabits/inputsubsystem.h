@@ -14,7 +14,9 @@ class InputSubsystem : public EngineSubsystem
 {
 public:
 	DECLARE_SUBSYSTEM(InputSubsystem);
-	~InputSubsystem();
+
+	// --------------------------------------------------------
+	//	InputConfig Methods
 
 	void PushConfig(class InputConfig& Config);
 	void PopConfig(class InputConfig& Config);

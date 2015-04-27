@@ -4,10 +4,6 @@
 #include "scene2dobject.h"
 #include "cheezepizzaengine.h"
 
-World2D::~World2D()
-{
-}
-
 void World2D::InitializeInternal()
 {
 	CurrentScene = NULL;
@@ -47,6 +43,26 @@ void World2D::ShutdownInternal()
 	}
 
 	StopTickQueue.~vector();
+}
+
+void World2D::OnFirstEngineTick()
+{
+	if(CurrentScene != NULL)
+	{
+		CurrentScene->EnterScene();
+	}
+
+	for(int i = 0; i < SOL_Max; ++i)
+	{
+		const int NumObjs = PersistentObjects[i].size();
+
+		for(int j = 0; j < NumObjs; ++j)
+		{
+			Scene2DObject& Object = *PersistentObjects[i][j];
+			AddTickObject(Object);
+			Object.Start();
+		}
+	}
 }
 
 void World2D::Tick(float DeltaTime)
@@ -234,26 +250,6 @@ void World2D::AddLayerToRenderQueue(ESceneObjectLayer DrawLayer)
 		if(RenderObject != NULL)
 		{
 			CheezePizzaEngine::Instance().AddToRenderQueue(*RenderObject);
-		}
-	}
-}
-
-void World2D::Start()
-{
-	if(CurrentScene != NULL)
-	{
-		CurrentScene->EnterScene();
-	}
-
-	for(int i = 0; i < SOL_Max; ++i)
-	{
-		const int NumObjs = PersistentObjects[i].size();
-
-		for(int j = 0; j < NumObjs; ++j)
-		{
-			Scene2DObject& Object = *PersistentObjects[i][j];
-			AddTickObject(Object);
-			Object.Start();
 		}
 	}
 }

@@ -52,6 +52,9 @@ public:
 
 	bool IsInitialized() const;
 
+	bool IsExiting() const;
+	void ExitApplication();
+
 	const char* GetGameName() const { return GameName; }
 	const char* GetGameShortName() const { return GameShortName; }
 
@@ -59,7 +62,6 @@ public:
 	bool IsLocalPlayerLoggedIn(ELocalPlayerIndex PlayerIndex) const;
 
 	bool AddEngineSubsystem(class EngineSubsystem& Subsystem);
-
 
 
 	// HGE data structures
@@ -91,6 +93,7 @@ private:
 
 	// Engine states
 	bool bIsHGEInitialized;
+	bool bExitApplication;
 
 	// Engine configuration
 	char* GameName;

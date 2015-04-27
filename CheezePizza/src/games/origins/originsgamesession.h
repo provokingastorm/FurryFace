@@ -13,17 +13,11 @@ public:
 	~OriginsGameSession();
 
 	// GameSessions interfaces
-	void OnPlayerCreated(class LocalPlayer& NewPlayer);
-
-protected:
-	// GameSessions interfaces
 	void PreInit();
 	void LoadGame();
 	char* GetGameName() const;
 	char* GetGameShortName() const;
-
-private:
-	void ShutdownInernal();
+	void OnPlayerCreated(class LocalPlayer& NewPlayer);
 };
 
 

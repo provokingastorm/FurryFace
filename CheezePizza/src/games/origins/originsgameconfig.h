@@ -10,8 +10,8 @@
 class OriginsGameConfig : public InputConfig
 {
 public:
-	OriginsGameConfig(class GameSession& AssignedSession, class LocalPlayer& AssignedPlayer);
-	OriginsGameConfig(class GameSession& AssignedSession);
+	OriginsGameConfig();
+	OriginsGameConfig(class LocalPlayer& AssignedPlayer);
 	~OriginsGameConfig();
 
 	void GetKeyUpEvents(std::vector<int>& KeyUpEvents);
@@ -21,6 +21,7 @@ public:
 	void DisassociateSceneObject();
 
 private:
+
 	void MoveUp(float DeltaTime);
 	void MoveDown(float DeltaTime);
 	void MoveLeft(float DeltaTime);

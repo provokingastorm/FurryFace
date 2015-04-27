@@ -8,8 +8,8 @@
 class DefaultEngineConfig : public InputConfig
 {
 public:
-	DefaultEngineConfig(class GameSession& AssignedSession, class LocalPlayer& AssignedPlayer);
-	DefaultEngineConfig(class GameSession& AssignedSession);
+	DefaultEngineConfig();
+	DefaultEngineConfig(class LocalPlayer& AssignedPlayer);
 	~DefaultEngineConfig();
 
 	void GetKeyUpEvents(std::vector<int>& KeyUpEvents);

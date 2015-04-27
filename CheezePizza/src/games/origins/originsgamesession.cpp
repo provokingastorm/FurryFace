@@ -9,7 +9,6 @@
 #include "sharedrenderables.h"
 #include "cheezepizzaengine.h"
 #include "world2d.h"
-#include "scene2d.h"
 #include "scene2dobject.h"
 #include "hgeresource.h"
 
@@ -37,25 +36,17 @@ void OriginsGameSession::PreInit()
 {
 	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
 
-	if(HGEEngine != NULL)
-	{
-		// Provide the engine with a factory that will create Origins-specific players
-		OriginsPlayerFactory& Factory = *(new OriginsPlayerFactory(*this));
-		CE.SetPlayerFactory(Factory);
+	// Provide the engine with a factory that will create Origins-specific players
+	OriginsPlayerFactory& Factory = *(new OriginsPlayerFactory(*this));
+	CE.SetPlayerFactory(Factory);
 
-		// TODO - pbennett - 3/28/15 - Load game-specific INI files
-	}
-}
-
-void OriginsGameSession::ShutdownInernal()
-{
+	// TODO - pbennett - 3/28/15 - Load game-specific INI files
 }
 
 void OriginsGameSession::OnPlayerCreated(LocalPlayer& NewPlayer)
 {
 	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
-
-	OriginsGameConfig& OriginsInput = *(new OriginsGameConfig(*this));
+	OriginsGameConfig& OriginsInput = *(new OriginsGameConfig());
 
 	hgeAnimation* Link = CE.ResourceManager->GetAnimation("sprLink");
 	if(Link != NULL)

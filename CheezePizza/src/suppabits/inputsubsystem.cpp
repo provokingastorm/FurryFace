@@ -6,10 +6,6 @@
 
 #define DEFAULT_EVENT_SIZE 20
 
-InputSubsystem::~InputSubsystem()
-{
-}
-
 void InputSubsystem::InitializeInternal()
 {
 	KeyUpEvents.reserve(DEFAULT_EVENT_SIZE);
@@ -27,10 +23,6 @@ void InputSubsystem::ShutdownInternal()
 		delete ConfigStack[ConfigStack.size()-1];
 		ConfigStack.pop_back();
 	}
-
-	ConfigStack.clear();
-	KeyDownEvents.clear();
-	KeyUpEvents.clear();
 
 	ConfigStack.~vector();
 	KeyDownEvents.~vector();

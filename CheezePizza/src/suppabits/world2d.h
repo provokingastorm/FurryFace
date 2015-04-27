@@ -26,7 +26,6 @@ class World2D : public EngineSubsystem
 {
 public:
 	DECLARE_SUBSYSTEM(World2D);
-	~World2D();
 
 	// --------------------------------------------------------
 	//	Tick Methods
@@ -39,10 +38,9 @@ public:
 
 	void AddObjectsToRenderQueue();
 
-	void Start();
 	void Tick(float DeltaTime);
 
-	float GetGameTime() const;
+	double GetGameTime() const;
 
 	bool IsGamePaused() const;
 	void Pause();
@@ -54,9 +52,18 @@ protected:
 
 	void InitializeInternal();
 	void ShutdownInternal();
+	void OnFirstEngineTick();
 
 private:
+
+	// --------------------------------------------------------
+	//	Tick Methods
+
 	void ProcessTickRemovals();
+
+	// --------------------------------------------------------
+	//	Scene2D Methods
+
 	bool AddSceneInternal(class Scene2D& Scene);
 
 	bool HasPersistentObject(class Scene2DObject& Object) const;
@@ -64,16 +71,22 @@ private:
 
 	void AddLayerToRenderQueue(ESceneObjectLayer DrawLayer);
 
+	// --------------------------------------------------------
+	//	Scene2D variables
+
 	class Scene2D* CurrentScene;
 	std::vector<class Scene2D*> Scenes;
 	std::vector<class Scene2DObject*> PersistentObjects[SOL_Max];
+
+	// --------------------------------------------------------
+	//	Tick variables
 
 	TickLinkedList PreTickList;
 	TickLinkedList TickList;
 	TickLinkedList PostTickList;
 	std::vector<class Tickable*> StopTickQueue;
 
-	float ElapsedGameTime;
+	double ElapsedGameTime;
 	bool bIsGamePaused;
 };
 
@@ -82,7 +95,7 @@ private:
 // World2D - Inline Methods
 // ----------------------------------------------------------------------------
 
-inline float World2D::GetGameTime() const
+inline double World2D::GetGameTime() const
 {
 	return ElapsedGameTime;
 }

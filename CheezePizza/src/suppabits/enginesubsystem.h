@@ -1,9 +1,15 @@
 #ifndef EngineSubsystem_H_
 #define EngineSubsystem_H_
 
+
+// ----------------------------------------------------------------------------
+// EngineSubsystem Macros
+// ----------------------------------------------------------------------------
+
 #define DECLARE_SUBSYSTEM(ClassName) \
 private: \
 	ClassName() {} \
+	~ClassName() {} \
 	ClassName(const ClassName&); \
 	ClassName& operator=(const ClassName&); \
 public: \

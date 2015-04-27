@@ -1,16 +1,15 @@
 #include "cheezepizza.h"
 #include "sharedinputconfigs.h"
 #include "localplayer.h"
-#include "gamesession.h"
+#include "cheezepizzaengine.h"
 
-
-DefaultEngineConfig::DefaultEngineConfig(GameSession& AssignedSession, LocalPlayer& AssignedPlayer)
-	:	InputConfig(AssignedSession, AssignedPlayer)
+DefaultEngineConfig::DefaultEngineConfig()
+	:	InputConfig()
 {
 }
 
-DefaultEngineConfig::DefaultEngineConfig(GameSession& AssignedSession)
-	:	InputConfig(AssignedSession)
+DefaultEngineConfig::DefaultEngineConfig(LocalPlayer& AssignedPlayer)
+	:	InputConfig(AssignedPlayer)
 {
 }
 
@@ -28,7 +27,7 @@ void DefaultEngineConfig::OnKeyUp(int KeyID)
 	switch(KeyID)
 	{
 	case HGEK_ESCAPE:
-		Session->GameOver();
+		CheezePizzaEngine::Instance().ExitApplication();
 		break;
 
 	default:

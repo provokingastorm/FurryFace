@@ -4,7 +4,6 @@
 #include "world2d.h"
 #include "playerfactory.h"
 #include "localplayer.h"
-#include "gamesession.h"
 #include "enginesubsystem.h"
 #include "messagepump.h"
 #include "tickable.h"
@@ -19,6 +18,7 @@ CheezePizzaEngine::CheezePizzaEngine()
 	, ResourceManager(NULL)
 	, PlayerCreator(NULL)
 	, bIsHGEInitialized(false)
+	, bExitApplication(false)
 	, bTickedOnce(false)
 	, GameName(NULL)
 	, GameShortName(NULL)
@@ -129,24 +129,27 @@ void CheezePizzaEngine::Startup()
 
 bool CheezePizzaEngine::Tick()
 {
-	float DeltaTime = HGEEngine->Timer_GetDelta();
-
-	if(!bTickedOnce)
+	if(!IsExiting())
 	{
-		bTickedOnce = true;
-		OnFirstTick(DeltaTime);
+		float DeltaTime = HGEEngine->Timer_GetDelta();
+
+		if(!bTickedOnce)
+		{
+			bTickedOnce = true;
+			OnFirstTick(DeltaTime);
+		}
+
+		InputSubsystem::Instance().HandleInput();
+
+		// TODO: Remove this pause test code
+		if(World2D::Instance().GetGameTime() >= 20.0f)
+		{
+			World2D::Instance().Pause();
+		}
+		World2D::Instance().Tick(DeltaTime);
 	}
 
-	InputSubsystem::Instance().HandleInput();
-
-	// TODO: Remove this pause test code
-	if(World2D::Instance().GetGameTime() >= 20.0f)
-	{
-		World2D::Instance().Pause();
-	}
-	World2D::Instance().Tick(DeltaTime);
-
-	return false;
+	return IsExiting();
 }
 
 void CheezePizzaEngine::Render()
@@ -210,13 +213,21 @@ void CheezePizzaEngine::OnFirstTick(float DeltaTime)
 	{
 		Subsystems[i]->OnFirstEngineTick();
 	}
-
-	World2D::Instance().Start();
 }
 
 bool CheezePizzaEngine::IsInitialized() const
 {
 	return (HGEEngine != NULL && bIsHGEInitialized && ResourceManager != NULL);
+}
+
+bool CheezePizzaEngine::IsExiting() const
+{
+	return bExitApplication;
+}
+
+void CheezePizzaEngine::ExitApplication()
+{
+	bExitApplication = true;
 }
 
 void CheezePizzaEngine::SetPlayerFactory(PlayerFactory& Factory)

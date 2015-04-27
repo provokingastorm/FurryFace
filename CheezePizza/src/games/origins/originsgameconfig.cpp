@@ -1,17 +1,17 @@
 #include "cheezepizza.h"
 #include "originsgameconfig.h"
-#include "gamesession.h"
+#include "cheezepizzaengine.h"
 #include "scene2dobject.h"
 #include "localplayer.h"
 
-OriginsGameConfig::OriginsGameConfig(GameSession& AssignedSession, LocalPlayer& AssignedPlayer)
-	: InputConfig(AssignedSession, AssignedPlayer)
+OriginsGameConfig::OriginsGameConfig()
+	: InputConfig()
 	, SceneObject(NULL)
 {
 }
 
-OriginsGameConfig::OriginsGameConfig(GameSession& AssignedSession)
-	: InputConfig(AssignedSession)
+OriginsGameConfig::OriginsGameConfig(LocalPlayer& AssignedPlayer)
+	: InputConfig(AssignedPlayer)
 	, SceneObject(NULL)
 {
 }
@@ -35,7 +35,7 @@ void OriginsGameConfig::OnKeyUp(int KeyID)
 	switch(KeyID)
 	{
 	case HGEK_ESCAPE:
-		Session->GameOver();
+		CheezePizzaEngine::Instance().ExitApplication();
 		break;
 
 	case HGEK_W:

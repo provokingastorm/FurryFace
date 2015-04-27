@@ -8,8 +8,8 @@
 class InputConfig
 {
 public:
-	InputConfig(class GameSession& AssignedSession, class LocalPlayer& AssignedPlayer);
-	InputConfig(class GameSession& AssignedSession);
+	InputConfig();
+	InputConfig(class LocalPlayer& AssignedPlayer);
 	virtual ~InputConfig();
 
 	virtual void GetKeyUpEvents(std::vector<int>& KeyUpEvents) {}
@@ -19,11 +19,9 @@ public:
 	virtual void OnKeyDown(int KeyID) {}
 
 protected:
-	class GameSession* Session;
 	class LocalPlayer* Player;
 
 private:
-	InputConfig();
 };
 
 
