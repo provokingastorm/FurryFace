@@ -73,8 +73,8 @@ void CheezePizzaEngine::Shutdown()
 
 	SAFE_DELETE_ARRAY(GameShortName);
 
-	const int NumSubsystems = Subsystems.size();
-	for(int j = 0; j < NumSubsystems; ++j)
+	const unsigned int NumSubsystems = Subsystems.size();
+	for(unsigned int j = 0; j < NumSubsystems; ++j)
 	{
 		SAFE_SHUTDOWN(Subsystems[j]);
 	}
@@ -130,12 +130,10 @@ bool CheezePizzaEngine::Tick()
 
 		InputSubsystem::Instance().HandleInput();
 
-		// TODO: Remove this pause test code
-		if(World2D::Instance().GetGameTime() >= 20.0f)
+		for(unsigned int i = 0; i < Subsystems.size(); ++i)
 		{
-			World2D::Instance().Pause();
+			Subsystems[i]->Tick(DeltaTime);
 		}
-		World2D::Instance().Tick(DeltaTime);
 	}
 
 	return IsExiting();

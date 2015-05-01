@@ -5,6 +5,10 @@
 #include "enginesubsystem.h"
 #endif
 
+#ifndef Vector_STL_H_
+#include <vector>
+#endif
+
 // ----------------------------------------------------------------------------
 // PlayerSubsystem - Defines
 // ----------------------------------------------------------------------------
@@ -23,6 +27,14 @@ enum ELocalPlayerIndex
 	LPI_PlayerFour		= 3
 };
 
+// ----------------------------------------------------------------------------
+// PlayerSubsystem - Delegates
+// ----------------------------------------------------------------------------
+
+struct DelegatePlayer
+{
+	virtual void Invoke(class LocalPlayer& Player, ELocalPlayerIndex PlayerIndex) {}
+};
 
 // ----------------------------------------------------------------------------
 // PlayerSubsystem - Declaration
@@ -36,6 +48,8 @@ public:
 	void SetPlayerFactory(class PlayerFactory& Factory);
 	bool IsLocalPlayerLoggedIn(ELocalPlayerIndex PlayerIndex) const;
 
+	void AddPlayerCreatedDelegate(DelegatePlayer& Delegate);
+
 protected:
 
 	// --------------------------------------------------------
@@ -43,7 +57,7 @@ protected:
 
 	void InitializeInternal();
 	void ShutdownInternal();
-	void OnFirstEngineTick();
+	void FirstEngineTickInternal();
 
 private:
 
@@ -52,6 +66,9 @@ private:
 	// Player
 	class LocalPlayer* Players[MAX_LOCAL_PLAYERS];
 	class PlayerFactory* PlayerCreator;
+
+	// Delegates
+	std::vector<DelegatePlayer*> PlayerCreatedDelegates;
 };
 
 #endif

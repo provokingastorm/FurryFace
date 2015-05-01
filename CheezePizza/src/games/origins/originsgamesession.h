@@ -1,5 +1,5 @@
-#ifndef TetrisGameSession_H_
-#define TetrisGameSession_H_
+#ifndef OriginsGameSession_H_
+#define OriginsGameSession_H_
 
 #ifndef GameSession_H_
 #include "gamesession.h"
@@ -17,7 +17,6 @@ public:
 	void LoadGame();
 	char* GetGameName() const;
 	char* GetGameShortName() const;
-	void OnPlayerCreated(class LocalPlayer& NewPlayer);
 };
 
 

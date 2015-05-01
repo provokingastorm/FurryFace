@@ -30,7 +30,6 @@ LocalPlayer* PlayerFactory::CreateNewPlayer()
 	CPAssert(PlayerHud != NULL, "CreateHud() did not create a valid HUD");
 
 	NewPlayer->SetHUD(*PlayerHud);
-	NewPlayer->AssignToSession(*Session);
 
 	return NewPlayer;
 }

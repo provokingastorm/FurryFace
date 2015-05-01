@@ -3,7 +3,7 @@
 
 
 // ----------------------------------------------------------------------------
-// EngineSubsystem Macros
+// EngineSubsystem - Defines
 // ----------------------------------------------------------------------------
 
 #define DECLARE_SUBSYSTEM(ClassName) \
@@ -15,6 +15,9 @@ private: \
 public: \
 	static ClassName& Instance() { static ClassName SubInstance; return SubInstance; }
 
+// ----------------------------------------------------------------------------
+// EngineSubsystem - Enums
+// ----------------------------------------------------------------------------
 
 enum EEngineSubsystemMessages
 {
@@ -27,6 +30,10 @@ enum EEngineSubsystemMessages
 	ESM_Max				= 1000,
 };
 
+// ----------------------------------------------------------------------------
+// EngineSubsystem - Declaration
+// ----------------------------------------------------------------------------
+
 class EngineSubsystem
 {
 public:
@@ -38,10 +45,14 @@ public:
 
 	bool IsInitialized() const;
 
-	virtual void AddObjectsToRenderQueue(class CheezePizzaEngine& Engine) {}
-	virtual void OnFirstEngineTick() {}
+	void OnFirstEngineTick();
+	bool HasTicked() const;
+	virtual void Tick(float DeltaTime) {}
+
 	virtual void OnAppFocusGained() {}
 	virtual void OnAppFocusLost() {}
+
+	virtual void AddObjectsToRenderQueue(class CheezePizzaEngine& Engine) {}
 
 	virtual void HandleMessage(class Message& Msg) {}
 	virtual void HandleMessage(class MessageInt& Msg) {}
@@ -51,13 +62,24 @@ public:
 	virtual void HandleMessage(class MessagePointer& Msg) {}
 
 protected:
+	virtual void FirstEngineTickInternal() {}
 	virtual void InitializeInternal() {}
 	virtual void ShutdownInternal() {}
 
 	class HGE* HGEEngine;
 	bool bIsInitialized;
+	bool bTickedOnce;
 };
 
+
+// ----------------------------------------------------------------------------
+// EngineSubsystem - Inline methods
+// ----------------------------------------------------------------------------
+
+inline bool EngineSubsystem::HasTicked() const
+{
+	return bTickedOnce;
+}
 
 inline bool EngineSubsystem::IsInitialized() const
 {

@@ -27,9 +27,6 @@ public:
 	// Override on derived classes to provide game-specific startup operations
 	virtual void LoadGame() {}
 
-	// Override on derived classes to setup a game-specific player
-	virtual void OnPlayerCreated(class LocalPlayer& NewPlayer)	{}
-
 	// Override on derived classes to customize the engine output files and game title to your game name
 	virtual char* GetGameName() const;
 	virtual char* GetGameShortName() const;

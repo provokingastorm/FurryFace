@@ -10,6 +10,7 @@ set( SUPPA_BITS_SRC
     cheezepizzaengine.h
 	debugutilities.cpp
     debugutilities.h
+	delegate.h
 	enginesubsystem.cpp
     enginesubsystem.h
 	gamesession.cpp

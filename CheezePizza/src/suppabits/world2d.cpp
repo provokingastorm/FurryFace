@@ -22,13 +22,7 @@ void World2D::ShutdownInternal()
 	// Don't need to delete CurrentScene because it should be contained in the Scenes vector.
 	CurrentScene = NULL;
 
-	const int NumScenes = Scenes.size();
-	for(int i = 0; i < NumScenes; ++i)
-	{
-		delete Scenes[i];
-	}
-
-	Scenes.~vector();
+	SAFE_DELETE_STL_VECTOR(Scenes);
 
 	for(int j = 0; j < SOL_Max; ++j)
 	{
@@ -45,7 +39,7 @@ void World2D::ShutdownInternal()
 	StopTickQueue.~vector();
 }
 
-void World2D::OnFirstEngineTick()
+void World2D::FirstEngineTickInternal()
 {
 	if(CurrentScene != NULL)
 	{
@@ -59,8 +53,7 @@ void World2D::OnFirstEngineTick()
 		for(int j = 0; j < NumObjs; ++j)
 		{
 			Scene2DObject& Object = *PersistentObjects[i][j];
-			AddTickObject(Object);
-			Object.Start();
+			OnSceneObjectEntered(Object);
 		}
 	}
 }
@@ -193,6 +186,11 @@ void World2D::AddPersistentObject(Scene2DObject& Object, ESceneObjectLayer DrawL
 	if(!HasPersistentObject(Object))
 	{
 		PersistentObjects[DrawLayer].push_back(&Object);
+
+		if(HasTicked())
+		{
+			OnSceneObjectEntered(Object);
+		}
 	}
 }
 
@@ -220,6 +218,12 @@ bool World2D::HasPersistentObjectInLayer(Scene2DObject& Object, ESceneObjectLaye
 	}
 
 	return false;
+}
+
+void World2D::OnSceneObjectEntered(class Scene2DObject& Object)
+{
+	AddTickObject(Object);
+	Object.Start();
 }
 
 void World2D::AddObjectsToRenderQueue()

@@ -13,17 +13,42 @@
 #include "scene2dobject.h"
 #include "hgeresource.h"
 
-////////////////////////////////////////////////
+// ----------------------------------------------------------------------------
 // Global function for the Cheeze Pizza Engine
-////////////////////////////////////////////////
+// ----------------------------------------------------------------------------
 
-IMPLEMENT_SESSION_CREATOR(OriginsGameSession)
+IMPLEMENT_SESSION_CREATOR(OriginsGameSession);
 
+// ----------------------------------------------------------------------------
+// OriginsPlayerCreated - Definition
+// ----------------------------------------------------------------------------
 
+struct OriginsPlayerCreated : public DelegatePlayer
+{
+	void Invoke(class LocalPlayer& Player, ELocalPlayerIndex PlayerIndex)
+	{
+		CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
+		OriginsGameConfig& OriginsInput = *(new OriginsGameConfig());
 
-////////////////////////////////////////////////
-// OriginsGameSession definition
-////////////////////////////////////////////////
+		hgeAnimation* Link = CE.ResourceManager->GetAnimation("sprLink");
+		if(Link != NULL)
+		{
+			AnimatedCharacter* LinkRO = new AnimatedCharacter();
+			LinkRO->AddAnimation(*Link);
+
+			Scene2DObject& SceneObject = *(new Scene2DObject());
+			SceneObject.SetRenderObject(*LinkRO);
+			OriginsInput.AssociateSceneObject(SceneObject);
+			World2D::Instance().AddPersistentObject(SceneObject, SOL_Foreground);
+		}
+
+		InputSubsystem::Instance().PushConfig(OriginsInput);
+	}
+};
+
+// ----------------------------------------------------------------------------
+// OriginsGameSession - Definition
+// ----------------------------------------------------------------------------
 
 OriginsGameSession::OriginsGameSession()
 {
@@ -39,27 +64,10 @@ void OriginsGameSession::PreInit()
 	OriginsPlayerFactory& Factory = *(new OriginsPlayerFactory(*this));
 	PlayerSubsystem::Instance().SetPlayerFactory(Factory);
 
+	OriginsPlayerCreated& CreationDelegate = *(new OriginsPlayerCreated());
+	PlayerSubsystem::Instance().AddPlayerCreatedDelegate(CreationDelegate);
+
 	// TODO - pbennett - 3/28/15 - Load game-specific INI files
-}
-
-void OriginsGameSession::OnPlayerCreated(LocalPlayer& NewPlayer)
-{
-	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
-	OriginsGameConfig& OriginsInput = *(new OriginsGameConfig());
-
-	hgeAnimation* Link = CE.ResourceManager->GetAnimation("sprLink");
-	if(Link != NULL)
-	{
-		AnimatedCharacter* LinkRO = new AnimatedCharacter();
-		LinkRO->AddAnimation(*Link);
-
-		Scene2DObject& SceneObject = *(new Scene2DObject());
-		SceneObject.SetRenderObject(*LinkRO);
-		OriginsInput.AssociateSceneObject(SceneObject);
-		World2D::Instance().AddPersistentObject(SceneObject, SOL_Foreground);
-	}
-
-	InputSubsystem::Instance().PushConfig(OriginsInput);
 }
 
 char* OriginsGameSession::GetGameName() const

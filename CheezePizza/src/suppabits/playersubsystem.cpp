@@ -23,9 +23,11 @@ void PlayerSubsystem::ShutdownInternal()
 	{
 		SAFE_DELETE(Players[i]);
 	}
+
+	SAFE_DELETE_STL_VECTOR(PlayerCreatedDelegates);
 }
 
-void PlayerSubsystem::OnFirstEngineTick()
+void PlayerSubsystem::FirstEngineTickInternal()
 {
 	SetupNewLocalPlayer(LPI_PlayerOne);
 }
@@ -49,8 +51,18 @@ void PlayerSubsystem::SetupNewLocalPlayer(ELocalPlayerIndex PlayerIndex)
 		if(Player != NULL)
 		{
 			Players[PlayerIndex] = Player;
-		}
 
-		Player->OnCreated();
+			Player->OnCreated();
+
+			for(unsigned int i = 0; i < PlayerCreatedDelegates.size(); ++i)
+			{
+				PlayerCreatedDelegates[i]->Invoke(*Player, PlayerIndex);
+			}
+		}
 	}
+}
+
+void PlayerSubsystem::AddPlayerCreatedDelegate(DelegatePlayer& Delegate)
+{
+	PlayerCreatedDelegates.push_back(&Delegate);
 }

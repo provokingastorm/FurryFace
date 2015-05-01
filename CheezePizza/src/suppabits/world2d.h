@@ -28,6 +28,11 @@ public:
 	DECLARE_SUBSYSTEM(World2D);
 
 	// --------------------------------------------------------
+	//	EngineSubsystem inherited public methods
+
+	void Tick(float DeltaTime);
+
+	// --------------------------------------------------------
 	//	Tick Methods
 
 	void AddTickObject(class Tickable& InObject);
@@ -38,8 +43,6 @@ public:
 
 	void AddObjectsToRenderQueue();
 
-	void Tick(float DeltaTime);
-
 	double GetGameTime() const;
 
 	bool IsGamePaused() const;
@@ -48,11 +51,11 @@ public:
 protected:
 
 	// --------------------------------------------------------
-	//	EngineSubsystem inherited methods
+	//	EngineSubsystem inherited protected methods
 
 	void InitializeInternal();
 	void ShutdownInternal();
-	void OnFirstEngineTick();
+	void FirstEngineTickInternal();
 
 private:
 
@@ -68,6 +71,8 @@ private:
 
 	bool HasPersistentObject(class Scene2DObject& Object) const;
 	bool HasPersistentObjectInLayer(class Scene2DObject& Object, ESceneObjectLayer DrawLayer) const;
+
+	void OnSceneObjectEntered(class Scene2DObject& Object);
 
 	void AddLayerToRenderQueue(ESceneObjectLayer DrawLayer);
 
