@@ -40,6 +40,8 @@ public:
 
 	virtual void AddObjectsToRenderQueue(class CheezePizzaEngine& Engine) {}
 	virtual void OnFirstEngineTick() {}
+	virtual void OnAppFocusGained() {}
+	virtual void OnAppFocusLost() {}
 
 	virtual void HandleMessage(class Message& Msg) {}
 	virtual void HandleMessage(class MessageInt& Msg) {}

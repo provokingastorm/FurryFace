@@ -1,9 +1,8 @@
 #include "cheezepizza.h"
 #include "cheezepizzaengine.h"
 #include "inputsubsystem.h"
+#include "playersubsystem.h"
 #include "world2d.h"
-#include "playerfactory.h"
-#include "localplayer.h"
 #include "enginesubsystem.h"
 #include "messagepump.h"
 #include "tickable.h"
@@ -16,17 +15,12 @@
 CheezePizzaEngine::CheezePizzaEngine()
 	: HGEEngine(NULL)
 	, ResourceManager(NULL)
-	, PlayerCreator(NULL)
 	, bIsHGEInitialized(false)
 	, bExitApplication(false)
 	, bTickedOnce(false)
 	, GameName(NULL)
 	, GameShortName(NULL)
 {
-	for(int i = 0; i < MAX_LOCAL_PLAYERS; ++i)
-	{
-		Players[i] = NULL;
-	}
 }
 
 CheezePizzaEngine::~CheezePizzaEngine()
@@ -65,6 +59,7 @@ void CheezePizzaEngine::Initialize(char* InGameName, char* InGameShortName)
 
 		AddEngineSubsystem(InputSubsystem::Instance());
 		AddEngineSubsystem(World2D::Instance());
+		AddEngineSubsystem(PlayerSubsystem::Instance());
 
 		bIsHGEInitialized = HGEEngine->System_Initiate();
 	}
@@ -76,12 +71,6 @@ void CheezePizzaEngine::Shutdown()
 	CPAssert(RenderQueue.size() == 0, "Render queue should be empty when shutting down the engine");
 	RenderQueue.~vector();
 
-	for(int i = 0; i < MAX_LOCAL_PLAYERS; ++i)
-	{
-		SAFE_DELETE(Players[i]);
-	}
-
-	SAFE_DELETE(PlayerCreator);
 	SAFE_DELETE_ARRAY(GameShortName);
 
 	const int NumSubsystems = Subsystems.size();
@@ -177,10 +166,20 @@ void CheezePizzaEngine::Render()
 
 void CheezePizzaEngine::OnFocusGained()
 {
+	const int NumSubsystem = Subsystems.size();
+	for(int i = 0; i < NumSubsystem; ++i)
+	{
+		Subsystems[i]->OnAppFocusGained();
+	}
 }
 
 void CheezePizzaEngine::OnFocusLost()
 {
+	const int NumSubsystem = Subsystems.size();
+	for(int i = 0; i < NumSubsystem; ++i)
+	{
+		Subsystems[i]->OnAppFocusLost();
+	}
 }
 
 void CheezePizzaEngine::ImportEngineConfig()
@@ -206,8 +205,6 @@ void CheezePizzaEngine::ImportEngineConfig()
 
 void CheezePizzaEngine::OnFirstTick(float DeltaTime)
 {
-	SetupNewLocalPlayer(LPI_PlayerOne);
-
 	const int NumSubsystem = Subsystems.size();
 	for(int i = 0; i < NumSubsystem; ++i)
 	{
@@ -228,31 +225,6 @@ bool CheezePizzaEngine::IsExiting() const
 void CheezePizzaEngine::ExitApplication()
 {
 	bExitApplication = true;
-}
-
-void CheezePizzaEngine::SetPlayerFactory(PlayerFactory& Factory)
-{
-	PlayerCreator = &Factory;
-}
-
-bool CheezePizzaEngine::IsLocalPlayerLoggedIn(ELocalPlayerIndex PlayerIndex) const
-{
-	return Players[PlayerIndex] != NULL;
-}
-
-void CheezePizzaEngine::SetupNewLocalPlayer(ELocalPlayerIndex PlayerIndex)
-{
-	if(PlayerCreator != NULL && !IsLocalPlayerLoggedIn(PlayerIndex))
-	{
-		LocalPlayer* Player = PlayerCreator->CreateNewPlayer();
-
-		if(Player != NULL)
-		{
-			Players[PlayerIndex] = Player;
-		}
-
-		Player->OnCreated();
-	}
 }
 
 bool CheezePizzaEngine::AddEngineSubsystem(EngineSubsystem& Subsystem)

@@ -2,6 +2,7 @@
 #include "originsgamesession.h"
 #include "originsplayerfactory.h"
 #include "inputsubsystem.h"
+#include "playersubsystem.h"
 #include "originsgameconfig.h"
 #include "originshud.h"
 #include "originsplayer.h"
@@ -34,11 +35,9 @@ OriginsGameSession::~OriginsGameSession()
 
 void OriginsGameSession::PreInit()
 {
-	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
-
 	// Provide the engine with a factory that will create Origins-specific players
 	OriginsPlayerFactory& Factory = *(new OriginsPlayerFactory(*this));
-	CE.SetPlayerFactory(Factory);
+	PlayerSubsystem::Instance().SetPlayerFactory(Factory);
 
 	// TODO - pbennett - 3/28/15 - Load game-specific INI files
 }

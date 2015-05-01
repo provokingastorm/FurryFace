@@ -3,7 +3,6 @@ cmake_minimum_required( VERSION 2.8 )
 
 #------ sources ------
 set( SUPPA_BITS_SRC
-	actor.h
     cheezepizza.h
 	cheezepizzacore.cpp
     cheezepizzacore.h
@@ -30,6 +29,8 @@ set( SUPPA_BITS_SRC
     messagetypes.h
 	playerfactory.cpp
     playerfactory.h
+	playersubsystem.cpp
+	playersubsystem.h
     point.h
 	scene2d.cpp
     scene2d.h

@@ -5,8 +5,6 @@
 #include "inputconfig.h"
 #endif
 
-#include "actor.h"
-
 class OriginsGameConfig : public InputConfig
 {
 public:

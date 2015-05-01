@@ -6,16 +6,6 @@
 #endif
 
 
-#define MAX_LOCAL_PLAYERS	4
-
-enum ELocalPlayerIndex
-{
-	LPI_PlayerOne		= 0,
-	LPI_PlayerTwo		= 1,
-	LPI_PlayerThree		= 2,
-	LPI_PlayerFour		= 3
-};
-
 enum EResourceGroup
 {
 	RG_None			= 0,
@@ -58,9 +48,6 @@ public:
 	const char* GetGameName() const { return GameName; }
 	const char* GetGameShortName() const { return GameShortName; }
 
-	void SetPlayerFactory(class PlayerFactory& Factory);
-	bool IsLocalPlayerLoggedIn(ELocalPlayerIndex PlayerIndex) const;
-
 	bool AddEngineSubsystem(class EngineSubsystem& Subsystem);
 
 
@@ -74,16 +61,10 @@ private:
 
 	void OnFirstTick(float DeltaTime);
 
-	void SetupNewLocalPlayer(ELocalPlayerIndex PlayerIndex);
-
 	// Prevent the functions from getting called since this is a singleton
 	CheezePizzaEngine();
 	CheezePizzaEngine(const CheezePizzaEngine&);
 	CheezePizzaEngine& operator=(const CheezePizzaEngine&);
-
-	// Player
-	class LocalPlayer* Players[MAX_LOCAL_PLAYERS];
-	class PlayerFactory* PlayerCreator;
 
 	std::vector<class IRenderable*> RenderQueue;
 	std::vector<class EngineSubsystem*> Subsystems;
