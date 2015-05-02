@@ -68,6 +68,8 @@ protected:
 	virtual void FirstEngineTickInternal() {}
 
 	class HGE* HGEEngine;
+
+private:
 	bool bIsInitialized;
 	bool bTickedOnce;
 };

@@ -16,6 +16,10 @@
 
 #define MAX_CONFIG_STACK	4
 
+// ----------------------------------------------------------------------------
+// InputSubsystem - Declaration
+// ----------------------------------------------------------------------------
+
 class InputSubsystem : public EngineSubsystem
 {
 public:
@@ -27,16 +31,18 @@ public:
 	void PushConfig(class InputConfig& Config);
 	void PopConfig(class InputConfig& Config);
 
-	void HandleInput();
+	// --------------------------------------------------------
+	//	EngineSubsystem inherited public methods
+
+	void Tick(float DeltaTime);
 
 protected:
 
 	// --------------------------------------------------------
-	//	EngineSubsystem inherited methods
+	//	EngineSubsystem inherited protected methods
 
 	void InitializeInternal();
 	void ShutdownInternal();
-	void Tick(float DeltaTime);
 
 private:
 

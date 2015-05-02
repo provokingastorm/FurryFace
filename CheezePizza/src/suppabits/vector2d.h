@@ -7,7 +7,7 @@ struct Vector2D
     float X;
     float Y;
 
-    Vector2D( float InX = 0, float InY = 0 ) 
+    Vector2D(float InX = 0.0f, float InY = 0.0f)
         :   X(InX)
         ,   Y(InY) 
     {
@@ -38,7 +38,7 @@ struct Vector2D
 
     inline static Vector2D& Zero()
     {
-        static Vector2D ZeroVector2D(0, 0);
+        static Vector2D ZeroVector2D(0.0f, 0.0f);
         return ZeroVector2D;
     }
 

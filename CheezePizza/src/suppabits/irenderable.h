@@ -9,6 +9,7 @@ public:
 	virtual void OnStart() = 0;
 	virtual void OnStop() = 0;
 	virtual void OnPause() = 0;
+	virtual void SetHotSpot(float X, float Y) = 0;
 };
 
 #endif

@@ -4,6 +4,7 @@
 
 InputConfig::InputConfig()
 	: Player(NULL)
+	, CachedDeltaTime(0.0f)
 {
 }
 
@@ -14,4 +15,9 @@ InputConfig::InputConfig(LocalPlayer& AssignedPlayer)
 
 InputConfig::~InputConfig()
 {
+}
+
+void InputConfig::SetDeltaTime(float DeltaTime)
+{
+	CachedDeltaTime = DeltaTime;
 }

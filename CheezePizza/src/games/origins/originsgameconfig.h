@@ -15,17 +15,21 @@ public:
 	void GetKeyUpEvents(std::vector<int>& KeyUpEvents);
 	void OnKeyUp(int KeyID);
 
+	void GetKeyDownEvents(std::vector<int>& KeyUpEvents);
+	void OnKeyDown(int KeyID);
+
 	void AssociateSceneObject(class Scene2DObject& PlayerObject);
 	void DisassociateSceneObject();
 
 private:
 
-	void MoveUp(float DeltaTime);
-	void MoveDown(float DeltaTime);
-	void MoveLeft(float DeltaTime);
-	void MoveRight(float DeltaTime);
+	void MoveUp();
+	void MoveDown();
+	void MoveLeft();
+	void MoveRight();
 
 	class Scene2DObject* SceneObject;
+	float MoveDistPerSec;
 };
 
 #endif

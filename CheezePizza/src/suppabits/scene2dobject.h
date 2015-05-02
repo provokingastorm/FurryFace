@@ -5,9 +5,13 @@
 #include "tickable.h"
 #endif
 
+#ifndef Vector2D_H_
+#include "vector2d.h"
+#endif
+
 
 // ----------------------------------------------------------------------------
-// Purpose: 
+// Scene2DObject - Declaration
 // ----------------------------------------------------------------------------
 
 class Scene2DObject : public Tickable
@@ -33,18 +37,16 @@ public:
 	virtual void Stop();
 	virtual void Pause();
 
-	int GetX() const;
-	int GetY() const;
+	float GetX() const;
+	float GetY() const;
 
-	void Move(int NewX, int NewY);
-	void MoveVertical(int NewX);
-	void MoveHorizontal(int NewY);
+	void Move(float NewX, float NewY);
+	void MoveVertical(float NewY);
+	void MoveHorizontal(float NewX);
 
 private:
 	class IRenderable* RenderObject;
-
-	int X;
-	int Y;
+	Vector2D Position;
 };
 
 
@@ -57,14 +59,14 @@ inline class IRenderable* Scene2DObject::GetRenderObject() const
 	return RenderObject;
 }
 
-inline int Scene2DObject::GetX() const
+inline float Scene2DObject::GetX() const
 {
-	return X;
+	return Position.X;
 }
 
-inline int Scene2DObject::GetY() const
+inline float Scene2DObject::GetY() const
 {
-	return Y;
+	return Position.Y;
 }
 
 #endif

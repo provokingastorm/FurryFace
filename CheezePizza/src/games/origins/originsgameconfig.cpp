@@ -3,10 +3,12 @@
 #include "cheezepizzaengine.h"
 #include "scene2dobject.h"
 #include "localplayer.h"
+#include <stdio.h>
 
 OriginsGameConfig::OriginsGameConfig()
 	: InputConfig()
 	, SceneObject(NULL)
+	, MoveDistPerSec(150.0f)
 {
 }
 
@@ -24,6 +26,10 @@ OriginsGameConfig::~OriginsGameConfig()
 void OriginsGameConfig::GetKeyUpEvents(std::vector<int>& KeyUpEvents)
 {
 	KeyUpEvents.push_back(HGEK_ESCAPE);
+}
+
+void OriginsGameConfig::GetKeyDownEvents(std::vector<int>& KeyUpEvents)
+{
 	KeyUpEvents.push_back(HGEK_W);
 	KeyUpEvents.push_back(HGEK_A);
 	KeyUpEvents.push_back(HGEK_S);
@@ -38,20 +44,29 @@ void OriginsGameConfig::OnKeyUp(int KeyID)
 		CheezePizzaEngine::Instance().ExitApplication();
 		break;
 
+	default:
+		break;
+	}
+}
+
+void OriginsGameConfig::OnKeyDown(int KeyID)
+{
+	switch(KeyID)
+	{
 	case HGEK_W:
-		MoveUp(0.005f);
+		MoveUp();
 		break;
 
 	case HGEK_A:
-		MoveRight(0.005f);
+		MoveLeft();
 		break;
 
 	case HGEK_S:
-		MoveLeft(0.005f);
+		MoveDown();
 		break;
 
 	case HGEK_D:
-		MoveDown(0.005f);
+		MoveRight();
 		break;
 
 	default:
@@ -69,42 +84,42 @@ void OriginsGameConfig::DisassociateSceneObject()
 	SceneObject = NULL;
 }
 
-void OriginsGameConfig::MoveUp(float DeltaTime)
+void OriginsGameConfig::MoveUp()
 {
 	if(SceneObject != NULL)
 	{
-		const int Y = SceneObject->GetY();
-		const int MoveDelta = static_cast<int>(5.0f*DeltaTime);
-		SceneObject->MoveVertical(Y + MoveDelta);
-	}
-}
-
-void OriginsGameConfig::MoveDown(float DeltaTime)
-{
-	if(SceneObject != NULL)
-	{
-		const int Y = SceneObject->GetY();
-		const int MoveDelta = static_cast<int>(5.0f*DeltaTime);
+		const float Y = SceneObject->GetY();
+		const float MoveDelta = MoveDistPerSec * GetCachedDeltaTime();
 		SceneObject->MoveVertical(Y - MoveDelta);
 	}
 }
 
-void OriginsGameConfig::MoveLeft(float DeltaTime)
+void OriginsGameConfig::MoveDown()
 {
 	if(SceneObject != NULL)
 	{
-		const int X = SceneObject->GetX();
-		const int MoveDelta = static_cast<int>(5.0f*DeltaTime);
-		SceneObject->MoveHorizontal(X + MoveDelta);
+		const float Y = SceneObject->GetY();
+		const float MoveDelta = MoveDistPerSec * GetCachedDeltaTime();
+		SceneObject->MoveVertical(Y + MoveDelta);
 	}
 }
 
-void OriginsGameConfig::MoveRight(float DeltaTime)
+void OriginsGameConfig::MoveLeft()
 {
 	if(SceneObject != NULL)
 	{
-		const int X = SceneObject->GetX();
-		const int MoveDelta = static_cast<int>(5.0f*DeltaTime);
+		const float X = SceneObject->GetX();
+		const float MoveDelta = MoveDistPerSec * GetCachedDeltaTime();
 		SceneObject->MoveHorizontal(X - MoveDelta);
+	}
+}
+
+void OriginsGameConfig::MoveRight()
+{
+	if(SceneObject != NULL)
+	{
+		const float X = SceneObject->GetX();
+		const float MoveDelta = MoveDistPerSec * GetCachedDeltaTime();
+		SceneObject->MoveHorizontal(X + MoveDelta);
 	}
 }

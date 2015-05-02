@@ -1,9 +1,11 @@
 #include "cheezepizza.h"
 #include "scene2dobject.h"
 #include "irenderable.h"
+#include <stdio.h>
 
 Scene2DObject::Scene2DObject()
 	: RenderObject(NULL)
+	, Position(0.0f, 0.0f)
 {
 }
 
@@ -30,6 +32,7 @@ void Scene2DObject::Tick(float DeltaTime)
 {
 	if(RenderObject != NULL)
 	{
+		RenderObject->SetHotSpot(Position.X, Position.Y);
 		RenderObject->Tick(DeltaTime);
 	}
 }
@@ -58,18 +61,22 @@ void Scene2DObject::Pause()
 	}
 }
 
-void Scene2DObject::Move(int NewX, int NewY)
+void Scene2DObject::Move(float NewX, float NewY)
 {
-	X = NewX;
-	Y = NewY;
+	printf("Moving Vertical: %f", NewY);
+	printf("Moving Horizontal: %f", NewX);
+	Position.X = NewX;
+	Position.Y = NewY;
 }
 
-void Scene2DObject::MoveVertical(int NewX)
+void Scene2DObject::MoveVertical(float NewY)
 {
-	X = NewX;
+	printf("Moving Vertical: %f", NewY);
+	Position.Y = NewY;
 }
 
-void Scene2DObject::MoveHorizontal(int NewY)
+void Scene2DObject::MoveHorizontal(float NewX)
 {
-	Y = NewY;
+	printf("Moving Horizontal: %f", NewX);
+	Position.X = NewX;
 }

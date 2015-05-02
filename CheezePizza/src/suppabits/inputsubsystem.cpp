@@ -75,8 +75,8 @@ void InputSubsystem::AssignLastConfig()
 	InputConfig* CurrentConfig = GetCurrentConfig();
 	if(CurrentConfig != NULL)
 	{
+		CurrentConfig->GetKeyDownEvents(KeyDownEvents);
 		CurrentConfig->GetKeyUpEvents(KeyUpEvents);
-		CurrentConfig->GetKeyDownEvents(KeyUpEvents);
 	}
 }
 
@@ -85,21 +85,23 @@ void InputSubsystem::Tick(float DeltaTime)
 	InputConfig* CurrentConfig = GetCurrentConfig();
 	if(CurrentConfig != NULL)
 	{ 
+		CurrentConfig->SetDeltaTime(DeltaTime);
+
+		const int KeyDownSize = KeyDownEvents.size();
+		for(int j = 0; j < KeyDownSize; ++j)
+		{
+			if(HGEEngine->Input_GetKeyState(KeyDownEvents[j]))
+			{
+				CurrentConfig->OnKeyDown(KeyDownEvents[j]);
+			}
+		}
+
 		const int KeyUpSize = KeyUpEvents.size();
 		for(int i = 0; i < KeyUpSize; ++i)
 		{
 			if(HGEEngine->Input_KeyUp(KeyUpEvents[i]))
 			{
 				CurrentConfig->OnKeyUp(KeyUpEvents[i]);
-			}
-		}
-
-		const int KeyDownSize = KeyDownEvents.size();
-		for(int j = 0; j < KeyDownSize; ++j)
-		{
-			if(HGEEngine->Input_KeyDown(KeyDownEvents[j]))
-			{
-				CurrentConfig->OnKeyDown(KeyDownEvents[j]);
 			}
 		}
 	}

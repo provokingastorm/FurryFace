@@ -34,6 +34,7 @@ struct OriginsPlayerCreated : public DelegatePlayer
 			LinkRO->AddAnimation(*Link);
 
 			Scene2DObject& SceneObject = *(new Scene2DObject());
+			SceneObject.Move(200.0f, 200.0f);
 			SceneObject.SetRenderObject(*LinkRO);
 			OriginsInput.AssociateSceneObject(SceneObject);
 			World2D::Instance().AddPersistentObject(SceneObject, SOL_Foreground);

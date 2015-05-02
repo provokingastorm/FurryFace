@@ -6,6 +6,7 @@
 
 AnimatedCharacter::AnimatedCharacter()
 	: CurrentAnim(NULL)
+	, HotSpot(0.0f, 0.0f)
 {
 }
 
@@ -31,8 +32,14 @@ void AnimatedCharacter::Render(class HGE& Engine)
 {
 	if(CurrentAnim != NULL)
 	{
-		CurrentAnim->Render(200, 200);
+		CurrentAnim->Render(HotSpot.X, HotSpot.Y);
 	}
+}
+
+void AnimatedCharacter::SetHotSpot(float X, float Y)
+{
+	HotSpot.X = X;
+	HotSpot.Y = Y;
 }
 
 void AnimatedCharacter::OnStart()
@@ -56,6 +63,7 @@ void AnimatedCharacter::OnPause()
 
 FullscreenBackground::FullscreenBackground()
 	: Background(NULL)
+	, HotSpot(0.0f, 0.0f)
 {
 }
 
@@ -67,6 +75,7 @@ FullscreenBackground::~FullscreenBackground()
 void FullscreenBackground::SetContent(hgeSprite& InBackground)
 {
 	Background = &InBackground;
+	Background->GetHotSpot(&HotSpot.X, &HotSpot.Y);
 }
 
 void FullscreenBackground::Tick(float DeltaTime)
@@ -77,10 +86,14 @@ void FullscreenBackground::Render(HGE& Engine)
 {
 	if(Background != NULL)
 	{
-		float HotspotX, HotspotY = 0;
-		Background->GetHotSpot(&HotspotX, &HotspotY);
-		Background->Render(HotspotX, HotspotY);
+		Background->Render(HotSpot.X, HotSpot.Y);
 	}
+}
+
+void FullscreenBackground::SetHotSpot(float X, float Y)
+{
+	HotSpot.X = X;
+	HotSpot.Y = Y;
 }
 
 void FullscreenBackground::OnStart()
