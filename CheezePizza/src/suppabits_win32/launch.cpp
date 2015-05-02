@@ -10,39 +10,6 @@
 
 extern EngineSubsystem& GetGameSubsystem();
 
-
-// ----------------------------------------------------------------------------
-// HGE - Callbacks
-// ----------------------------------------------------------------------------
-
-bool FrameFunc()
-{
-	return CheezePizzaEngine::Instance().Tick();
-}
-
-bool RenderFunc()
-{
-	CheezePizzaEngine::Instance().Render();
-	return false;
-}
-
-bool FocusLostFunc()
-{
-	CheezePizzaEngine::Instance().OnFocusLost();
-	return false;
-}
-
-bool FocusGainedFunc()
-{
-	CheezePizzaEngine::Instance().OnFocusGained();
-	return false;
-}
-
-bool ExitFunc()
-{
-	return true;
-}
-
 // ----------------------------------------------------------------------------
 // WinMain
 // ----------------------------------------------------------------------------
@@ -57,12 +24,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	if(PlatformInterface.GetHGE() != NULL)
 	{
-		PlatformInterface.GetHGE()->System_SetState(HGE_FRAMEFUNC, FrameFunc);
-		PlatformInterface.GetHGE()->System_SetState(HGE_RENDERFUNC, RenderFunc);
-		PlatformInterface.GetHGE()->System_SetState(HGE_FOCUSLOSTFUNC, FocusLostFunc);
-		PlatformInterface.GetHGE()->System_SetState(HGE_FOCUSGAINFUNC, FocusGainedFunc);
-		PlatformInterface.GetHGE()->System_SetState(HGE_EXITFUNC, ExitFunc);
-
 		// Now, run the game
 		CheezePizzaEngine::Instance().Startup();
 	}

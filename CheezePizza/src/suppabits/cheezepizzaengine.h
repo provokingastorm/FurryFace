@@ -23,7 +23,7 @@ public:
 	}
 	~CheezePizzaEngine();
 
-	void Initialize(char* InGameName, char* InGameShortName);
+	void Initialize(class IPlatform& Platform, char* InGameName, char* InGameShortName);
 	void Startup();
 	void Shutdown();
 
@@ -50,9 +50,11 @@ public:
 
 	bool AddEngineSubsystem(class EngineSubsystem& Subsystem);
 
+	class HGE& GetHGE() const;
+	class IPlatform& GetPlatform() const;
+
 
 	// HGE data structures
-	class HGE* HGEEngine;
 	class hgeResourceManager* ResourceManager;
 
 private:
@@ -68,6 +70,8 @@ private:
 
 	std::vector<class IRenderable*> RenderQueue;
 	std::vector<class EngineSubsystem*> Subsystems;
+
+	class IPlatform* PlatformInterface;
 
 	// Tick
 	bool bTickedOnce;

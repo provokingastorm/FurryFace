@@ -2,6 +2,7 @@
 #include "inputsubsystem.h"
 #include "sharedinputconfigs.h"
 #include "inputconfig.h"
+#include "cheezepizzaengine.h"
 #include "debugutilities.h"
 
 #define DEFAULT_EVENT_SIZE 20
@@ -90,7 +91,7 @@ void InputSubsystem::Tick(float DeltaTime)
 		const int KeyDownSize = KeyDownEvents.size();
 		for(int j = 0; j < KeyDownSize; ++j)
 		{
-			if(HGEEngine->Input_GetKeyState(KeyDownEvents[j]))
+			if(CheezePizzaEngine::Instance().GetHGE().Input_GetKeyState(KeyDownEvents[j]))
 			{
 				CurrentConfig->OnKeyDown(KeyDownEvents[j]);
 			}
@@ -99,7 +100,7 @@ void InputSubsystem::Tick(float DeltaTime)
 		const int KeyUpSize = KeyUpEvents.size();
 		for(int i = 0; i < KeyUpSize; ++i)
 		{
-			if(HGEEngine->Input_KeyUp(KeyUpEvents[i]))
+			if(CheezePizzaEngine::Instance().GetHGE().Input_KeyUp(KeyUpEvents[i]))
 			{
 				CurrentConfig->OnKeyUp(KeyUpEvents[i]);
 			}

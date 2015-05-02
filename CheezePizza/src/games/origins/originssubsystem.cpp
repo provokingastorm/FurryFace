@@ -53,7 +53,7 @@ void OriginsSubsystem::InitializeGameEngine(class IPlatform& Platform)
 {
 	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
 
-	CE.Initialize("Origins of Zelda", "Origins");
+	CE.Initialize(Platform, "Origins of Zelda", "Origins");
 
 	CE.AddEngineSubsystem(InputSubsystem::Instance());
 	CE.AddEngineSubsystem(PlayerSubsystem::Instance());

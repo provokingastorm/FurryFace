@@ -47,7 +47,6 @@ public:
 	virtual ~EngineSubsystem();
 
 	virtual void InitializeGameEngine(class IPlatform& Platform) {}
-
 	void Initialize();
 	void Shutdown();
 
@@ -60,14 +59,12 @@ public:
 	virtual void OnAppFocusGained() {}
 	virtual void OnAppFocusLost() {}
 
-	virtual void AddObjectsToRenderQueue(class CheezePizzaEngine& Engine) {}
+	virtual void AddObjectsToRenderQueue() {}
 
 protected:
 	virtual void InitializeInternal() {}
 	virtual void ShutdownInternal() {}
 	virtual void FirstEngineTickInternal() {}
-
-	class HGE* HGEEngine;
 
 private:
 	bool bIsInitialized;
