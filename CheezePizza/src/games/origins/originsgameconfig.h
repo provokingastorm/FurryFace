@@ -29,7 +29,15 @@ private:
 	void MoveRight();
 
 	class Scene2DObject* SceneObject;
+
 	float MoveDistPerSec;
+	float UpVelocity;
+	float DownVelocity;
+	float RightVelocity;
+	float LeftVelocity;
+
+	static const float VelocityPerSec;
+	static const float MaxVelocity;
 };
 
 #endif

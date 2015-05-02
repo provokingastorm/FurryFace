@@ -1,5 +1,4 @@
 #include "cheezepizza.h"
-#include "cheezepizzacore.h"
 #include <string>
 #include <cctype>
 
@@ -48,4 +47,14 @@ char* ChzStrLower(const char* SrcString)
 	}
 
 	return LowerString;
+}
+
+int MaxInt(int First, int Second)
+{
+	return (First > Second) ? First : Second;
+}
+
+float MaxFloat(float First, float Second)
+{
+	return (First > Second) ? First : Second;
 }

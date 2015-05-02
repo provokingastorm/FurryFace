@@ -5,10 +5,17 @@
 #include "localplayer.h"
 #include <stdio.h>
 
+const float OriginsGameConfig::VelocityPerSec = 0.01f;
+const float OriginsGameConfig::MaxVelocity = 50.0f;
+
 OriginsGameConfig::OriginsGameConfig()
 	: InputConfig()
 	, SceneObject(NULL)
-	, MoveDistPerSec(150.0f)
+	, MoveDistPerSec(5.0f)
+	, UpVelocity(0.0f)
+	, DownVelocity(0.0f)
+	, RightVelocity(0.0f)
+	, LeftVelocity(0.0f)
 {
 }
 
@@ -26,6 +33,10 @@ OriginsGameConfig::~OriginsGameConfig()
 void OriginsGameConfig::GetKeyUpEvents(std::vector<int>& KeyUpEvents)
 {
 	KeyUpEvents.push_back(HGEK_ESCAPE);
+	KeyUpEvents.push_back(HGEK_W);
+	KeyUpEvents.push_back(HGEK_A);
+	KeyUpEvents.push_back(HGEK_S);
+	KeyUpEvents.push_back(HGEK_D);
 }
 
 void OriginsGameConfig::GetKeyDownEvents(std::vector<int>& KeyUpEvents)
@@ -42,6 +53,22 @@ void OriginsGameConfig::OnKeyUp(int KeyID)
 	{
 	case HGEK_ESCAPE:
 		CheezePizzaEngine::Instance().ExitApplication();
+		break;
+
+	case HGEK_W:
+		UpVelocity = 0.0f;
+		break;
+
+	case HGEK_A:
+		LeftVelocity = 0.0f;
+		break;
+
+	case HGEK_S:
+		DownVelocity = 0.0f;
+		break;
+
+	case HGEK_D:
+		RightVelocity = 0.0f;
 		break;
 
 	default:
@@ -89,7 +116,9 @@ void OriginsGameConfig::MoveUp()
 	if(SceneObject != NULL)
 	{
 		const float Y = SceneObject->GetY();
-		const float MoveDelta = MoveDistPerSec * GetCachedDeltaTime();
+		UpVelocity = MaxFloat(UpVelocity + VelocityPerSec, MaxVelocity);
+		const float MoveDelta = Y * (UpVelocity * GetCachedDeltaTime());
+
 		SceneObject->MoveVertical(Y - MoveDelta);
 	}
 }
@@ -99,7 +128,9 @@ void OriginsGameConfig::MoveDown()
 	if(SceneObject != NULL)
 	{
 		const float Y = SceneObject->GetY();
-		const float MoveDelta = MoveDistPerSec * GetCachedDeltaTime();
+		DownVelocity = MaxFloat(DownVelocity + VelocityPerSec, MaxVelocity);
+		const float MoveDelta = Y * (DownVelocity * GetCachedDeltaTime());
+
 		SceneObject->MoveVertical(Y + MoveDelta);
 	}
 }
@@ -108,8 +139,10 @@ void OriginsGameConfig::MoveLeft()
 {
 	if(SceneObject != NULL)
 	{
+		LeftVelocity = MaxFloat(LeftVelocity + VelocityPerSec, MaxVelocity);
+		const float MoveDelta = MoveDistPerSec * (LeftVelocity * GetCachedDeltaTime());
+
 		const float X = SceneObject->GetX();
-		const float MoveDelta = MoveDistPerSec * GetCachedDeltaTime();
 		SceneObject->MoveHorizontal(X - MoveDelta);
 	}
 }
@@ -118,8 +151,10 @@ void OriginsGameConfig::MoveRight()
 {
 	if(SceneObject != NULL)
 	{
+		RightVelocity = MaxFloat(RightVelocity + VelocityPerSec, MaxVelocity);
+		const float MoveDelta = MoveDistPerSec * (RightVelocity * GetCachedDeltaTime());
+
 		const float X = SceneObject->GetX();
-		const float MoveDelta = MoveDistPerSec * GetCachedDeltaTime();
 		SceneObject->MoveHorizontal(X + MoveDelta);
 	}
 }

@@ -1,6 +1,10 @@
 #ifndef CheezePizzaCore_H_
 #define CheezePizzaCore_H_
 
+// ----------------------------------------------------------------------------
+// Cleanup macros
+// ----------------------------------------------------------------------------
+
 #define SAFE_DELETE(ptr) { if(ptr) { delete ptr; ptr = NULL; } }
 
 #define SAFE_DELETE_ARRAY(arr) { if(arr) { delete[] arr; arr = NULL;} }
@@ -16,7 +20,15 @@
 	stl_vector.~vector(); \
 }
 
+// ----------------------------------------------------------------------------
+// String utilities
+// ----------------------------------------------------------------------------
+
 char* ChzStrDuplicate(const char* SrcString);
 char* ChzStrLower(const char* SrcString);
+
+
+int MaxInt(int First, int Second);
+float MaxFloat(float First, float Second);
 
 #endif

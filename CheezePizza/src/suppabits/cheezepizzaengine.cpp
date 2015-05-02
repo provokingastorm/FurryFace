@@ -247,17 +247,4 @@ bool CheezePizzaEngine::AddToRenderQueue(IRenderable& RenderableObject)
 	return true;
 }
 
-void CheezePizzaEngine::SetGameNames(char* InGameName, char* InGameShortName)
-{
-	GameName = InGameName;
-	GameShortName = ChzStrLower(InGameShortName);
-
-	// Setup the log file
-	char LogFilename[128];
-	sprintf(LogFilename, "logs/%s.log", GameShortName);
-	HGEEngine->System_SetState(HGE_LOGFILE, LogFilename);
-
-	HGEEngine->System_SetState(HGE_TITLE, GameName);
-}
-
 // EOF

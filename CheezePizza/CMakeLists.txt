@@ -51,6 +51,7 @@ add_subdirectory( src/texasm )
 
 #--- Suppa Bits library ---
 add_subdirectory( src/suppabits )
+add_subdirectory( src/suppabits_win32 )
 
 
 #--- HGE tutorials ---

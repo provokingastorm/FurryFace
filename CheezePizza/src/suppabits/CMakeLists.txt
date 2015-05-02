@@ -21,6 +21,7 @@ set( SUPPA_BITS_SRC
     inputconfig.h
 	inputsubsystem.cpp
     inputsubsystem.h
+	iplatform.h
     irenderable.h
 	launch.cpp
 	localplayer.cpp

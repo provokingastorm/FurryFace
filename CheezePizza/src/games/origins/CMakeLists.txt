@@ -28,6 +28,7 @@ link_directories( ${DIRECTX_SDK_DIR}/lib ${DIRECTX_SDK_DIR}/lib/x64 ${DIRECTX_SD
 link_libraries( hge )
 link_libraries( hge-static )
 link_libraries( suppabits )
+link_libraries( suppabits_win32 )
 
 
 #------ target -----
