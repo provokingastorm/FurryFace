@@ -46,7 +46,7 @@ public:
 	EngineSubsystem();
 	virtual ~EngineSubsystem();
 
-	virtual void InitializeGameEngine() {}
+	virtual void InitializeGameEngine(class IPlatform& Platform) {}
 
 	void Initialize();
 	void Shutdown();

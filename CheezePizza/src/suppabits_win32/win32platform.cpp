@@ -9,8 +9,11 @@ Win32Platform::Win32Platform()
 Win32Platform::~Win32Platform()
 {
 	// If there are no more references, the HGE object will be deleted.
-	HGEEngine->Release();
-	HGEEngine = NULL;
+	if(HGEEngine != NULL)
+	{
+		HGEEngine->Release();
+		HGEEngine = NULL;
+	}
 }
 
 HGE* Win32Platform::GetHGE() const

@@ -9,6 +9,7 @@
 #include "world2d.h"
 #include "scene2dobject.h"
 #include "hgeresource.h"
+#include "iplatform.h"
 
 // ----------------------------------------------------------------------------
 // Global function for the Cheeze Pizza Engine
@@ -48,7 +49,7 @@ struct OriginsPlayerCreated : public DelegatePlayer
 // OriginsSubsystem - Definition
 // ----------------------------------------------------------------------------
 
-void OriginsSubsystem::InitializeGameEngine()
+void OriginsSubsystem::InitializeGameEngine(class IPlatform& Platform)
 {
 	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
 

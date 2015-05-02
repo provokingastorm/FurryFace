@@ -23,7 +23,6 @@ set( SUPPA_BITS_SRC
     inputsubsystem.h
 	iplatform.h
     irenderable.h
-	launch.cpp
 	localplayer.cpp
     localplayer.h
 	messagepump.cpp

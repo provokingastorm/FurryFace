@@ -17,7 +17,7 @@ public:
 	// --------------------------------------------------------
 	//	EngineSubsystem inherited methods
 
-	void InitializeGameEngine();
+	void InitializeGameEngine(class IPlatform& Platform);
 
 protected:
 

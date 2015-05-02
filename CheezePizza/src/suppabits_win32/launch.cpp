@@ -1,5 +1,6 @@
 #include "enginesubsystem.h"
 #include "cheezepizzaengine.h"
+#include "win32platform.h"
 #include "..\..\include\hge.h"
 
 #define CRTDBG_MAP_ALLOC
@@ -8,7 +9,6 @@
 
 
 extern EngineSubsystem& GetGameSubsystem();
-HGE* HGEEngine = NULL;
 
 
 // ----------------------------------------------------------------------------
@@ -52,16 +52,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	EngineSubsystem& Subsystem = GetGameSubsystem();
 
 	// Initialize the game engine
-	HGEEngine = hgeCreate(HGE_VERSION);
-	Subsystem.InitializeGameEngine();
+	Win32Platform& PlatformInterface = *(new Win32Platform());
+	Subsystem.InitializeGameEngine(PlatformInterface);
 
-	if(HGEEngine != NULL)
+	if(PlatformInterface.GetHGE() != NULL)
 	{
-		HGEEngine->System_SetState(HGE_FRAMEFUNC, FrameFunc);
-		HGEEngine->System_SetState(HGE_RENDERFUNC, RenderFunc);
-		HGEEngine->System_SetState(HGE_FOCUSLOSTFUNC, FocusLostFunc);
-		HGEEngine->System_SetState(HGE_FOCUSGAINFUNC, FocusGainedFunc);
-		HGEEngine->System_SetState(HGE_EXITFUNC, ExitFunc);
+		PlatformInterface.GetHGE()->System_SetState(HGE_FRAMEFUNC, FrameFunc);
+		PlatformInterface.GetHGE()->System_SetState(HGE_RENDERFUNC, RenderFunc);
+		PlatformInterface.GetHGE()->System_SetState(HGE_FOCUSLOSTFUNC, FocusLostFunc);
+		PlatformInterface.GetHGE()->System_SetState(HGE_FOCUSGAINFUNC, FocusGainedFunc);
+		PlatformInterface.GetHGE()->System_SetState(HGE_EXITFUNC, ExitFunc);
 
 		// Now, run the game
 		CheezePizzaEngine::Instance().Startup();
@@ -70,11 +70,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// At this point, the player exited the application in the game-specific way
 	CheezePizzaEngine::Instance().Shutdown();
 
-	if(HGEEngine != NULL)
-	{
-		HGEEngine->Release();
-		HGEEngine = NULL;
-	}
+	delete (&PlatformInterface);
 
 	// Dump memory leaks
 #if defined(_DEBUG)

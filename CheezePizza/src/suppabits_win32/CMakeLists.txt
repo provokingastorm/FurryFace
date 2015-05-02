@@ -3,6 +3,7 @@ cmake_minimum_required( VERSION 2.8 )
 
 #------ sources ------
 set( SUPPA_BITS_WIN32_SRC
+	launch.cpp
 	win32platform.h
 	win32platform.cpp
     )
