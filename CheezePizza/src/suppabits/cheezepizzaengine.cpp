@@ -1,10 +1,6 @@
 #include "cheezepizza.h"
 #include "cheezepizzaengine.h"
-#include "inputsubsystem.h"
-#include "playersubsystem.h"
-#include "world2d.h"
 #include "enginesubsystem.h"
-#include "messagepump.h"
 #include "tickable.h"
 #include "irenderable.h"
 #include "hgeresource.h"
@@ -57,10 +53,6 @@ void CheezePizzaEngine::Initialize(char* InGameName, char* InGameShortName)
 		ResourceManager = new hgeResourceManager(ResourceFilename);
 		ResourceManager->Precache(RG_AlwaysLoaded);
 
-		AddEngineSubsystem(InputSubsystem::Instance());
-		AddEngineSubsystem(World2D::Instance());
-		AddEngineSubsystem(PlayerSubsystem::Instance());
-
 		bIsHGEInitialized = HGEEngine->System_Initiate();
 	}
 }
@@ -68,7 +60,6 @@ void CheezePizzaEngine::Initialize(char* InGameName, char* InGameShortName)
 void CheezePizzaEngine::Shutdown()
 {
 	// No need to delete render queue items. It's temp
-	CPAssert(RenderQueue.size() == 0, "Render queue should be empty when shutting down the engine");
 	RenderQueue.~vector();
 
 	SAFE_DELETE_ARRAY(GameShortName);
@@ -128,8 +119,6 @@ bool CheezePizzaEngine::Tick()
 			OnFirstTick(DeltaTime);
 		}
 
-		InputSubsystem::Instance().HandleInput();
-
 		for(unsigned int i = 0; i < Subsystems.size(); ++i)
 		{
 			Subsystems[i]->Tick(DeltaTime);
@@ -141,9 +130,6 @@ bool CheezePizzaEngine::Tick()
 
 void CheezePizzaEngine::Render()
 {
-	// Populate the render queue
-	World2D::Instance().AddObjectsToRenderQueue();
-
 	HGE& HGERef = *HGEEngine;
 	HGERef.Gfx_BeginScene();
 	HGERef.Gfx_Clear(0);
@@ -259,6 +245,19 @@ bool CheezePizzaEngine::AddToRenderQueue(IRenderable& RenderableObject)
 {
 	RenderQueue.push_back(&RenderableObject);
 	return true;
+}
+
+void CheezePizzaEngine::SetGameNames(char* InGameName, char* InGameShortName)
+{
+	GameName = InGameName;
+	GameShortName = ChzStrLower(InGameShortName);
+
+	// Setup the log file
+	char LogFilename[128];
+	sprintf(LogFilename, "logs/%s.log", GameShortName);
+	HGEEngine->System_SetState(HGE_LOGFILE, LogFilename);
+
+	HGEEngine->System_SetState(HGE_TITLE, GameName);
 }
 
 // EOF

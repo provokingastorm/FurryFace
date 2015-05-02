@@ -4,25 +4,20 @@
 #include "localplayer.h"
 
 
-PlayerFactory::PlayerFactory(GameSession& AssignedSession)
-	: Session(&AssignedSession)
-{
-}
+// ----------------------------------------------------------------------------
+// PlayerFactory - Definition
+// ----------------------------------------------------------------------------
 
 PlayerFactory::PlayerFactory()
-	: Session(NULL)
 {
 }
 
 PlayerFactory::~PlayerFactory()
 {
-	Session = NULL;
 }
 
 LocalPlayer* PlayerFactory::CreateNewPlayer()
 {
-	CPAssert(Session != NULL, "No session was given to the player factory!");
-
 	LocalPlayer* NewPlayer = CreatePlayer();
 	CPAssert(NewPlayer != NULL, "CreatePlayer() did not create a valid player");
 

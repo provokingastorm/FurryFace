@@ -36,6 +36,7 @@ protected:
 
 	void InitializeInternal();
 	void ShutdownInternal();
+	void Tick(float DeltaTime);
 
 private:
 

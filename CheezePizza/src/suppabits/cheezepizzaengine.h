@@ -45,6 +45,7 @@ public:
 	bool IsExiting() const;
 	void ExitApplication();
 
+	void SetGameNames(char* InGameName, char* InGameShortName);
 	const char* GetGameName() const { return GameName; }
 	const char* GetGameShortName() const { return GameShortName; }
 

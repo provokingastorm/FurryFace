@@ -8,7 +8,7 @@
 class OriginsPlayerFactory : public PlayerFactory
 {
 public:
-	OriginsPlayerFactory(class GameSession& AssignedSession);
+	OriginsPlayerFactory();
 
 protected:
 	class LocalPlayer* CreatePlayer();

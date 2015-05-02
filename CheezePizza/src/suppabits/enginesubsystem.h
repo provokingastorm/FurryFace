@@ -15,6 +15,12 @@ private: \
 public: \
 	static ClassName& Instance() { static ClassName SubInstance; return SubInstance; }
 
+#define IMPLEMENT_GAME_SUBSYSTEM_CREATOR(SubsystemClass) \
+EngineSubsystem& GetGameSubsystem() \
+{ \
+	return SubsystemClass::Instance(); \
+}
+
 // ----------------------------------------------------------------------------
 // EngineSubsystem - Enums
 // ----------------------------------------------------------------------------
@@ -40,13 +46,15 @@ public:
 	EngineSubsystem();
 	virtual ~EngineSubsystem();
 
+	virtual void InitializeGameEngine() {}
+
 	void Initialize();
 	void Shutdown();
 
 	bool IsInitialized() const;
 
-	void OnFirstEngineTick();
 	bool HasTicked() const;
+	virtual void OnFirstEngineTick();
 	virtual void Tick(float DeltaTime) {}
 
 	virtual void OnAppFocusGained() {}
@@ -54,17 +62,10 @@ public:
 
 	virtual void AddObjectsToRenderQueue(class CheezePizzaEngine& Engine) {}
 
-	virtual void HandleMessage(class Message& Msg) {}
-	virtual void HandleMessage(class MessageInt& Msg) {}
-	virtual void HandleMessage(class MessageFloat& Msg) {}
-	virtual void HandleMessage(class MessageBool& Msg) {}
-	virtual void HandleMessage(class MessageDouble& Msg) {}
-	virtual void HandleMessage(class MessagePointer& Msg) {}
-
 protected:
-	virtual void FirstEngineTickInternal() {}
 	virtual void InitializeInternal() {}
 	virtual void ShutdownInternal() {}
+	virtual void FirstEngineTickInternal() {}
 
 	class HGE* HGEEngine;
 	bool bIsInitialized;

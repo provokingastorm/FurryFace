@@ -4,8 +4,8 @@
 #include "originsplayer.h"
 
 
-OriginsPlayerFactory::OriginsPlayerFactory(GameSession& AssignedSession)
-	: PlayerFactory(AssignedSession)
+OriginsPlayerFactory::OriginsPlayerFactory()
+	: PlayerFactory()
 {
 }
 

@@ -1,12 +1,9 @@
 #include "cheezepizza.h"
-#include "originsgamesession.h"
+#include "originssubsystem.h"
 #include "originsplayerfactory.h"
 #include "inputsubsystem.h"
-#include "playersubsystem.h"
 #include "originsgameconfig.h"
-#include "originshud.h"
-#include "originsplayer.h"
-#include "originslinkrenderobject.h"
+#include "playersubsystem.h"
 #include "sharedrenderables.h"
 #include "cheezepizzaengine.h"
 #include "world2d.h"
@@ -17,7 +14,7 @@
 // Global function for the Cheeze Pizza Engine
 // ----------------------------------------------------------------------------
 
-IMPLEMENT_SESSION_CREATOR(OriginsGameSession);
+IMPLEMENT_GAME_SUBSYSTEM_CREATOR(OriginsSubsystem);
 
 // ----------------------------------------------------------------------------
 // OriginsPlayerCreated - Definition
@@ -47,45 +44,33 @@ struct OriginsPlayerCreated : public DelegatePlayer
 };
 
 // ----------------------------------------------------------------------------
-// OriginsGameSession - Definition
+// OriginsSubsystem - Definition
 // ----------------------------------------------------------------------------
 
-OriginsGameSession::OriginsGameSession()
+void OriginsSubsystem::InitializeGameEngine()
 {
+	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
+
+	CE.Initialize("Origins of Zelda", "Origins");
+
+	CE.AddEngineSubsystem(InputSubsystem::Instance());
+	CE.AddEngineSubsystem(PlayerSubsystem::Instance());
+	CE.AddEngineSubsystem(World2D::Instance());
+	CE.AddEngineSubsystem(*this);
 }
 
-OriginsGameSession::~OriginsGameSession()
-{
-}
-
-void OriginsGameSession::PreInit()
+void OriginsSubsystem::InitializeInternal()
 {
 	// Provide the engine with a factory that will create Origins-specific players
-	OriginsPlayerFactory& Factory = *(new OriginsPlayerFactory(*this));
+	OriginsPlayerFactory& Factory = *(new OriginsPlayerFactory());
 	PlayerSubsystem::Instance().SetPlayerFactory(Factory);
 
 	OriginsPlayerCreated& CreationDelegate = *(new OriginsPlayerCreated());
 	PlayerSubsystem::Instance().AddPlayerCreatedDelegate(CreationDelegate);
 
-	// TODO - pbennett - 3/28/15 - Load game-specific INI files
-}
-
-char* OriginsGameSession::GetGameName() const
-{
-	return "Origins of Zelda";
-}
-
-char* OriginsGameSession::GetGameShortName() const
-{
-	return "Origins";
-}
-
-void OriginsGameSession::LoadGame()
-{
-	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
 	Scene2D& PrototypeScene = *(new Scene2D());
 
-	hgeSprite* BGSprite = CE.ResourceManager->GetSprite("sprPrototypeBG");
+	hgeSprite* BGSprite = CheezePizzaEngine::Instance().ResourceManager->GetSprite("sprPrototypeBG");
 	if(BGSprite != NULL)
 	{
 		FullscreenBackground* FullscreenRO = new FullscreenBackground();
@@ -97,4 +82,8 @@ void OriginsGameSession::LoadGame()
 	}
 
 	World2D::Instance().AddScene(PrototypeScene, true);
+}
+
+void OriginsSubsystem::ShutdownInternal()
+{
 }

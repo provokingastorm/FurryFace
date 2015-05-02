@@ -71,6 +71,9 @@ void World2D::Tick(float DeltaTime)
 
 	// Objects are removed from the tick lists only after all the ticking is finished
 	ProcessTickRemovals();
+
+	// Populate the render queue
+	AddObjectsToRenderQueue();
 }
 
 void World2D::Pause()

@@ -5,7 +5,7 @@
 class PlayerFactory
 {
 public:
-	PlayerFactory(class GameSession& AssignedSession);
+	PlayerFactory();
 	virtual ~PlayerFactory();
 
 	class LocalPlayer* CreateNewPlayer();
@@ -16,9 +16,6 @@ protected:
 	virtual class Hud* CreateHud();
 
 private:
-	PlayerFactory();
-
-	class GameSession* Session;
 };
 
 

@@ -5,8 +5,6 @@ cmake_minimum_required( VERSION 2.8 )
 set( ORIGINS_SRC
 	originsgameconfig.cpp
 	originsgameconfig.h
-	originsgamesession.cpp
-	originsgamesession.h
 	originshud.cpp
 	originshud.h
 	originslinkrenderobject.cpp
@@ -15,6 +13,8 @@ set( ORIGINS_SRC
 	originsplayer.h
 	originsplayerfactory.cpp
 	originsplayerfactory.h
+	originssubsystem.cpp
+	originssubsystem.h
     )
 
 #------ additional includes ------

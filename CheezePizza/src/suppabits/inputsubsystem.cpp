@@ -80,7 +80,7 @@ void InputSubsystem::AssignLastConfig()
 	}
 }
 
-void InputSubsystem::HandleInput()
+void InputSubsystem::Tick(float DeltaTime)
 {
 	InputConfig* CurrentConfig = GetCurrentConfig();
 	if(CurrentConfig != NULL)
