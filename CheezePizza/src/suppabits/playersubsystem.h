@@ -48,6 +48,9 @@ public:
 	void SetPlayerFactory(class PlayerFactory& Factory);
 	bool IsLocalPlayerLoggedIn(ELocalPlayerIndex PlayerIndex) const;
 
+	// --------------------------------------------------------
+	//	Delegate methods
+
 	void AddPlayerCreatedDelegate(DelegatePlayer& Delegate);
 
 protected:

@@ -11,6 +11,13 @@ void InputSubsystem::InitializeInternal()
 	KeyUpEvents.reserve(DEFAULT_EVENT_SIZE);
 	KeyDownEvents.reserve(DEFAULT_EVENT_SIZE);
 
+	CurrentConfigIndex = -1;
+
+	for(int i = 0; i < MAX_CONFIG_STACK; i++)
+	{
+		ConfigStack[i] = NULL;
+	}
+
 	// Always provide one input config when running the game to catch basic stuff like closing the application.
 	//DefaultEngineConfig& DefaultConfig = *(new DefaultEngineConfig());
 	//PushConfig(DefaultConfig);
@@ -18,32 +25,36 @@ void InputSubsystem::InitializeInternal()
 
 void InputSubsystem::ShutdownInternal()
 {
-	while(ConfigStack.size() > 0)
+	for(int i = 0; i < MAX_CONFIG_STACK; i++)
 	{
-		delete ConfigStack[ConfigStack.size()-1];
-		ConfigStack.pop_back();
+		delete ConfigStack[i];
+		ConfigStack[i] = NULL;
+		CurrentConfigIndex--;
 	}
 
-	ConfigStack.~vector();
 	KeyDownEvents.~vector();
 	KeyUpEvents.~vector();
 }
 
 void InputSubsystem::PushConfig(InputConfig& Config)
 {
-	ClearCurrentConfig();
-
-	ConfigStack.push_back(&Config);
-	AssignLastConfig();
+	if(CurrentConfigIndex < MAX_CONFIG_STACK)
+	{
+		CurrentConfigIndex++;
+		ConfigStack[CurrentConfigIndex] = &Config;
+		AssignLastConfig();
+	}
 }
 
 void InputSubsystem::PopConfig(InputConfig& Config)
 {
 	// Pop the current input config only if it matches the current input config
-	if(ConfigStack[ConfigStack.size()-1] == &Config)
+	if(CurrentConfigIndex >= 0 && ConfigStack[CurrentConfigIndex] == &Config)
 	{
-		// TODO - pbennett - 4/20/15 - Do we need to delete the input config when popping?
-		ConfigStack.pop_back();
+		delete ConfigStack[CurrentConfigIndex];
+		ConfigStack[CurrentConfigIndex] = NULL;
+		CurrentConfigIndex--;
+
 		AssignLastConfig();
 	}
 }
@@ -98,10 +109,9 @@ InputConfig* InputSubsystem::GetCurrentConfig()
 {
 	InputConfig* CurrentConfig = NULL;
 
-	const int ConfigSize = ConfigStack.size();
-	if(ConfigSize > 0)
+	if(CurrentConfigIndex >= 0)
 	{
-		CurrentConfig = ConfigStack[ConfigSize-1];
+		CurrentConfig = ConfigStack[CurrentConfigIndex];
 	}
 
 	return CurrentConfig;

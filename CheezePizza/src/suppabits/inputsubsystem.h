@@ -10,6 +10,12 @@
 #include <vector>
 #endif
 
+// ----------------------------------------------------------------------------
+// InputSubsystem - Defines
+// ----------------------------------------------------------------------------
+
+#define MAX_CONFIG_STACK	4
+
 class InputSubsystem : public EngineSubsystem
 {
 public:
@@ -24,15 +30,24 @@ public:
 	void HandleInput();
 
 protected:
+
+	// --------------------------------------------------------
+	//	EngineSubsystem inherited methods
+
 	void InitializeInternal();
 	void ShutdownInternal();
 
 private:
+
+	// --------------------------------------------------------
+	// InputConfig private methods
+
 	void ClearCurrentConfig();
 	void AssignLastConfig();
 	class InputConfig* GetCurrentConfig();
 
-	std::vector<class InputConfig*> ConfigStack;
+	class InputConfig* ConfigStack[MAX_CONFIG_STACK];
+	int CurrentConfigIndex;
 
 	std::vector<int> KeyUpEvents;
 	std::vector<int> KeyDownEvents;
