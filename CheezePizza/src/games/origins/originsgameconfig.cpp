@@ -6,12 +6,12 @@
 #include <stdio.h>
 
 const float OriginsGameConfig::VelocityPerSec = 0.01f;
-const float OriginsGameConfig::MaxVelocity = 50.0f;
+const float OriginsGameConfig::MaxVelocity = 100.0f;
 
 OriginsGameConfig::OriginsGameConfig()
 	: InputConfig()
 	, SceneObject(NULL)
-	, MoveDistPerSec(5.0f)
+	, MoveDistPerSec(150.0f)
 	, UpVelocity(0.0f)
 	, DownVelocity(0.0f)
 	, RightVelocity(0.0f)
@@ -30,74 +30,47 @@ OriginsGameConfig::~OriginsGameConfig()
 	SceneObject = NULL;
 }
 
-void OriginsGameConfig::GetKeyUpEvents(std::vector<int>& KeyUpEvents)
+void OriginsGameConfig::HandleInput(float DeltaTime)
 {
-	KeyUpEvents.push_back(HGEK_ESCAPE);
-	KeyUpEvents.push_back(HGEK_W);
-	KeyUpEvents.push_back(HGEK_A);
-	KeyUpEvents.push_back(HGEK_S);
-	KeyUpEvents.push_back(HGEK_D);
-}
+	HGE& HGEEngine = CheezePizzaEngine::Instance().GetHGE();
 
-void OriginsGameConfig::GetKeyDownEvents(std::vector<int>& KeyUpEvents)
-{
-	KeyUpEvents.push_back(HGEK_W);
-	KeyUpEvents.push_back(HGEK_A);
-	KeyUpEvents.push_back(HGEK_S);
-	KeyUpEvents.push_back(HGEK_D);
-}
-
-void OriginsGameConfig::OnKeyUp(int KeyID)
-{
-	switch(KeyID)
+	if(HGEEngine.Input_GetKeyState(HGEK_ESCAPE))
 	{
-	case HGEK_ESCAPE:
 		CheezePizzaEngine::Instance().ExitApplication();
-		break;
-
-	case HGEK_W:
-		UpVelocity = 0.0f;
-		break;
-
-	case HGEK_A:
-		LeftVelocity = 0.0f;
-		break;
-
-	case HGEK_S:
-		DownVelocity = 0.0f;
-		break;
-
-	case HGEK_D:
-		RightVelocity = 0.0f;
-		break;
-
-	default:
-		break;
 	}
-}
 
-void OriginsGameConfig::OnKeyDown(int KeyID)
-{
-	switch(KeyID)
+	if(HGEEngine.Input_GetKeyState(HGEK_W))
 	{
-	case HGEK_W:
-		MoveUp();
-		break;
+		MoveUp(DeltaTime);
+	}
+	else if(HGEEngine.Input_GetKeyState(HGEK_S))
+	{
+		MoveDown(DeltaTime);
+	}
+	else if(HGEEngine.Input_GetKeyState(HGEK_A))
+	{
+		MoveLeft(DeltaTime);
+	}
+	else if(HGEEngine.Input_GetKeyState(HGEK_D))
+	{
+		MoveRight(DeltaTime);
+	}
 
-	case HGEK_A:
-		MoveLeft();
-		break;
-
-	case HGEK_S:
-		MoveDown();
-		break;
-
-	case HGEK_D:
-		MoveRight();
-		break;
-
-	default:
-		break;
+	if(HGEEngine.Input_KeyUp(HGEK_W))
+	{
+		UpVelocity = 0.0f;
+	}
+	if(HGEEngine.Input_KeyUp(HGEK_S))
+	{
+		DownVelocity = 0.0f;
+	}
+	if(HGEEngine.Input_KeyUp(HGEK_A))
+	{
+		LeftVelocity = 0.0f;
+	}
+	if(HGEEngine.Input_KeyUp(HGEK_D))
+	{
+		RightVelocity = 0.0f;
 	}
 }
 
@@ -111,50 +84,46 @@ void OriginsGameConfig::DisassociateSceneObject()
 	SceneObject = NULL;
 }
 
-void OriginsGameConfig::MoveUp()
+void OriginsGameConfig::MoveUp(float DeltaTime)
 {
 	if(SceneObject != NULL)
 	{
 		const float Y = SceneObject->GetY();
-		UpVelocity = MaxFloat(UpVelocity + VelocityPerSec, MaxVelocity);
-		const float MoveDelta = Y * (UpVelocity * GetCachedDeltaTime());
+		const float MoveDelta = MoveDistPerSec * DeltaTime;
 
 		SceneObject->MoveVertical(Y - MoveDelta);
 	}
 }
 
-void OriginsGameConfig::MoveDown()
+void OriginsGameConfig::MoveDown(float DeltaTime)
 {
 	if(SceneObject != NULL)
 	{
 		const float Y = SceneObject->GetY();
-		DownVelocity = MaxFloat(DownVelocity + VelocityPerSec, MaxVelocity);
-		const float MoveDelta = Y * (DownVelocity * GetCachedDeltaTime());
+		const float MoveDelta = MoveDistPerSec * DeltaTime;
 
 		SceneObject->MoveVertical(Y + MoveDelta);
 	}
 }
 
-void OriginsGameConfig::MoveLeft()
+void OriginsGameConfig::MoveLeft(float DeltaTime)
 {
 	if(SceneObject != NULL)
 	{
-		LeftVelocity = MaxFloat(LeftVelocity + VelocityPerSec, MaxVelocity);
-		const float MoveDelta = MoveDistPerSec * (LeftVelocity * GetCachedDeltaTime());
-
 		const float X = SceneObject->GetX();
+		const float MoveDelta = MoveDistPerSec * DeltaTime;
+
 		SceneObject->MoveHorizontal(X - MoveDelta);
 	}
 }
 
-void OriginsGameConfig::MoveRight()
+void OriginsGameConfig::MoveRight(float DeltaTime)
 {
 	if(SceneObject != NULL)
 	{
-		RightVelocity = MaxFloat(RightVelocity + VelocityPerSec, MaxVelocity);
-		const float MoveDelta = MoveDistPerSec * (RightVelocity * GetCachedDeltaTime());
-
 		const float X = SceneObject->GetX();
+		const float MoveDelta = MoveDistPerSec * DeltaTime;
+
 		SceneObject->MoveHorizontal(X + MoveDelta);
 	}
 }

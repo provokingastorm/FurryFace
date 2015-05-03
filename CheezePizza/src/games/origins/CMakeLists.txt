@@ -5,6 +5,7 @@ cmake_minimum_required( VERSION 2.8 )
 set( ORIGINS_SRC
 	originsgameconfig.cpp
 	originsgameconfig.h
+	originsgamestate.h
 	originshud.cpp
 	originshud.h
 	originslinkrenderobject.cpp

@@ -1,6 +1,5 @@
 #include "cheezepizza.h"
 #include "inputsubsystem.h"
-#include "sharedinputconfigs.h"
 #include "inputconfig.h"
 #include "cheezepizzaengine.h"
 #include "debugutilities.h"
@@ -9,9 +8,6 @@
 
 void InputSubsystem::InitializeInternal()
 {
-	KeyUpEvents.reserve(DEFAULT_EVENT_SIZE);
-	KeyDownEvents.reserve(DEFAULT_EVENT_SIZE);
-
 	CurrentConfigIndex = -1;
 
 	for(int i = 0; i < MAX_CONFIG_STACK; i++)
@@ -32,9 +28,6 @@ void InputSubsystem::ShutdownInternal()
 		ConfigStack[i] = NULL;
 		CurrentConfigIndex--;
 	}
-
-	KeyDownEvents.~vector();
-	KeyUpEvents.~vector();
 }
 
 void InputSubsystem::PushConfig(InputConfig& Config)
@@ -43,7 +36,6 @@ void InputSubsystem::PushConfig(InputConfig& Config)
 	{
 		CurrentConfigIndex++;
 		ConfigStack[CurrentConfigIndex] = &Config;
-		AssignLastConfig();
 	}
 }
 
@@ -55,29 +47,6 @@ void InputSubsystem::PopConfig(InputConfig& Config)
 		delete ConfigStack[CurrentConfigIndex];
 		ConfigStack[CurrentConfigIndex] = NULL;
 		CurrentConfigIndex--;
-
-		AssignLastConfig();
-	}
-}
-
-void InputSubsystem::ClearCurrentConfig()
-{
-	KeyUpEvents.clear();
-	KeyUpEvents.reserve(DEFAULT_EVENT_SIZE);
-
-	KeyDownEvents.clear();
-	KeyDownEvents.reserve(DEFAULT_EVENT_SIZE);
-}
-
-void InputSubsystem::AssignLastConfig()
-{
-	ClearCurrentConfig();
-
-	InputConfig* CurrentConfig = GetCurrentConfig();
-	if(CurrentConfig != NULL)
-	{
-		CurrentConfig->GetKeyDownEvents(KeyDownEvents);
-		CurrentConfig->GetKeyUpEvents(KeyUpEvents);
 	}
 }
 
@@ -86,25 +55,7 @@ void InputSubsystem::Tick(float DeltaTime)
 	InputConfig* CurrentConfig = GetCurrentConfig();
 	if(CurrentConfig != NULL)
 	{ 
-		CurrentConfig->SetDeltaTime(DeltaTime);
-
-		const int KeyDownSize = KeyDownEvents.size();
-		for(int j = 0; j < KeyDownSize; ++j)
-		{
-			if(CheezePizzaEngine::Instance().GetHGE().Input_GetKeyState(KeyDownEvents[j]))
-			{
-				CurrentConfig->OnKeyDown(KeyDownEvents[j]);
-			}
-		}
-
-		const int KeyUpSize = KeyUpEvents.size();
-		for(int i = 0; i < KeyUpSize; ++i)
-		{
-			if(CheezePizzaEngine::Instance().GetHGE().Input_KeyUp(KeyUpEvents[i]))
-			{
-				CurrentConfig->OnKeyUp(KeyUpEvents[i]);
-			}
-		}
+		CurrentConfig->HandleInput(DeltaTime);
 	}
 }
 

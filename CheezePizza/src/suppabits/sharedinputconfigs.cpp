@@ -16,21 +16,3 @@ DefaultEngineConfig::DefaultEngineConfig(LocalPlayer& AssignedPlayer)
 DefaultEngineConfig::~DefaultEngineConfig()
 {
 }
-
-void DefaultEngineConfig::GetKeyUpEvents(std::vector<int>& KeyUpEvents)
-{
-	KeyUpEvents.push_back(HGEK_ESCAPE);
-}
-
-void DefaultEngineConfig::OnKeyUp(int KeyID)
-{
-	switch(KeyID)
-	{
-	case HGEK_ESCAPE:
-		CheezePizzaEngine::Instance().ExitApplication();
-		break;
-
-	default:
-		break;
-	}
-}

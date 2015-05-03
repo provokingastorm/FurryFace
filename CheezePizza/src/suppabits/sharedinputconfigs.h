@@ -12,9 +12,6 @@ public:
 	DefaultEngineConfig(class LocalPlayer& AssignedPlayer);
 	~DefaultEngineConfig();
 
-	void GetKeyUpEvents(std::vector<int>& KeyUpEvents);
-	void OnKeyUp(int KeyID);
-
 private:
 };
 

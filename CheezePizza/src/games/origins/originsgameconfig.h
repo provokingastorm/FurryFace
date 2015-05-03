@@ -12,21 +12,17 @@ public:
 	OriginsGameConfig(class LocalPlayer& AssignedPlayer);
 	~OriginsGameConfig();
 
-	void GetKeyUpEvents(std::vector<int>& KeyUpEvents);
-	void OnKeyUp(int KeyID);
-
-	void GetKeyDownEvents(std::vector<int>& KeyUpEvents);
-	void OnKeyDown(int KeyID);
+	void HandleInput(float DeltaTime);
 
 	void AssociateSceneObject(class Scene2DObject& PlayerObject);
 	void DisassociateSceneObject();
 
 private:
 
-	void MoveUp();
-	void MoveDown();
-	void MoveLeft();
-	void MoveRight();
+	void MoveUp(float DeltaTime);
+	void MoveDown(float DeltaTime);
+	void MoveLeft(float DeltaTime);
+	void MoveRight(float DeltaTime);
 
 	class Scene2DObject* SceneObject;
 

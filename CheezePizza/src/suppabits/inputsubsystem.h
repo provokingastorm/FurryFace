@@ -5,11 +5,6 @@
 #include "enginesubsystem.h"
 #endif
 
-#ifndef Vector_STL_H_
-#define Vector_STL_H_
-#include <vector>
-#endif
-
 // ----------------------------------------------------------------------------
 // InputSubsystem - Defines
 // ----------------------------------------------------------------------------
@@ -49,15 +44,10 @@ private:
 	// --------------------------------------------------------
 	// InputConfig private methods
 
-	void ClearCurrentConfig();
-	void AssignLastConfig();
 	class InputConfig* GetCurrentConfig();
 
 	class InputConfig* ConfigStack[MAX_CONFIG_STACK];
 	int CurrentConfigIndex;
-
-	std::vector<int> KeyUpEvents;
-	std::vector<int> KeyDownEvents;
 };
 
 #endif
