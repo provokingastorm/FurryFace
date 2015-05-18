@@ -12,6 +12,7 @@
 #include "componentsystem.h"
 #include "originscomponents.h"
 #include "originscomponentdata.h"
+#include "sharedcomponents.h"
 #include "hgeresource.h"
 #include "iplatform.h"
 
@@ -40,6 +41,9 @@ struct OriginsPlayerCreated : public DelegatePlayer
 			LinkRO->AddAnimation(*Link);
 
 			OriginsLinkComponentData& LinkData = *(new OriginsLinkComponentData());
+			LinkData.SetFloat(CMPID_X, 100.0f);
+			LinkData.SetFloat(CMPID_Y, 100.0f);
+
 			ComponentSystem& System = *(new ComponentSystem(LinkData));
 
 			Scene2DObject& SceneObject = *(new Scene2DObject());
@@ -47,9 +51,6 @@ struct OriginsPlayerCreated : public DelegatePlayer
 			SceneObject.SetComponentSystem(System);
 			OriginsLocalPlayer.AssociateSceneObject(SceneObject);
 			World2D::Instance().AddPersistentObject(SceneObject, SOL_Foreground);
-
-			// Test code
-			SceneObject.Move(100.0f, 100.0f);
 		}
 
 		InputSubsystem::Instance().PushConfig(OriginsInput);

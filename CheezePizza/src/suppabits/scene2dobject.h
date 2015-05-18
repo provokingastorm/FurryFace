@@ -13,6 +13,7 @@
 class Scene2DObject : public Tickable
 {
 public:
+
 	Scene2DObject();
 	virtual ~Scene2DObject();
 
@@ -36,14 +37,8 @@ public:
 
 	class ComponentData& GetData() const;
 
-	float GetX() const;
-	float GetY() const;
-
-	void Move(float NewX, float NewY);
-	void MoveVertical(float NewY);
-	void MoveHorizontal(float NewX);
-
 private:
+
 	class IRenderable* RenderObject;
 	class ComponentSystem* Components;
 };

@@ -45,7 +45,13 @@ void Scene2DObject::Tick(float DeltaTime)
 {
 	if(RenderObject != NULL)
 	{
-		RenderObject->SetHotSpot(GetX(), GetY());
+		float X = 0.0f;
+		Components->SharedData.GetFloat(CMPID_X, X);
+
+		float Y = 0.0f;
+		Components->SharedData.GetFloat(CMPID_Y, Y);
+
+		RenderObject->SetHotSpot(X, Y);
 		RenderObject->Tick(DeltaTime);
 	}
 }
@@ -77,34 +83,4 @@ void Scene2DObject::Pause()
 ComponentData& Scene2DObject::GetData() const
 {
 	return Components->SharedData;
-}
-
-float Scene2DObject::GetX() const
-{
-	float X = 0.0f;
-	Components->SharedData.GetFloat(CMPID_X, X);
-	return X;
-}
-
-float Scene2DObject::GetY() const
-{
-	float Y = 0.0f;
-	Components->SharedData.GetFloat(CMPID_Y, Y);
-	return Y;
-}
-
-void Scene2DObject::Move(float NewX, float NewY)
-{
-	Components->SharedData.SetFloat(CMPID_X, NewX);
-	Components->SharedData.SetFloat(CMPID_Y, NewY);
-}
-
-void Scene2DObject::MoveVertical(float NewY)
-{
-	Components->SharedData.SetFloat(CMPID_Y, NewY);
-}
-
-void Scene2DObject::MoveHorizontal(float NewX)
-{
-	Components->SharedData.SetFloat(CMPID_X, NewX);
 }

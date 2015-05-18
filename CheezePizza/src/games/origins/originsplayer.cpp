@@ -2,6 +2,7 @@
 #include "originsplayer.h"
 #include "scene2dobject.h"
 #include "originscomponentdata.h"
+#include "sharedcomponents.h"
 
 const float OriginsPlayer::VelocityPerSec = 135.0;
 const float OriginsPlayer::MaxVelocity = 100.0f;
@@ -40,10 +41,13 @@ void OriginsPlayer::MoveUp(float DeltaTime)
 {
 	if(SceneObject != NULL)
 	{
-		const float Y = SceneObject->GetY();
-		const float MoveDelta = (UpVelocity * DeltaTime);
+		ComponentData& CompData = SceneObject->GetData();
 
-		SceneObject->MoveVertical(Y - MoveDelta);
+		float Y = 0.0f;
+		CompData.GetFloat(CMPID_Y, Y);
+
+		const float MoveDelta = (UpVelocity * DeltaTime);
+		CompData.SetFloat(CMPID_Y, Y - MoveDelta);
 	}
 }
 
@@ -51,10 +55,13 @@ void OriginsPlayer::MoveDown(float DeltaTime)
 {
 	if(SceneObject != NULL)
 	{
-		const float Y = SceneObject->GetY();
-		const float MoveDelta = (DownVelocity * DeltaTime);
+		ComponentData& CompData = SceneObject->GetData();
 
-		SceneObject->MoveVertical(Y + MoveDelta);
+		float Y = 0.0f;
+		CompData.GetFloat(CMPID_Y, Y);
+
+		const float MoveDelta = (DownVelocity * DeltaTime);
+		CompData.SetFloat(CMPID_Y, Y + MoveDelta);
 	}
 }
 
@@ -62,10 +69,13 @@ void OriginsPlayer::MoveLeft(float DeltaTime)
 {
 	if(SceneObject != NULL)
 	{
-		const float X = SceneObject->GetX();
-		const float MoveDelta = (LeftVelocity * DeltaTime);
+		ComponentData& CompData = SceneObject->GetData();
 
-		SceneObject->MoveHorizontal(X - MoveDelta);
+		float X = 0.0f;
+		CompData.GetFloat(CMPID_X, X);
+
+		const float MoveDelta = (LeftVelocity * DeltaTime);
+		CompData.SetFloat(CMPID_X, X - MoveDelta);
 	}
 }
 
@@ -73,10 +83,13 @@ void OriginsPlayer::MoveRight(float DeltaTime)
 {
 	if(SceneObject != NULL)
 	{
-		const float X = SceneObject->GetX();
-		const float MoveDelta = (RightVelocity * DeltaTime);
+		ComponentData& CompData = SceneObject->GetData();
 
-		SceneObject->MoveHorizontal(X + MoveDelta);
+		float X = 0.0f;
+		CompData.GetFloat(CMPID_X, X);
+
+		const float MoveDelta = (RightVelocity * DeltaTime);
+		CompData.SetFloat(CMPID_X, X + MoveDelta);
 	}
 }
 
