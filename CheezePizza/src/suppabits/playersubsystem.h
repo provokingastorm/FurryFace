@@ -5,7 +5,7 @@
 #include "enginesubsystem.h"
 #endif
 
-#ifndef Vector_STL_H_
+#ifndef _VECTOR_
 #include <vector>
 #endif
 

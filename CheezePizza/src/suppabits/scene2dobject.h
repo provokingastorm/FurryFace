@@ -1,12 +1,16 @@
 #ifndef Scene2DObject_H_
 #define Scene2DObject_H_
 
-#ifndef Tickable_H_
-#include "tickable.h"
+#ifndef SharedComponents_H_
+#include "sharedcomponents.h"
 #endif
 
-#ifndef Vector2D_H_
-#include "vector2d.h"
+#ifndef ComponentSystem_H_
+#include "componentsystem.h"
+#endif
+
+#ifndef Tickable_H_
+#include "tickable.h"
 #endif
 
 
@@ -26,6 +30,7 @@ public:
 
 	class IRenderable* GetRenderObject() const;
 	void SetRenderObject(class IRenderable& Object);
+	void SetComponentSystem(class ComponentSystem& System);
 	bool CanRender() const;
 
 	// --------------------------------------------------------
@@ -46,7 +51,7 @@ public:
 
 private:
 	class IRenderable* RenderObject;
-	Vector2D Position;
+	class ComponentSystem* Components;
 };
 
 
@@ -61,12 +66,14 @@ inline class IRenderable* Scene2DObject::GetRenderObject() const
 
 inline float Scene2DObject::GetX() const
 {
-	return Position.X;
+	const ComponentSystem& ComponentsRef = *Components;
+	return ComponentsRef[CMPID_X];
 }
 
 inline float Scene2DObject::GetY() const
 {
-	return Position.Y;
+	const ComponentSystem& ComponentsRef = *Components;
+	return ComponentsRef[CMPID_Y];
 }
 
 #endif

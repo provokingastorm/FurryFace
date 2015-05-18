@@ -8,6 +8,9 @@ set( SUPPA_BITS_SRC
     cheezepizzacore.h
 	cheezepizzaengine.cpp
     cheezepizzaengine.h
+	componentdata.h
+	componentsystem.cpp
+	componentsystem.h
 	debugutilities.cpp
     debugutilities.h
 	delegate.h
@@ -17,6 +20,7 @@ set( SUPPA_BITS_SRC
     gamesession.h
 	hud.cpp
     hud.h
+	icomponent.h
 	inputconfig.cpp
     inputconfig.h
 	inputsubsystem.cpp
@@ -37,6 +41,8 @@ set( SUPPA_BITS_SRC
     scene2d.h
 	scene2dobject.cpp
     scene2dobject.h
+	sharedcomponents.cpp
+	sharedcomponents.h
     sharedinputconfigs.cpp
     sharedinputconfigs.h
     sharedrenderables.cpp

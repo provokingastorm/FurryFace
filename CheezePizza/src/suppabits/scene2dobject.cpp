@@ -1,11 +1,13 @@
 #include "cheezepizza.h"
 #include "scene2dobject.h"
+#include "componentsystem.h"
+#include "sharedcomponents.h"
 #include "irenderable.h"
 #include <stdio.h>
 
 Scene2DObject::Scene2DObject()
 	: RenderObject(NULL)
-	, Position(0.0f, 0.0f)
+	, Components(NULL)
 {
 }
 
@@ -16,11 +18,22 @@ Scene2DObject::~Scene2DObject()
 		delete RenderObject;
 		RenderObject = NULL;
 	}
+
+	if(Components != NULL)
+	{
+		delete Components;
+		Components = NULL;
+	}
 }
 
 void Scene2DObject::SetRenderObject(IRenderable& Object)
 {
 	RenderObject = &Object;
+}
+
+void Scene2DObject::SetComponentSystem(class ComponentSystem& System)
+{
+	Components = &System;
 }
 
 bool Scene2DObject::CanRender() const
@@ -32,7 +45,7 @@ void Scene2DObject::Tick(float DeltaTime)
 {
 	if(RenderObject != NULL)
 	{
-		RenderObject->SetHotSpot(Position.X, Position.Y);
+		RenderObject->SetHotSpot(GetX(), GetY());
 		RenderObject->Tick(DeltaTime);
 	}
 }
@@ -63,20 +76,19 @@ void Scene2DObject::Pause()
 
 void Scene2DObject::Move(float NewX, float NewY)
 {
-	printf("Moving Vertical: %f", NewY);
-	printf("Moving Horizontal: %f", NewX);
-	Position.X = NewX;
-	Position.Y = NewY;
+	ComponentSystem& ComponentsRef = *Components;
+	ComponentsRef[CMPID_X] = NewX;
+	ComponentsRef[CMPID_Y] = NewY;
 }
 
 void Scene2DObject::MoveVertical(float NewY)
 {
-	printf("Moving Vertical: %f", NewY);
-	Position.Y = NewY;
+	ComponentSystem& ComponentsRef = *Components;
+	ComponentsRef[CMPID_Y] = NewY;
 }
 
 void Scene2DObject::MoveHorizontal(float NewX)
 {
-	printf("Moving Horizontal: %f", NewX);
-	Position.X = NewX;
+	ComponentSystem& ComponentsRef = *Components;
+	ComponentsRef[CMPID_X] = NewX;
 }

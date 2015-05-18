@@ -59,8 +59,8 @@ Texture link
 Animation sprLink
 {
  texture=link
- rect=0,0,32,32
- hotspot=16, 16
+ rect=0,0,64,64
+ hotspot=32,32
  blendmode=COLORMUL,BLEND_ALPHABLEND,NOZWRITE
  frames=6
  fps=4.0

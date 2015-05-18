@@ -1,7 +1,7 @@
 #ifndef CheezePizzaEngine_H_
 #define CheezePizzaEngine_H_
 
-#ifndef Vector_STL_H_
+#ifndef _VECTOR_
 #include <vector>
 #endif
 
@@ -47,6 +47,8 @@ public:
 
 	const char* GetGameName() const { return GameName; }
 	const char* GetGameShortName() const { return GameShortName; }
+	int GetScreenWidth() const { return ScreenWidth; }
+	int GetScreenHeight() const { return ScreenHeight; }
 
 	bool AddEngineSubsystem(class EngineSubsystem& Subsystem);
 
@@ -83,6 +85,8 @@ private:
 	// Engine configuration
 	char* GameName;
 	char* GameShortName;
+	int ScreenWidth;
+	int ScreenHeight;
 };
 
 

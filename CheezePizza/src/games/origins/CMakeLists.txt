@@ -3,6 +3,7 @@ cmake_minimum_required( VERSION 2.8 )
 
 #------ sources ------
 set( ORIGINS_SRC
+	originscomponents.h
 	originsgameconfig.cpp
 	originsgameconfig.h
 	originsgamestate.h

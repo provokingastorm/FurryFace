@@ -8,6 +8,7 @@
 #include "cheezepizzaengine.h"
 #include "world2d.h"
 #include "scene2dobject.h"
+#include "originscomponents.h"
 #include "hgeresource.h"
 #include "iplatform.h"
 
@@ -34,11 +35,17 @@ struct OriginsPlayerCreated : public DelegatePlayer
 			AnimatedCharacter* LinkRO = new AnimatedCharacter();
 			LinkRO->AddAnimation(*Link);
 
+			OriginsLinkComponentData& LinkData = *(new OriginsLinkComponentData());
+			ComponentSystem& System = *(new ComponentSystem(LinkData));
+
 			Scene2DObject& SceneObject = *(new Scene2DObject());
-			SceneObject.Move(200.0f, 200.0f);
 			SceneObject.SetRenderObject(*LinkRO);
+			SceneObject.SetComponentSystem(System);
 			OriginsInput.AssociateSceneObject(SceneObject);
 			World2D::Instance().AddPersistentObject(SceneObject, SOL_Foreground);
+
+			// Test code
+			SceneObject.Move(100.0f, 100.0f);
 		}
 
 		InputSubsystem::Instance().PushConfig(OriginsInput);

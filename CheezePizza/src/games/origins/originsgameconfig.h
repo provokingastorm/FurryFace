@@ -5,6 +5,10 @@
 #include "inputconfig.h"
 #endif
 
+// ----------------------------------------------------------------------------
+// OriginsGameConfig - Declaration
+// ----------------------------------------------------------------------------
+
 class OriginsGameConfig : public InputConfig
 {
 public:
@@ -26,7 +30,6 @@ private:
 
 	class Scene2DObject* SceneObject;
 
-	float MoveDistPerSec;
 	float UpVelocity;
 	float DownVelocity;
 	float RightVelocity;

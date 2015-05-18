@@ -5,11 +5,11 @@
 #include "enginesubsystem.h"
 #endif
 
-#ifndef Vector_STL_H_
+#ifndef _VECTOR_
 #include <vector>
 #endif
 
-#ifndef Map_STL_H_
+#ifndef _MAP_
 #include <map>
 #endif
 
@@ -21,6 +21,9 @@
 #include "scene2d.h"
 #endif
 
+// ----------------------------------------------------------------------------
+// World2D - Declaration
+// ----------------------------------------------------------------------------
 
 class World2D : public EngineSubsystem
 {

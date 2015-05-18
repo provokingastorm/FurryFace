@@ -58,6 +58,8 @@ CheezePizzaEngine::CheezePizzaEngine()
 	, bTickedOnce(false)
 	, GameName(NULL)
 	, GameShortName(NULL)
+	, ScreenWidth(640)
+	, ScreenHeight(480)
 {
 }
 
@@ -214,8 +216,8 @@ void CheezePizzaEngine::ImportEngineConfig()
 {
 	GetHGE().System_SetState(HGE_INIFILE, "config/cheezepizzaengine.ini");
 
-	int ScreenWidth = GetHGE().Ini_GetInt("DisplayOptions", "ScreenWidth", 640);
-	int ScreenHeight = GetHGE().Ini_GetInt("DisplayOptions", "ScreenHeight", 480);
+	ScreenWidth = GetHGE().Ini_GetInt("DisplayOptions", "ScreenWidth", ScreenWidth);
+	ScreenHeight = GetHGE().Ini_GetInt("DisplayOptions", "ScreenHeight", ScreenHeight);
 	int ColorDepth = GetHGE().Ini_GetInt("DisplayOptions", "ColorDepth", 32);
 	int FullscreenMode = GetHGE().Ini_GetInt("DisplayOptions", "FullscreenMode", 0);
 

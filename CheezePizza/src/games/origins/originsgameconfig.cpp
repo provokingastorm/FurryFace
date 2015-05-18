@@ -3,19 +3,19 @@
 #include "cheezepizzaengine.h"
 #include "scene2dobject.h"
 #include "localplayer.h"
-#include <stdio.h>
 
-const float OriginsGameConfig::VelocityPerSec = 0.01f;
+const float OriginsGameConfig::VelocityPerSec = 135.0;
 const float OriginsGameConfig::MaxVelocity = 100.0f;
+
+const float DefaultVelocity = 135.0f;
 
 OriginsGameConfig::OriginsGameConfig()
 	: InputConfig()
 	, SceneObject(NULL)
-	, MoveDistPerSec(150.0f)
-	, UpVelocity(0.0f)
-	, DownVelocity(0.0f)
-	, RightVelocity(0.0f)
-	, LeftVelocity(0.0f)
+	, UpVelocity(VelocityPerSec)
+	, DownVelocity(VelocityPerSec)
+	, RightVelocity(VelocityPerSec)
+	, LeftVelocity(VelocityPerSec)
 {
 }
 
@@ -58,19 +58,19 @@ void OriginsGameConfig::HandleInput(float DeltaTime)
 
 	if(HGEEngine.Input_KeyUp(HGEK_W))
 	{
-		UpVelocity = 0.0f;
+		UpVelocity = VelocityPerSec;
 	}
 	if(HGEEngine.Input_KeyUp(HGEK_S))
 	{
-		DownVelocity = 0.0f;
+		DownVelocity = VelocityPerSec;
 	}
 	if(HGEEngine.Input_KeyUp(HGEK_A))
 	{
-		LeftVelocity = 0.0f;
+		LeftVelocity = VelocityPerSec;
 	}
 	if(HGEEngine.Input_KeyUp(HGEK_D))
 	{
-		RightVelocity = 0.0f;
+		RightVelocity = VelocityPerSec;
 	}
 }
 
@@ -89,7 +89,7 @@ void OriginsGameConfig::MoveUp(float DeltaTime)
 	if(SceneObject != NULL)
 	{
 		const float Y = SceneObject->GetY();
-		const float MoveDelta = MoveDistPerSec * DeltaTime;
+		const float MoveDelta = (UpVelocity * DeltaTime);
 
 		SceneObject->MoveVertical(Y - MoveDelta);
 	}
@@ -100,7 +100,7 @@ void OriginsGameConfig::MoveDown(float DeltaTime)
 	if(SceneObject != NULL)
 	{
 		const float Y = SceneObject->GetY();
-		const float MoveDelta = MoveDistPerSec * DeltaTime;
+		const float MoveDelta = (DownVelocity * DeltaTime);
 
 		SceneObject->MoveVertical(Y + MoveDelta);
 	}
@@ -111,7 +111,7 @@ void OriginsGameConfig::MoveLeft(float DeltaTime)
 	if(SceneObject != NULL)
 	{
 		const float X = SceneObject->GetX();
-		const float MoveDelta = MoveDistPerSec * DeltaTime;
+		const float MoveDelta = (LeftVelocity * DeltaTime);
 
 		SceneObject->MoveHorizontal(X - MoveDelta);
 	}
@@ -122,7 +122,7 @@ void OriginsGameConfig::MoveRight(float DeltaTime)
 	if(SceneObject != NULL)
 	{
 		const float X = SceneObject->GetX();
-		const float MoveDelta = MoveDistPerSec * DeltaTime;
+		const float MoveDelta = (RightVelocity * DeltaTime);
 
 		SceneObject->MoveHorizontal(X + MoveDelta);
 	}
