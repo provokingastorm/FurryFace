@@ -1,14 +1,6 @@
 #ifndef Scene2DObject_H_
 #define Scene2DObject_H_
 
-#ifndef SharedComponents_H_
-#include "sharedcomponents.h"
-#endif
-
-#ifndef ComponentSystem_H_
-#include "componentsystem.h"
-#endif
-
 #ifndef Tickable_H_
 #include "tickable.h"
 #endif
@@ -42,6 +34,8 @@ public:
 	virtual void Stop();
 	virtual void Pause();
 
+	class ComponentData& GetData() const;
+
 	float GetX() const;
 	float GetY() const;
 
@@ -62,18 +56,6 @@ private:
 inline class IRenderable* Scene2DObject::GetRenderObject() const
 {
 	return RenderObject;
-}
-
-inline float Scene2DObject::GetX() const
-{
-	const ComponentSystem& ComponentsRef = *Components;
-	return ComponentsRef[CMPID_X];
-}
-
-inline float Scene2DObject::GetY() const
-{
-	const ComponentSystem& ComponentsRef = *Components;
-	return ComponentsRef[CMPID_Y];
 }
 
 #endif

@@ -16,29 +16,11 @@ public:
 	ComponentSystem(ComponentData& Data);
 	~ComponentSystem();
 
-	float& operator[] (const int DataID);
-	const float& operator[] (const int DataID) const;
+	ComponentData& SharedData;
 
 private:
 
-	ComponentData& SharedData;
-
 	ComponentSystem();
 };
-
-
-// ----------------------------------------------------------------------------
-// ComponentSystem - Inline Function
-// ----------------------------------------------------------------------------
-
-inline float& ComponentSystem::operator[] (const int DataID)
-{
-	return SharedData[DataID];
-}
-
-inline const float& ComponentSystem::operator[] (const int DataID) const
-{
-	return SharedData[DataID];
-}
 
 #endif
