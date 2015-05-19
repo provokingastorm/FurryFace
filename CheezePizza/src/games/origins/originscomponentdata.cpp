@@ -8,6 +8,7 @@ OriginsLinkComponentData::OriginsLinkComponentData()
 	, Y(0.0f)
 	, InvalidFloat(0.0f)
 	, InvalidInt(0)
+	, InvalidBool(false)
 {
 }
 
@@ -36,6 +37,7 @@ bool OriginsLinkComponentData::SupportsData(int DataID)
 bool& OriginsLinkComponentData::Bool(int DataID)
 {
 	CPForceAssert("Invalid component data ID provided");
+	InvalidBool = false;
 	return InvalidBool;
 }
 
@@ -48,6 +50,7 @@ const bool& OriginsLinkComponentData::Bool(int DataID) const
 int& OriginsLinkComponentData::Int(int DataID)
 {
 	CPForceAssert("Invalid component data ID provided");
+	InvalidInt = 0;
 	return InvalidInt;
 }
 
@@ -74,6 +77,7 @@ float& OriginsLinkComponentData::Float(int DataID)
 		break;
 	}
 
+	InvalidFloat = 0.0f;
 	return InvalidFloat;
 }
 
