@@ -11,14 +11,14 @@ public:
 
 	virtual bool SupportsData(int DataID) = 0;
 
-	virtual void SetInt(int DataID, int Data) = 0;
-	virtual void GetInt(int DataID, int& DefaultValue) const = 0;
+	virtual int& Int(int DataID) = 0;
+	virtual const int& Int(int DataID) const = 0;
 
-	virtual void SetFloat(int DataID, float Data) = 0;
-	virtual void GetFloat(int DataID, float& DefaultValue) const = 0;
+	virtual float& Float(int DataID) = 0;
+	virtual const float& Float(int DataID) const = 0;
 
-	virtual void SetBool(int DataID, bool Data) = 0;
-	virtual void GetBool(int DataID, bool& DefaultValue) const = 0;
+	virtual bool& Bool(int DataID) = 0;
+	virtual const bool& Bool(int DataID) const = 0;
 };
 
 #endif

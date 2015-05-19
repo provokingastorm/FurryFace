@@ -41,13 +41,9 @@ void OriginsPlayer::MoveUp(float DeltaTime)
 {
 	if(SceneObject != NULL)
 	{
-		ComponentData& CompData = SceneObject->GetData();
-
-		float Y = 0.0f;
-		CompData.GetFloat(CMPID_Y, Y);
-
+		float& Y = SceneObject->GetData().Float(CMPID_Y);
 		const float MoveDelta = (UpVelocity * DeltaTime);
-		CompData.SetFloat(CMPID_Y, Y - MoveDelta);
+		Y = Y - MoveDelta;
 	}
 }
 
@@ -55,13 +51,9 @@ void OriginsPlayer::MoveDown(float DeltaTime)
 {
 	if(SceneObject != NULL)
 	{
-		ComponentData& CompData = SceneObject->GetData();
-
-		float Y = 0.0f;
-		CompData.GetFloat(CMPID_Y, Y);
-
+		float& Y = SceneObject->GetData().Float(CMPID_Y);
 		const float MoveDelta = (DownVelocity * DeltaTime);
-		CompData.SetFloat(CMPID_Y, Y + MoveDelta);
+		Y = Y + MoveDelta;
 	}
 }
 
@@ -69,13 +61,9 @@ void OriginsPlayer::MoveLeft(float DeltaTime)
 {
 	if(SceneObject != NULL)
 	{
-		ComponentData& CompData = SceneObject->GetData();
-
-		float X = 0.0f;
-		CompData.GetFloat(CMPID_X, X);
-
+		float& X = SceneObject->GetData().Float(CMPID_X);
 		const float MoveDelta = (LeftVelocity * DeltaTime);
-		CompData.SetFloat(CMPID_X, X - MoveDelta);
+		X = X - MoveDelta;
 	}
 }
 
@@ -83,13 +71,9 @@ void OriginsPlayer::MoveRight(float DeltaTime)
 {
 	if(SceneObject != NULL)
 	{
-		ComponentData& CompData = SceneObject->GetData();
-
-		float X = 0.0f;
-		CompData.GetFloat(CMPID_X, X);
-
+		float& X = SceneObject->GetData().Float(CMPID_X);
 		const float MoveDelta = (RightVelocity * DeltaTime);
-		CompData.SetFloat(CMPID_X, X + MoveDelta);
+		X = X + MoveDelta;
 	}
 }
 

@@ -45,13 +45,7 @@ void Scene2DObject::Tick(float DeltaTime)
 {
 	if(RenderObject != NULL)
 	{
-		float X = 0.0f;
-		Components->SharedData.GetFloat(CMPID_X, X);
-
-		float Y = 0.0f;
-		Components->SharedData.GetFloat(CMPID_Y, Y);
-
-		RenderObject->SetHotSpot(X, Y);
+		RenderObject->SetHotSpot(Components->SharedData.Float(CMPID_X), Components->SharedData.Float(CMPID_Y));
 		RenderObject->Tick(DeltaTime);
 	}
 }

@@ -41,8 +41,8 @@ struct OriginsPlayerCreated : public DelegatePlayer
 			LinkRO->AddAnimation(*Link);
 
 			OriginsLinkComponentData& LinkData = *(new OriginsLinkComponentData());
-			LinkData.SetFloat(CMPID_X, 100.0f);
-			LinkData.SetFloat(CMPID_Y, 100.0f);
+			LinkData.Float(CMPID_X) = 100.0f;
+			LinkData.Float(CMPID_Y) = 100.0f;
 
 			ComponentSystem& System = *(new ComponentSystem(LinkData));
 

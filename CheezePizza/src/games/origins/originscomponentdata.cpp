@@ -33,58 +33,66 @@ bool OriginsLinkComponentData::SupportsData(int DataID)
 	return bSupports;
 }
 
-void OriginsLinkComponentData::SetInt(int DataID, int Data)
+bool& OriginsLinkComponentData::Bool(int DataID)
 {
 	CPForceAssert("Invalid component data ID provided");
+	return InvalidBool;
 }
 
-void OriginsLinkComponentData::SetFloat(int DataID, float Data)
+const bool& OriginsLinkComponentData::Bool(int DataID) const
+{
+	CPForceAssert("Invalid component data ID provided");
+	return InvalidBool;
+}
+
+int& OriginsLinkComponentData::Int(int DataID)
+{
+	CPForceAssert("Invalid component data ID provided");
+	return InvalidInt;
+}
+
+const int& OriginsLinkComponentData::Int(int DataID) const
+{
+	CPForceAssert("Invalid component data ID provided");
+	return InvalidInt;
+}
+
+float& OriginsLinkComponentData::Float(int DataID)
 {
 	switch(DataID)
 	{
 	case CMPID_X:
-		X = Data;
+		return X;
 		break;
 
 	case CMPID_Y:
-		Y = Data;
+		return Y;
 		break;
 
 	default:
 		CPForceAssert("Invalid component data ID provided");
 		break;
 	}
+
+	return InvalidFloat;
 }
 
-void OriginsLinkComponentData::SetBool(int DataID, bool Data)
-{
-	CPForceAssert("Invalid component data ID provided");
-}
-
-void OriginsLinkComponentData::GetInt(int DataID, int& Value) const
-{
-	CPForceAssert("Invalid component data ID provided");
-}
-
-void OriginsLinkComponentData::GetFloat(int DataID, float& Value) const
+const float& OriginsLinkComponentData::Float(int DataID) const
 {
 	switch(DataID)
 	{
 	case CMPID_X:
-		Value = X;
+		return X;
 		break;
 
 	case CMPID_Y:
-		Value = Y;
+		return Y;
 		break;
 
 	default:
 		CPForceAssert("Invalid component data ID provided");
 		break;
 	}
-}
 
-void OriginsLinkComponentData::GetBool(int DataID, bool& Value) const
-{
-	CPForceAssert("Invalid component data ID provided");
+	return InvalidFloat;
 }

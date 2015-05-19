@@ -13,14 +13,14 @@ public:
 
 	bool SupportsData(int DataID);
 
-	void SetInt(int DataID, int Data);
-	void GetInt(int DataID, int& Value) const;
+	int& Int(int DataIDa);
+	const int& Int(int DataID) const;
 
-	void SetFloat(int DataID, float Data);
-	void GetFloat(int DataID, float& Value) const;
+	float& Float(int DataID);
+	const float& Float(int DataID) const;
 
-	void SetBool(int DataID, bool Data);
-	void GetBool(int DataID, bool& Value) const;
+	bool& Bool(int DataID);
+	const bool& Bool(int DataID) const;
 
 private:
 
@@ -29,6 +29,7 @@ private:
 
 	float InvalidFloat;
 	int InvalidInt;
+	bool InvalidBool;
 };
 
 #endif
