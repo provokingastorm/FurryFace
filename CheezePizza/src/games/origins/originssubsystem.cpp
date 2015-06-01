@@ -46,6 +46,8 @@ struct OriginsPlayerCreated : public DelegatePlayer
 
 			ComponentSystem& System = *(new ComponentSystem(LinkData));
 
+			LinkComponent& LinkComp = *(new LinkComponent(System));
+
 			Scene2DObject& SceneObject = *(new Scene2DObject());
 			SceneObject.SetRenderObject(*LinkRO);
 			SceneObject.SetComponentSystem(System);
