@@ -48,3 +48,9 @@ CheezePizza/logs/**
 CheezePizza/bin/*.ilk
 CheezePizza/bin/origins.exe
 CheezePizza/bin/origins.pdb
+RabbitHole/bin/**
+RabbitHole/obj/**
+RabbitHole/src/*.opensdf
+RabbitHole/src/*.suo
+RabbitHole/src/*.sdf
+RabbitHole/src/rabbitholesrc/*.user
