@@ -8,7 +8,10 @@
 class Component
 {
 public:
-	Component(class ComponentSystem& InSystem);
+	Component(class ComponentSystem& InSystem)
+		: System(InSystem)
+	{
+	}
 
 	class ComponentSystem& System;
 
