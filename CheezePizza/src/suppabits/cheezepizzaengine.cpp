@@ -105,7 +105,7 @@ void CheezePizzaEngine::Initialize(class IPlatform& Platform, char* InGameName, 
 		HGERef.System_SetState(HGE_FOCUSGAINFUNC, FocusGainedFunc);
 		HGERef.System_SetState(HGE_EXITFUNC, ExitFunc);
 
-		bIsHGEInitialized = BaseEngine.System_Initiate();
+		bIsHGEInitialized = HGERef.System_Initiate();
 	}
 }
 
