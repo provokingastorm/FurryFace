@@ -52,6 +52,7 @@ public:
 
 	bool AddEngineSubsystem(class EngineSubsystem& Subsystem);
 
+	bool HasPlatformEngine() const;
 	class HGE& GetHGE() const;
 	class IPlatform& GetPlatform() const;
 

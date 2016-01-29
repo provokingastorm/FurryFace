@@ -75,19 +75,21 @@ void CheezePizzaEngine::Initialize(class IPlatform& Platform, char* InGameName, 
 	GameName = InGameName;
 	GameShortName = ChzStrLower(InGameShortName);
 
-	if(PlatformInterface != NULL && PlatformInterface->GetHGE() != NULL && !bIsHGEInitialized)
+	if(HasPlatformEngine() && !bIsHGEInitialized)
 	{
+		HGE& HGERef = GetHGE();
+
 		// Setup the log file
 		char LogFilename[128];
 		sprintf(LogFilename, "logs/%s.log", GameShortName);
-		GetHGE().System_SetState(HGE_LOGFILE, LogFilename);
+		HGERef.System_SetState(HGE_LOGFILE, LogFilename);
 
-		GetHGE().System_SetState(HGE_SHOWSPLASH, true);
-		GetHGE().System_SetState(HGE_FPS, 60);
-		GetHGE().System_SetState(HGE_TITLE, GameName);
+		HGERef.System_SetState(HGE_SHOWSPLASH, true);
+		HGERef.System_SetState(HGE_FPS, 60);
+		HGERef.System_SetState(HGE_TITLE, GameName);
 
 		// Disable Sound otherwise game crashes without bass.dll
-		GetHGE().System_SetState(HGE_USESOUND, false);
+		HGERef.System_SetState(HGE_USESOUND, false);
 
 		ImportEngineConfig();
 
@@ -97,13 +99,13 @@ void CheezePizzaEngine::Initialize(class IPlatform& Platform, char* InGameName, 
 		ResourceManager = new hgeResourceManager(ResourceFilename);
 		ResourceManager->Precache(RG_AlwaysLoaded);
 
-		GetHGE().System_SetState(HGE_FRAMEFUNC, FrameFunc);
-		GetHGE().System_SetState(HGE_RENDERFUNC, RenderFunc);
-		GetHGE().System_SetState(HGE_FOCUSLOSTFUNC, FocusLostFunc);
-		GetHGE().System_SetState(HGE_FOCUSGAINFUNC, FocusGainedFunc);
-		GetHGE().System_SetState(HGE_EXITFUNC, ExitFunc);
+		HGERef.System_SetState(HGE_FRAMEFUNC, FrameFunc);
+		HGERef.System_SetState(HGE_RENDERFUNC, RenderFunc);
+		HGERef.System_SetState(HGE_FOCUSLOSTFUNC, FocusLostFunc);
+		HGERef.System_SetState(HGE_FOCUSGAINFUNC, FocusGainedFunc);
+		HGERef.System_SetState(HGE_EXITFUNC, ExitFunc);
 
-		bIsHGEInitialized = GetHGE().System_Initiate();
+		bIsHGEInitialized = BaseEngine.System_Initiate();
 	}
 }
 
@@ -128,7 +130,7 @@ void CheezePizzaEngine::Shutdown()
 		SAFE_DELETE(ResourceManager);
 	}
 
-	if(PlatformInterface != NULL && PlatformInterface->GetHGE() != NULL)
+	if(HasPlatformEngine())
 	{
 		// Restore video mode and free all allocated resources
 		GetHGE().System_Shutdown();
@@ -137,7 +139,7 @@ void CheezePizzaEngine::Shutdown()
 
 void CheezePizzaEngine::Startup()
 {
-	if(PlatformInterface != NULL && PlatformInterface->GetHGE() != NULL)
+	if(HasPlatformEngine())
 	{
 		if(bIsHGEInitialized)
 		{
@@ -214,20 +216,21 @@ void CheezePizzaEngine::OnFocusLost()
 
 void CheezePizzaEngine::ImportEngineConfig()
 {
-	GetHGE().System_SetState(HGE_INIFILE, "config/cheezepizzaengine.ini");
+	HGE& HGERef = GetHGE();
+	HGERef.System_SetState(HGE_INIFILE, "config/cheezepizzaengine.ini");
 
-	ScreenWidth = GetHGE().Ini_GetInt("DisplayOptions", "ScreenWidth", ScreenWidth);
-	ScreenHeight = GetHGE().Ini_GetInt("DisplayOptions", "ScreenHeight", ScreenHeight);
-	int ColorDepth = GetHGE().Ini_GetInt("DisplayOptions", "ColorDepth", 32);
-	int FullscreenMode = GetHGE().Ini_GetInt("DisplayOptions", "FullscreenMode", 0);
+	ScreenWidth = HGERef.Ini_GetInt("DisplayOptions", "ScreenWidth", ScreenWidth);
+	ScreenHeight = HGERef.Ini_GetInt("DisplayOptions", "ScreenHeight", ScreenHeight);
+	int ColorDepth = HGERef.Ini_GetInt("DisplayOptions", "ColorDepth", 32);
+	int FullscreenMode = HGERef.Ini_GetInt("DisplayOptions", "FullscreenMode", 0);
 
-	GetHGE().System_SetState(HGE_SCREENWIDTH, ScreenWidth);
-	GetHGE().System_SetState(HGE_SCREENHEIGHT, ScreenHeight);
-	GetHGE().System_SetState(HGE_SCREENBPP, ColorDepth);
+	HGERef.System_SetState(HGE_SCREENWIDTH, ScreenWidth);
+	HGERef.System_SetState(HGE_SCREENHEIGHT, ScreenHeight);
+	HGERef.System_SetState(HGE_SCREENBPP, ColorDepth);
 
 	if(!FullscreenMode)
 	{
-		GetHGE().System_SetState(HGE_WINDOWED, true);
+		HGERef.System_SetState(HGE_WINDOWED, true);
 	}
 }
 
@@ -238,6 +241,11 @@ void CheezePizzaEngine::OnFirstTick(float DeltaTime)
 	{
 		Subsystems[i]->OnFirstEngineTick();
 	}
+}
+
+bool CheezePizzaEngine::HasPlatformEngine() const
+{
+	return (PlatformInterface != NULL && PlatformInterface->GetHGE() != NULL);
 }
 
 IPlatform& CheezePizzaEngine::GetPlatform() const
@@ -252,7 +260,7 @@ HGE&  CheezePizzaEngine::GetHGE() const
 
 bool CheezePizzaEngine::IsInitialized() const
 {
-	return (PlatformInterface != NULL && PlatformInterface->GetHGE() != NULL && bIsHGEInitialized && ResourceManager != NULL);
+	return (HasPlatformEngine() && bIsHGEInitialized && ResourceManager != NULL);
 }
 
 bool CheezePizzaEngine::IsExiting() const
