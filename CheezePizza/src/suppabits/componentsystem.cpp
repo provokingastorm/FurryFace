@@ -1,6 +1,5 @@
 #include "cheezepizza.h"
 #include "componentsystem.h"
-#include "icomponent.h"
 
 // ----------------------------------------------------------------------------
 // ComponentSystem - Definition

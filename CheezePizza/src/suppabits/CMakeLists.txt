@@ -8,6 +8,7 @@ set( SUPPA_BITS_SRC
     cheezepizzacore.h
 	cheezepizzaengine.cpp
     cheezepizzaengine.h
+	component.h
 	componentdata.h
 	componentsystem.cpp
 	componentsystem.h
@@ -20,7 +21,6 @@ set( SUPPA_BITS_SRC
     gamesession.h
 	hud.cpp
     hud.h
-	icomponent.h
 	inputconfig.cpp
     inputconfig.h
 	inputsubsystem.cpp
