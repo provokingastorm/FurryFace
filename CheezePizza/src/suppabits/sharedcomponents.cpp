@@ -10,9 +10,18 @@ HealthComponent::HealthComponent(ComponentSystem& System)
 LinkComponent::LinkComponent(ComponentSystem& System)
 	: HealthComponent(System)
 {
+	System.SharedData.Int(CMPID_Health) = 0;
+	System.SharedData.Int(CMPID_HealthMax) = -1;
 }
 
-void LinkComponent::AddHealth(int HealthAdded)
+void LinkComponent::ModifyHealth(int HealthChange)
 {
-	System.SharedData.Int(CMPID_Health) += HealthAdded;
+	System.SharedData.Int(CMPID_Health) += HealthChange;
 }
+
+void LinkComponent::SetHealthMax(int NewMaxHealth)
+{
+	System.SharedData.Int(CMPID_HealthMax) = NewMaxHealth;
+}
+
+// EOF

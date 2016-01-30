@@ -8,24 +8,29 @@
 
 enum ESuppabitsSharedDataID
 {
-	CMPID_Invalid = 0,
-	CMPID_X = 1,
-	CMPID_Y = 2,
-	CMPID_Health = 3,
+	CMPID_Invalid		= 0,
+	CMPID_X				= 1,
+	CMPID_Y				= 2,
+	CMPID_Health		= 3,
+	CMPID_HealthMax		= 4,
 };
 
 class HealthComponent : public Component
 {
 public:
 	HealthComponent(class ComponentSystem& System);
-	virtual void AddHealth(int HealthAdded) = 0;
+
+	virtual int ModifyHealth(int HealthChange) = 0;
+	virtual void SetHealthMax(int NewMaxHealth) = 0;
 };
 
 class LinkComponent : public HealthComponent
 {
 public:
 	LinkComponent(class ComponentSystem& System);
-	void AddHealth(int HealthAdded);
+
+	int ModifyHealth(int HealthChange);
+	void SetHealthMax(int NewMaxHealth);
 };
 
 
