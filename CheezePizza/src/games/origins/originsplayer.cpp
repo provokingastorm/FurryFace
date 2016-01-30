@@ -84,3 +84,5 @@ void OriginsPlayer::ResetVelocity()
 	LeftVelocity = VelocityPerSec;
 	RightVelocity = VelocityPerSec;
 }
+
+// EOF

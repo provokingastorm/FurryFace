@@ -26,6 +26,8 @@ private:
 
 	float X;
 	float Y;
+	int HealthCurrent;
+	int HealthMax;
 
 	float InvalidFloat;
 	int InvalidInt;

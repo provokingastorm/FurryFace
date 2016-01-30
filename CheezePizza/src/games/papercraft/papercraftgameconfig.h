@@ -1,20 +1,20 @@
-#ifndef OriginsGameConfig_H_
-#define OriginsGameConfig_H_
+#ifndef PapercraftGameConfig_H_
+#define PapercraftGameConfig_H_
 
 #ifndef InputConfig_H_
 #include "inputconfig.h"
 #endif
 
 // ----------------------------------------------------------------------------
-// OriginsGameConfig - Declaration
+// PapercraftGameConfig - Declaration
 // ----------------------------------------------------------------------------
 
-class OriginsGameConfig : public InputConfig
+class PapercraftGameConfig : public InputConfig
 {
 public:
-	OriginsGameConfig();
-	OriginsGameConfig(class LocalPlayer& AssignedPlayer);
-	~OriginsGameConfig();
+	PapercraftGameConfig();
+	PapercraftGameConfig(class LocalPlayer& AssignedPlayer);
+	~PapercraftGameConfig();
 
 	void HandleInput(float DeltaTime);
 

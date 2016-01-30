@@ -8,3 +8,5 @@ OriginsHud::OriginsHud()
 OriginsHud::~OriginsHud()
 {
 }
+
+// EOF

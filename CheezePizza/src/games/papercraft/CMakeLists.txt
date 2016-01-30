@@ -1,9 +1,18 @@
-project( esm )
+project( papercraft )
 cmake_minimum_required( VERSION 2.8 )
 
 #------ sources ------
-set( ESM_SRC
-    esm.cpp
+set( PAPERCRAFT_SRC
+    papercraftgameconfig.cpp
+    papercraftgameconfig.h
+    papercrafthud.cpp
+    papercrafthud.h
+	papercraftplayer.cpp
+	papercraftplayer.h
+    papercraftplayerfactory.cpp
+    papercraftplayerfactory.h
+    papercraftsubsystem.cpp
+    papercraftsubsystem.h
     )
 
 #------ additional includes ------
@@ -15,15 +24,14 @@ include_directories( ${DIRECTX_SDK_DIR}/include )
 link_directories( ${HGE_SOURCE_DIR}/linklib )
 link_directories( ${DIRECTX_SDK_DIR}/lib ${DIRECTX_SDK_DIR}/lib/x64 ${DIRECTX_SDK_DIR}/lib/x86 )
 link_libraries( hge )
-link_libraries( hge )
 link_libraries( hge-static )
 link_libraries( suppabits )
 link_libraries( suppabits_win32 )
 
 
 #------ target -----
-add_executable( esm WIN32 ${ESM_SRC} )
+add_executable( papercraft WIN32 ${PAPERCRAFT_SRC} )
 
 if( MSVC )
-    SET_TARGET_PROPERTIES( esm PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libci" )
+    SET_TARGET_PROPERTIES( papercraft PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libci" )
 endif()

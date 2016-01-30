@@ -18,3 +18,5 @@ Hud* OriginsPlayerFactory::CreateHud()
 {
 	return new OriginsHud();
 }
+
+// EOF

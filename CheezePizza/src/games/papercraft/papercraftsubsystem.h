@@ -1,18 +1,18 @@
-#ifndef OriginsSubsystem_H_
-#define OriginsSubsystem_H_
+#ifndef PapercraftSubsystem_H_
+#define PapercraftSubsystem_H_
 
 #ifndef EngineSubsystem_H_
 #include "enginesubsystem.h"
 #endif
 
 // ----------------------------------------------------------------------------
-// OriginsSubsystem - Declaration
+// PapercraftSubsystem - Declaration
 // ----------------------------------------------------------------------------
 
-class OriginsSubsystem : public EngineSubsystem
+class PapercraftSubsystem : public EngineSubsystem
 {
 public:
-	DECLARE_SUBSYSTEM(OriginsSubsystem);
+	DECLARE_SUBSYSTEM(PapercraftSubsystem);
 
 	// --------------------------------------------------------
 	//	EngineSubsystem inherited methods

@@ -1,14 +1,14 @@
-#ifndef OriginsPlayerFactory_H_
-#define OriginsPlayerFactory_H_
+#ifndef PapercraftPlayerFactory_H_
+#define PapercraftPlayerFactory_H_
 
 #ifndef PlayerFactory_H_
 #include "playerfactory.h"
 #endif
 
-class OriginsPlayerFactory : public PlayerFactory
+class PapercraftPlayerFactory : public PlayerFactory
 {
 public:
-	OriginsPlayerFactory();
+	PapercraftPlayerFactory();
 
 protected:
 	class LocalPlayer* CreatePlayer();

@@ -57,3 +57,5 @@ void OriginsGameConfig::HandleInput(float DeltaTime)
 		}
 	}
 }
+
+// EOF

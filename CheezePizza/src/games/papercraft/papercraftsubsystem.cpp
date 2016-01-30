@@ -1,32 +1,22 @@
 #include "cheezepizza.h"
-#include "originssubsystem.h"
-#include "originsplayerfactory.h"
+#include "papercraftsubsystem.h"
 #include "inputsubsystem.h"
-#include "originsgameconfig.h"
-#include "originsplayer.h"
 #include "playersubsystem.h"
-#include "sharedrenderables.h"
-#include "cheezepizzaengine.h"
 #include "world2d.h"
-#include "scene2dobject.h"
-#include "componentsystem.h"
-#include "originscomponents.h"
-#include "originscomponentdata.h"
-#include "sharedcomponents.h"
-#include "hgeresource.h"
+#include "cheezepizzaengine.h"
 #include "iplatform.h"
 
 // ----------------------------------------------------------------------------
 // Global function for the Cheeze Pizza Engine
 // ----------------------------------------------------------------------------
 
-IMPLEMENT_GAME_SUBSYSTEM_CREATOR(OriginsSubsystem);
+IMPLEMENT_GAME_SUBSYSTEM_CREATOR(PapercraftSubsystem);
 
 // ----------------------------------------------------------------------------
-// OriginsPlayerCreated - Definition
+// PapercraftPlayerCreated - Definition
 // ----------------------------------------------------------------------------
 
-struct OriginsPlayerCreated : public DelegatePlayer
+struct PapercraftPlayerCreated : public DelegatePlayer
 {
 	void Invoke(class LocalPlayer& Player, ELocalPlayerIndex PlayerIndex)
 	{
@@ -60,14 +50,14 @@ struct OriginsPlayerCreated : public DelegatePlayer
 };
 
 // ----------------------------------------------------------------------------
-// OriginsSubsystem - Definition
+// PapercraftSubsystem - Definition
 // ----------------------------------------------------------------------------
 
-void OriginsSubsystem::InitializeGameEngine(IPlatform& Platform)
+void PapercraftSubsystem::InitializeGameEngine(class IPlatform& Platform)
 {
 	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
 
-	CE.Initialize(Platform, "Origins of Zelda", "Origins");
+	CE.Initialize(Platform, "Papercraft", "Papercraft");
 
 	CE.AddEngineSubsystem(InputSubsystem::Instance());
 	CE.AddEngineSubsystem(PlayerSubsystem::Instance());
@@ -75,32 +65,17 @@ void OriginsSubsystem::InitializeGameEngine(IPlatform& Platform)
 	CE.AddEngineSubsystem(*this);
 }
 
-void OriginsSubsystem::InitializeInternal()
+void PapercraftSubsystem::InitializeInternal()
 {
-	// Provide the engine with a factory that will create Origins-specific players
-	OriginsPlayerFactory& Factory = *(new OriginsPlayerFactory());
+	// Provide the engine with a factory that will create Papercraft-specific players
+	PapercraftPlayerFactory& Factory = *(new PapercraftPlayerFactory());
 	PlayerSubsystem::Instance().SetPlayerFactory(Factory);
 
-	OriginsPlayerCreated& CreationDelegate = *(new OriginsPlayerCreated());
+	PapercraftPlayerCreated& CreationDelegate = *(new PapercraftPlayerCreated());
 	PlayerSubsystem::Instance().AddPlayerCreatedDelegate(CreationDelegate);
-
-	Scene2D& PrototypeScene = *(new Scene2D());
-
-	hgeSprite* BGSprite = CheezePizzaEngine::Instance().ResourceManager->GetSprite("sprPrototypeBG");
-	if(BGSprite != NULL)
-	{
-		FullscreenBackground* FullscreenRO = new FullscreenBackground();
-		FullscreenRO->SetContent(*BGSprite);
-
-		Scene2DObject& SceneObect = *(new Scene2DObject());
-		SceneObect.SetRenderObject(*FullscreenRO);
-		PrototypeScene.Add(SceneObect, SOL_Background);
-	}
-
-	World2D::Instance().AddScene(PrototypeScene, true);
 }
 
-void OriginsSubsystem::ShutdownInternal()
+void PapercraftSubsystem::ShutdownInternal()
 {
 }
 

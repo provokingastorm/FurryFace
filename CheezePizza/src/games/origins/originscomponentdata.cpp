@@ -19,10 +19,9 @@ bool OriginsLinkComponentData::SupportsData(int DataID)
 	switch(DataID)
 	{
 	case CMPID_X:
-		bSupports = true;
-		break;
-
 	case CMPID_Y:
+	case CMPID_Health:
+	case CMPID_HealthMax:
 		bSupports = true;
 		break;
 
@@ -49,14 +48,41 @@ const bool& OriginsLinkComponentData::Bool(int DataID) const
 
 int& OriginsLinkComponentData::Int(int DataID)
 {
-	CPForceAssert("Invalid component data ID provided");
-	InvalidInt = 0;
+	switch(DataID)
+	{
+	case CMPID_Health:
+		return HealthCurrent;
+		break;
+
+	case CMPID_HealthMax:
+		return HealthMax;
+		break;
+
+	default:
+		CPForceAssert("Invalid component data ID provided");
+		break;
+	}
+
 	return InvalidInt;
 }
 
 const int& OriginsLinkComponentData::Int(int DataID) const
 {
-	CPForceAssert("Invalid component data ID provided");
+	switch(DataID)
+	{
+	case CMPID_Health:
+		return HealthCurrent;
+		break;
+
+	case CMPID_HealthMax:
+		return HealthMax;
+		break;
+
+	default:
+		CPForceAssert("Invalid component data ID provided");
+		break;
+	}
+
 	return InvalidInt;
 }
 
@@ -77,7 +103,6 @@ float& OriginsLinkComponentData::Float(int DataID)
 		break;
 	}
 
-	InvalidFloat = 0.0f;
 	return InvalidFloat;
 }
 
