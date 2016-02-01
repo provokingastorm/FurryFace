@@ -24,14 +24,7 @@ public:
 	virtual void SetHealthMax(int NewMaxHealth) = 0;
 };
 
-class LinkComponent : public HealthComponent
-{
-public:
-	LinkComponent(class ComponentSystem& System);
-
-	int ModifyHealth(int HealthChange);
-	void SetHealthMax(int NewMaxHealth);
-};
-
 
 #endif
+
+// EOF

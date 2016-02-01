@@ -107,3 +107,5 @@ void FullscreenBackground::OnStop()
 void FullscreenBackground::OnPause()
 {
 }
+
+// EOF

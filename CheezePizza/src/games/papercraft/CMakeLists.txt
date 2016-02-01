@@ -3,12 +3,16 @@ cmake_minimum_required( VERSION 2.8 )
 
 #------ sources ------
 set( PAPERCRAFT_SRC
+    papercraftcomponentdata.cpp
+    papercraftcomponentdata.h
+    papercraftcomponents.cpp
+    papercraftcomponents.h
     papercraftgameconfig.cpp
     papercraftgameconfig.h
     papercrafthud.cpp
     papercrafthud.h
-	papercraftplayer.cpp
-	papercraftplayer.h
+    papercraftplayer.cpp
+    papercraftplayer.h
     papercraftplayerfactory.cpp
     papercraftplayerfactory.h
     papercraftsubsystem.cpp

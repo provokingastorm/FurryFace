@@ -14,8 +14,8 @@ Texture prototypeBackground
 Sprite sprPrototypeBG
 {
  texture=prototypeBackground
- rect=0,0,640,480
- hotspot=320, 240
+ rect=0,0,72,72
+ hotspot=36,36
  blendmode=COLORMUL,BLEND_ALPHABLEND,NOZWRITE
  resgroup=1
 }
@@ -29,8 +29,8 @@ Texture idleShip
 Sprite sprIdleShip
 {
  texture=idleShip
- rect=0,0,,
- hotspot=,
+ rect=0,0,72,72
+ hotspot=36,36
  blendmode=COLORMUL,BLEND_ALPHABLEND,NOZWRITE
  resgroup=1
 }

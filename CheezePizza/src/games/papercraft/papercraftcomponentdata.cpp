@@ -1,9 +1,8 @@
 #include "cheezepizza.h"
-#include "originscomponentdata.h"
+#include "papercraftcomponentdata.h"
 #include "sharedcomponents.h"
 
-
-OriginsLinkComponentData::OriginsLinkComponentData()
+PapercraftShipComponentData::PapercraftShipComponentData()
 	: X(0.0f)
 	, Y(0.0f)
 	, InvalidFloat(0.0f)
@@ -12,7 +11,7 @@ OriginsLinkComponentData::OriginsLinkComponentData()
 {
 }
 
-bool OriginsLinkComponentData::SupportsData(int DataID)
+bool PapercraftShipComponentData::SupportsData(int DataID)
 {
 	bool bSupports = false;
 
@@ -20,8 +19,6 @@ bool OriginsLinkComponentData::SupportsData(int DataID)
 	{
 	case CMPID_X:
 	case CMPID_Y:
-	case CMPID_Health:
-	case CMPID_HealthMax:
 		bSupports = true;
 		break;
 
@@ -33,60 +30,32 @@ bool OriginsLinkComponentData::SupportsData(int DataID)
 	return bSupports;
 }
 
-bool& OriginsLinkComponentData::Bool(int DataID)
+bool& PapercraftShipComponentData::Bool(int DataID)
 {
 	CPForceAssert("Invalid component data ID provided");
 	InvalidBool = false;
 	return InvalidBool;
 }
 
-const bool& OriginsLinkComponentData::Bool(int DataID) const
+const bool& PapercraftShipComponentData::Bool(int DataID) const
 {
 	CPForceAssert("Invalid component data ID provided");
 	return InvalidBool;
 }
 
-int& OriginsLinkComponentData::Int(int DataID)
+int& PapercraftShipComponentData::Int(int DataID)
 {
-	switch(DataID)
-	{
-	case CMPID_Health:
-		return HealthCurrent;
-		break;
-
-	case CMPID_HealthMax:
-		return HealthMax;
-		break;
-
-	default:
-		CPForceAssert("Invalid component data ID provided");
-		break;
-	}
-
+	CPForceAssert("Invalid component data ID provided");
 	return InvalidInt;
 }
 
-const int& OriginsLinkComponentData::Int(int DataID) const
+const int& PapercraftShipComponentData::Int(int DataID) const
 {
-	switch(DataID)
-	{
-	case CMPID_Health:
-		return HealthCurrent;
-		break;
-
-	case CMPID_HealthMax:
-		return HealthMax;
-		break;
-
-	default:
-		CPForceAssert("Invalid component data ID provided");
-		break;
-	}
-
+	CPForceAssert("Invalid component data ID provided");
 	return InvalidInt;
 }
 
-float& OriginsLinkComponentData::Float(int DataID)
+float& PapercraftShipComponentData::Float(int DataID)
 {
 	switch(DataID)
 	{
@@ -106,7 +75,7 @@ float& OriginsLinkComponentData::Float(int DataID)
 	return InvalidFloat;
 }
 
-const float& OriginsLinkComponentData::Float(int DataID) const
+const float& PapercraftShipComponentData::Float(int DataID) const
 {
 	switch(DataID)
 	{

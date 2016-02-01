@@ -1,10 +1,28 @@
 #include "cheezepizza.h"
+
+// Papercraft
+#include "papercraftcomponentdata.h"
 #include "papercraftsubsystem.h"
+#include "papercraftplayerfactory.h"
+#include "papercraftplayer.h"
+#include "papercraftgameconfig.h"
+
+// Shared implementations
+#include "sharedrenderables.h"
+#include "sharedcomponents.h"
+
+// Subsystems
 #include "inputsubsystem.h"
 #include "playersubsystem.h"
 #include "world2d.h"
+#include "inputsubsystem.h"
+#include "componentsystem.h"
+
+// Base engine
+#include "scene2dobject.h"
 #include "cheezepizzaengine.h"
 #include "iplatform.h"
+#include "hgeresource.h"
 
 // ----------------------------------------------------------------------------
 // Global function for the Cheeze Pizza Engine
@@ -21,31 +39,29 @@ struct PapercraftPlayerCreated : public DelegatePlayer
 	void Invoke(class LocalPlayer& Player, ELocalPlayerIndex PlayerIndex)
 	{
 		CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
-		OriginsPlayer& OriginsLocalPlayer = static_cast<OriginsPlayer&>(Player);
-		OriginsGameConfig& OriginsInput = *(new OriginsGameConfig(OriginsLocalPlayer));
+		PapercraftPlayer& PapercraftLocalPlayer = static_cast<PapercraftPlayer&>(Player);
+		PapercraftGameConfig& PapercraftInput = *(new PapercraftGameConfig(PapercraftLocalPlayer));
 
-		hgeAnimation* Link = CE.ResourceManager->GetAnimation("sprLink");
-		if(Link != NULL)
+		hgeAnimation* Ship = CE.ResourceManager->GetAnimation("sprIdleShip");
+		if(Ship != NULL)
 		{
-			AnimatedCharacter* LinkRO = new AnimatedCharacter();
-			LinkRO->AddAnimation(*Link);
+			AnimatedCharacter* ShipRO = new AnimatedCharacter();
+			ShipRO->AddAnimation(*Ship);
 
-			OriginsLinkComponentData& LinkData = *(new OriginsLinkComponentData());
-			LinkData.Float(CMPID_X) = 100.0f;
-			LinkData.Float(CMPID_Y) = 100.0f;
+			PapercraftShipComponentData& ShipData = *(new PapercraftShipComponentData());
+			ShipData.Float(CMPID_X) = 100.0f;
+			ShipData.Float(CMPID_Y) = 100.0f;
 
-			ComponentSystem& System = *(new ComponentSystem(LinkData));
-
-			LinkComponent& LinkComp = *(new LinkComponent(System));
+			ComponentSystem& System = *(new ComponentSystem(ShipData));
 
 			Scene2DObject& SceneObject = *(new Scene2DObject());
-			SceneObject.SetRenderObject(*LinkRO);
+			SceneObject.SetRenderObject(*ShipRO);
 			SceneObject.SetComponentSystem(System);
-			OriginsLocalPlayer.AssociateSceneObject(SceneObject);
+			PapercraftLocalPlayer.AssociateSceneObject(SceneObject);
 			World2D::Instance().AddPersistentObject(SceneObject, SOL_Foreground);
 		}
 
-		InputSubsystem::Instance().PushConfig(OriginsInput);
+		InputSubsystem::Instance().PushConfig(PapercraftInput);
 	}
 };
 

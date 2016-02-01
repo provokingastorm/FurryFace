@@ -69,6 +69,7 @@ add_subdirectory( src/suppabits_win32 )
 #--- Games ---
 add_subdirectory( src/games/esm )
 add_subdirectory( src/games/origins )
+add_subdirectory( src/games/papercraft )
 add_subdirectory( src/games/tetrisgame )
 
 
@@ -76,7 +77,7 @@ add_subdirectory( src/games/tetrisgame )
 
 
 #--- Unit Test++ ---
-add_subdirectory( test/unittestpp )
+#add_subdirectory( test/unittestpp )
 
 #--- Unit Tests ---
 #add_subdirectory( test/tetristests )

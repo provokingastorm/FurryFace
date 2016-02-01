@@ -19,6 +19,8 @@ protected:
 	void OnCreatedInternal();
 
 private:
+
+	class Scene2DObject* SceneObject;
 };
 
 
