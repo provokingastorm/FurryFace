@@ -61,50 +61,50 @@ void AnimatedCharacter::OnPause()
 
 
 
-FullscreenBackground::FullscreenBackground()
-	: Background(NULL)
+StaticImage::StaticImage()
+	: Image(NULL)
 	, HotSpot(0.0f, 0.0f)
 {
 }
 
-FullscreenBackground::~FullscreenBackground()
+StaticImage::~StaticImage()
 {
-	Background = NULL;
+	Image = NULL;
 }
 
-void FullscreenBackground::SetContent(hgeSprite& InBackground)
+void StaticImage::SetContent(hgeSprite& InBackground)
 {
-	Background = &InBackground;
-	Background->GetHotSpot(&HotSpot.X, &HotSpot.Y);
+	Image = &InBackground;
+	Image->GetHotSpot(&HotSpot.X, &HotSpot.Y);
 }
 
-void FullscreenBackground::Tick(float DeltaTime)
+void StaticImage::Tick(float DeltaTime)
 {
 }
 
-void FullscreenBackground::Render(HGE& Engine)
+void StaticImage::Render(HGE& Engine)
 {
-	if(Background != NULL)
+	if(Image != NULL)
 	{
-		Background->Render(HotSpot.X, HotSpot.Y);
+		Image->Render(HotSpot.X, HotSpot.Y);
 	}
 }
 
-void FullscreenBackground::SetHotSpot(float X, float Y)
+void StaticImage::SetHotSpot(float X, float Y)
 {
 	HotSpot.X = X;
 	HotSpot.Y = Y;
 }
 
-void FullscreenBackground::OnStart()
+void StaticImage::OnStart()
 {
 }
 
-void FullscreenBackground::OnStop()
+void StaticImage::OnStop()
 {
 }
 
-void FullscreenBackground::OnPause()
+void StaticImage::OnPause()
 {
 }
 

@@ -29,11 +29,11 @@ private:
 	Vector2D HotSpot;
 };
 
-class FullscreenBackground : public IRenderable
+class StaticImage : public IRenderable
 {
 public:
-	FullscreenBackground();
-	~FullscreenBackground();
+	StaticImage();
+	~StaticImage();
 
 	void SetContent(class hgeSprite& InBackground);
 
@@ -45,7 +45,7 @@ public:
 	void OnPause();
 
 private:
-	class hgeSprite* Background;
+	class hgeSprite* Image;
 	Vector2D HotSpot;
 };
 

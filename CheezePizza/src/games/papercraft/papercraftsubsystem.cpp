@@ -42,11 +42,11 @@ struct PapercraftPlayerCreated : public DelegatePlayer
 		PapercraftPlayer& PapercraftLocalPlayer = static_cast<PapercraftPlayer&>(Player);
 		PapercraftGameConfig& PapercraftInput = *(new PapercraftGameConfig(PapercraftLocalPlayer));
 
-		hgeAnimation* Ship = CE.ResourceManager->GetAnimation("sprIdleShip");
+		hgeSprite* Ship = CE.ResourceManager->GetSprite("sprIdleShip");
 		if(Ship != NULL)
 		{
-			AnimatedCharacter* ShipRO = new AnimatedCharacter();
-			ShipRO->AddAnimation(*Ship);
+			StaticImage* ShipRO = new StaticImage();
+			ShipRO->SetContent(*Ship);
 
 			PapercraftShipComponentData& ShipData = *(new PapercraftShipComponentData());
 			ShipData.Float(CMPID_X) = 100.0f;

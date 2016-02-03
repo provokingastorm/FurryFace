@@ -7,7 +7,7 @@ Font CourierNew
 
 Texture prototypeBackground
 {
- filename=origins\res\graphics\prototypeBackground.png
+ filename=papercraft\res\graphics\prototypeBackground.png
  resgroup=1
 }
 
@@ -22,7 +22,7 @@ Sprite sprPrototypeBG
 
 Texture idleShip
 {
- filename=origins\res\graphics\Idle.png
+ filename=papercraft\res\graphics\Idle.png
  resgroup=1
 }
 
