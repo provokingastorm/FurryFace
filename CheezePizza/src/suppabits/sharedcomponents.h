@@ -13,6 +13,7 @@ enum ESuppabitsSharedDataID
 	CMPID_Y				= 2,
 	CMPID_Health		= 3,
 	CMPID_HealthMax		= 4,
+	CMPID_Max			= 5,
 };
 
 class HealthComponent : public Component

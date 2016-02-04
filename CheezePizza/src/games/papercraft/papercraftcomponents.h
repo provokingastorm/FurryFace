@@ -5,6 +5,18 @@
 #include "component.h"
 #endif
 
+#ifndef SharedComponents_H_
+#include "sharedcomponents.h"
+#endif
+
+
+enum EPapercraftDataID
+{
+	PDID_Invalid	= 0,
+	PDID_Shield		= CMPID_Max,
+	PDID_Max
+};
+
 
 class PapercraftPlayerComponent : public Component
 {
