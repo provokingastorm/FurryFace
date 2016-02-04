@@ -5,6 +5,9 @@
 #include "component.h"
 #endif
 
+// ----------------------------------------------------------------------------
+// SharedComponents - Enums
+// ----------------------------------------------------------------------------
 
 enum ESuppabitsSharedDataID
 {
@@ -15,6 +18,10 @@ enum ESuppabitsSharedDataID
 	CMPID_HealthMax		= 4,
 	CMPID_Max			= 5,
 };
+
+// ----------------------------------------------------------------------------
+// HealthComponent - Declaration
+// ----------------------------------------------------------------------------
 
 class HealthComponent : public Component
 {

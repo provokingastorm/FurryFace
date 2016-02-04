@@ -14,6 +14,13 @@ public:
 	void AssociateSceneObject(class Scene2DObject& PlayerObject);
 	void DisassociateSceneObject();
 
+	void MoveUp(float DeltaTime);
+	void MoveDown(float DeltaTime);
+	void MoveLeft(float DeltaTime);
+	void MoveRight(float DeltaTime);
+
+	void ResetVelocity();
+
 protected:
 
 	void OnCreatedInternal();
@@ -21,6 +28,14 @@ protected:
 private:
 
 	class Scene2DObject* SceneObject;
+
+	float UpVelocity;
+	float DownVelocity;
+	float RightVelocity;
+	float LeftVelocity;
+
+	static const float VelocityPerSec;
+	static const float MaxVelocity;
 };
 
 

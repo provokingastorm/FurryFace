@@ -5,6 +5,7 @@
 PapercraftShipComponentData::PapercraftShipComponentData()
 	: X(0.0f)
 	, Y(0.0f)
+	, Impulse(0.0f)
 	, InvalidFloat(0.0f)
 	, InvalidInt(0)
 	, InvalidBool(false)
@@ -19,6 +20,7 @@ bool PapercraftShipComponentData::SupportsData(int DataID)
 	{
 	case CMPID_X:
 	case CMPID_Y:
+	case PDID_Impulse:
 		bSupports = true;
 		break;
 
@@ -67,6 +69,10 @@ float& PapercraftShipComponentData::Float(int DataID)
 		return Y;
 		break;
 
+	case PDID_Impulse:
+		return Impulse;
+		break;
+
 	default:
 		CPForceAssert("Invalid component data ID provided");
 		break;
@@ -85,6 +91,10 @@ const float& PapercraftShipComponentData::Float(int DataID) const
 
 	case CMPID_Y:
 		return Y;
+		break;
+
+	case PDID_Impulse:
+		return Impulse;
 		break;
 
 	default:
