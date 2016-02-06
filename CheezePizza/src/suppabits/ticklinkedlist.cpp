@@ -132,7 +132,7 @@ void TickLinkedList::Tick(float DeltaTime)
 		if(Last != NULL)
 		{
 			Tickable* Current = First;
-			while(Current != NULL && Current != Last)
+			while(Current != NULL)
 			{
 				Current->Tick(DeltaTime);
 				Current = Current->ListNext;

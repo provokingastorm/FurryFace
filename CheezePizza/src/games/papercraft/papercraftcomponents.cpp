@@ -130,7 +130,7 @@ BasicAttackComponent::BasicAttackComponent(ComponentData& InData)
 		Scene2DObject& SceneObjRef = *(new Scene2DObject());
 		SceneObjRef.SetRenderObject(*BulletRO);
 		SceneObjRef.SetComponentData(InData);
-		World2D::Instance().AddPersistentObject(SceneObjRef, SOL_Foreground);
+		World2D::Instance().AddPersistentObject(SceneObjRef, SOL_Layer2);
 	}
 }
 

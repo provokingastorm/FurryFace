@@ -94,11 +94,6 @@ void StaticImage::SetHotSpot(float X, float Y)
 {
 	HotSpot.X = X;
 	HotSpot.Y = Y;
-
-	if(Image != NULL)
-	{
-		Image->SetHotSpot(X, Y);
-	}
 }
 
 void StaticImage::OnStart()
