@@ -35,8 +35,6 @@ public:
 	virtual void Stop();
 	virtual void Pause();
 
-	class ComponentData& GetData() const;
-
 private:
 
 	class IRenderable* RenderObject;
@@ -54,3 +52,5 @@ inline class IRenderable* Scene2DObject::GetRenderObject() const
 }
 
 #endif
+
+// EOF

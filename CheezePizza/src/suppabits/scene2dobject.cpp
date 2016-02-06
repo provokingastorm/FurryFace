@@ -76,7 +76,4 @@ void Scene2DObject::Pause()
 	}
 }
 
-ComponentData& Scene2DObject::GetData() const
-{
-	return *OwnerData;
-}
+// EOF

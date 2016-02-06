@@ -11,9 +11,6 @@ public:
 	PapercraftPlayer();
 	~PapercraftPlayer();
 
-	void AssociateSceneObject(class Scene2DObject& PlayerObject);
-	void DisassociateSceneObject();
-
 	void MoveUp(float DeltaTime);
 	void MoveDown(float DeltaTime);
 	void MoveLeft(float DeltaTime);

@@ -1,19 +1,34 @@
 #include "cheezepizza.h"
+
+// Papercraft
 #include "papercraftplayer.h"
 #include "papercraftcomponents.h"
 #include "papercraftcomponentdata.h"
-#include "scene2dobject.h"
+
+// Suppa bits
+#include "world2d.h"
 #include "sharedrenderables.h"
 #include "scene2dobject.h"
 #include "componentdata.h"
+
+// Base engine
 #include "cheezepizzaengine.h"
-#include "world2d.h"
 #include "hgeresource.h"
+
+
+
+// ----------------------------------------------------------------------------
+// PapercraftPlayer - Static variables
+// ----------------------------------------------------------------------------
 
 const float PapercraftPlayer::VelocityPerSec = 135.0;
 const float PapercraftPlayer::MaxVelocity = 100.0f;
 
 const float DefaultVelocity = 135.0f;
+
+// ----------------------------------------------------------------------------
+// PapercraftPlayer - Definition
+// ----------------------------------------------------------------------------
 
 PapercraftPlayer::PapercraftPlayer()
 	: UpVelocity(VelocityPerSec)
@@ -21,31 +36,6 @@ PapercraftPlayer::PapercraftPlayer()
 	, RightVelocity(VelocityPerSec)
 	, LeftVelocity(VelocityPerSec)
 {
-	// Setup the shared variables used by the components
-	SharedData = new PapercraftShipComponentData();
-	PapercraftShipComponentData& ShipData = *SharedData;
-	ShipData.Float(CMPID_X) = 100.0f;
-	ShipData.Float(CMPID_Y) = 100.0f;
-
-	// Create all the player's components
-	BasicShotComp = new BasicAttackComponent(ShipData);
-	Crazy88ShotComp = new Crazy88AttackComponent(ShipData);
-	BombComp = new BombAttackComponent(ShipData);
-	BeamComp = new BeamAttackComponent(ShipData);
-
-	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
-	hgeSprite* Ship = CE.ResourceManager->GetSprite("sprIdleShip");
-	if(Ship != NULL)
-	{
-		StaticImage* ShipRO = new StaticImage();
-		ShipRO->SetContent(*Ship);
-
-		SceneObject = new Scene2DObject();
-		Scene2DObject& SceneObjRef = *SceneObject;
-		SceneObjRef.SetRenderObject(*ShipRO);
-		SceneObjRef.SetComponentData(ShipData);
-		World2D::Instance().AddPersistentObject(SceneObjRef, SOL_Foreground);
-	}
 }
 
 PapercraftPlayer::~PapercraftPlayer()
@@ -83,25 +73,38 @@ PapercraftPlayer::~PapercraftPlayer()
 	}
 }
 
-void PapercraftPlayer::AssociateSceneObject(Scene2DObject& PlayerObject)
-{
-	SceneObject = &PlayerObject;
-}
-
-void PapercraftPlayer::DisassociateSceneObject()
-{
-	SceneObject = NULL;
-}
-
 void PapercraftPlayer::OnCreatedInternal()
 {
+	// Setup the shared variables used by the components
+	SharedData = new PapercraftShipComponentData();
+	SharedData->Float(CMPID_X) = 100.0f;
+	SharedData->Float(CMPID_Y) = 100.0f;
+
+	// Create all the player's components
+	BasicShotComp = new BasicAttackComponent(*SharedData);
+	Crazy88ShotComp = new Crazy88AttackComponent(*SharedData);
+	BombComp = new BombAttackComponent(*SharedData);
+	BeamComp = new BeamAttackComponent(*SharedData);
+
+	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
+	hgeSprite* Ship = CE.ResourceManager->GetSprite("sprIdleShip");
+	if(Ship != NULL)
+	{
+		StaticImage* ShipRO = new StaticImage();
+		ShipRO->SetContent(*Ship);
+
+		SceneObject = new Scene2DObject();
+		SceneObject->SetRenderObject(*ShipRO);
+		SceneObject->SetComponentData(*SharedData);
+		World2D::Instance().AddPersistentObject(*SceneObject, SOL_Foreground);
+	}
 }
 
 void PapercraftPlayer::MoveUp(float DeltaTime)
 {
 	if(SceneObject != NULL)
 	{
-		float& Y = SceneObject->GetData().Float(CMPID_Y);
+		float& Y = SharedData->Float(CMPID_Y);
 		const float MoveDelta = (UpVelocity * DeltaTime);
 		Y = Y - MoveDelta;
 	}
@@ -111,7 +114,7 @@ void PapercraftPlayer::MoveDown(float DeltaTime)
 {
 	if(SceneObject != NULL)
 	{
-		float& Y = SceneObject->GetData().Float(CMPID_Y);
+		float& Y = SharedData->Float(CMPID_Y);
 		const float MoveDelta = (DownVelocity * DeltaTime);
 		Y = Y + MoveDelta;
 	}
@@ -121,7 +124,7 @@ void PapercraftPlayer::MoveLeft(float DeltaTime)
 {
 	if(SceneObject != NULL)
 	{
-		float& X = SceneObject->GetData().Float(CMPID_X);
+		float& X = SharedData->Float(CMPID_X);
 		const float MoveDelta = (LeftVelocity * DeltaTime);
 		X = X - MoveDelta;
 	}
@@ -131,7 +134,7 @@ void PapercraftPlayer::MoveRight(float DeltaTime)
 {
 	if(SceneObject != NULL)
 	{
-		float& X = SceneObject->GetData().Float(CMPID_X);
+		float& X = SharedData->Float(CMPID_X);
 		const float MoveDelta = (RightVelocity * DeltaTime);
 		X = X + MoveDelta;
 	}
@@ -147,7 +150,10 @@ void PapercraftPlayer::ResetVelocity()
 
 void PapercraftPlayer::FirePrimaryWeapon(float DeltaTime)
 {
-
+	if(BasicShotComp != NULL)
+	{
+		BasicShotComp->Fire(DeltaTime);
+	}
 }
 
 // EOF

@@ -79,6 +79,9 @@ public:
 	void Fire(float DeltaTime);
 
 private:
+
+	class hgeAnimation* BulletAnim;
+
 	BasicAttackComponent();
 };
 

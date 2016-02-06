@@ -260,3 +260,5 @@ void World2D::AddLayerToRenderQueue(ESceneObjectLayer DrawLayer)
 		}
 	}
 }
+
+// EOF

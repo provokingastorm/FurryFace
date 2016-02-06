@@ -43,7 +43,7 @@ Texture bullet
 
 Animation animBullet
 {
- texture=link
+ texture=bullet
  rect=0,0,100,20
  hotspot=10,10
  blendmode=COLORMUL,BLEND_ALPHABLEND,NOZWRITE

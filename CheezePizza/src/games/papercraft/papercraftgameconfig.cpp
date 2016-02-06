@@ -34,15 +34,18 @@ void PapercraftGameConfig::HandleInput(float DeltaTime)
 		{
 			PapercraftLocalPlayer.MoveUp(DeltaTime);
 		}
-		else if(HGEEngine.Input_GetKeyState(HGEK_S))
+
+		if(HGEEngine.Input_GetKeyState(HGEK_S))
 		{
 			PapercraftLocalPlayer.MoveDown(DeltaTime);
 		}
-		else if(HGEEngine.Input_GetKeyState(HGEK_A))
+
+		if(HGEEngine.Input_GetKeyState(HGEK_A))
 		{
 			PapercraftLocalPlayer.MoveLeft(DeltaTime);
 		}
-		else if(HGEEngine.Input_GetKeyState(HGEK_D))
+
+		if(HGEEngine.Input_GetKeyState(HGEK_D))
 		{
 			PapercraftLocalPlayer.MoveRight(DeltaTime);
 		}
@@ -55,5 +58,12 @@ void PapercraftGameConfig::HandleInput(float DeltaTime)
 		{
 			PapercraftLocalPlayer.ResetVelocity();
 		}
+
+		if(HGEEngine.Input_GetKeyState(HGEK_SPACE))
+		{
+			PapercraftLocalPlayer.FirePrimaryWeapon(DeltaTime);
+		}
 	}
 }
+
+// EOF
