@@ -1,8 +1,8 @@
 #ifndef PapercraftComponents_H_
 #define PapercraftComponents_H_
 
-#ifndef Component_H_
-#include "component.h"
+#ifndef SharedComponents_H_
+#include "sharedcomponents.h"
 #endif
 
 
@@ -14,7 +14,7 @@
 class PapercraftPlayerComponent : public Component
 {
 public:
-	PapercraftPlayerComponent(class ComponentSystem& System);
+	PapercraftPlayerComponent(class ComponentData& InData);
 
 private:
 	PapercraftPlayerComponent();
@@ -28,7 +28,7 @@ private:
 class TacTriangleComponent : public Component
 {
 public:
-	TacTriangleComponent(class ComponentSystem& System);
+	TacTriangleComponent(class ComponentData& InData);
 
 private:
 	TacTriangleComponent();
@@ -40,27 +40,91 @@ private:
 
 // Note:	This class factors in the health and shield elements of the player (i.e. a damage handler)
 //			Uses the shield shared variables from the data component.
-class PlayerHealthComponent : public Component
+class PlayerHealthComponent : public HealthComponent
 {
 public:
-	PlayerHealthComponent(class ComponentSystem& System);
+	PlayerHealthComponent(class ComponentData& InData);
 
 private:
 	PlayerHealthComponent();
 };
 
 // ----------------------------------------------------------------------------
-// PlayerAttackComponent - Declaration
+// AttackComponent - Declaration
 // ----------------------------------------------------------------------------
 
-// Notes:	This class handles all weapons for the player. Uses missle capacity, turrets etc from the data component
-class PlayerAttackComponent : public Component
+class AttackComponent : public Component
 {
 public:
-	PlayerAttackComponent(class ComponentSystem& System);
+	AttackComponent(class ComponentData& InData)
+		: Component(InData)
+	{
+	}
+
+	virtual void Fire(float DeltaTime) = 0;
 
 private:
-	PlayerAttackComponent();
+	AttackComponent();
+};
+
+// ----------------------------------------------------------------------------
+// PlayerBasicAttackComponent - Declaration
+// ----------------------------------------------------------------------------
+
+class BasicAttackComponent : public AttackComponent
+{
+public:
+	BasicAttackComponent(class ComponentData& InData);
+
+	void Fire(float DeltaTime);
+
+private:
+	BasicAttackComponent();
+};
+
+// ----------------------------------------------------------------------------
+// Crazy88AttackComponent - Declaration
+// ----------------------------------------------------------------------------
+
+class Crazy88AttackComponent : public AttackComponent
+{
+public:
+	Crazy88AttackComponent(class ComponentData& InData);
+
+	void Fire(float DeltaTime);
+
+private:
+	Crazy88AttackComponent();
+};
+
+// ----------------------------------------------------------------------------
+// BombAttackComponent - Declaration
+// ----------------------------------------------------------------------------
+
+class BombAttackComponent : public AttackComponent
+{
+public:
+	BombAttackComponent(class ComponentData& InData);
+
+	void Fire(float DeltaTime);
+
+private:
+	BombAttackComponent();
+};
+
+// ----------------------------------------------------------------------------
+// Crazy88AttackComponent - Declaration
+// ----------------------------------------------------------------------------
+
+class BeamAttackComponent : public AttackComponent
+{
+public:
+	BeamAttackComponent(class ComponentData& InData);
+
+	void Fire(float DeltaTime);
+
+private:
+	BeamAttackComponent();
 };
 
 

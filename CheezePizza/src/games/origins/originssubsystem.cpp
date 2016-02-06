@@ -9,7 +9,6 @@
 #include "cheezepizzaengine.h"
 #include "world2d.h"
 #include "scene2dobject.h"
-#include "componentsystem.h"
 #include "originscomponents.h"
 #include "originscomponentdata.h"
 #include "sharedcomponents.h"

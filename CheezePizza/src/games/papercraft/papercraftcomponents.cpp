@@ -1,13 +1,12 @@
 #include "cheezepizza.h"
 #include "papercraftcomponents.h"
-#include "componentsystem.h"
 
 // ----------------------------------------------------------------------------
 // PapercraftShipComponentData - Definition
 // ----------------------------------------------------------------------------
 
-PapercraftPlayerComponent::PapercraftPlayerComponent(ComponentSystem& System)
-	: Component(System)
+PapercraftPlayerComponent::PapercraftPlayerComponent(ComponentData& InData)
+	: Component(InData)
 {
 }
 
@@ -15,8 +14,8 @@ PapercraftPlayerComponent::PapercraftPlayerComponent(ComponentSystem& System)
 // TacTriangleComponent - Definition
 // ----------------------------------------------------------------------------
 
-TacTriangleComponent::TacTriangleComponent(ComponentSystem& System)
-	: Component(System)
+TacTriangleComponent::TacTriangleComponent(ComponentData& InData)
+	: Component(InData)
 {
 }
 
@@ -24,18 +23,65 @@ TacTriangleComponent::TacTriangleComponent(ComponentSystem& System)
 // PlayerHealthComponent - Definition
 // ----------------------------------------------------------------------------
 
-PlayerHealthComponent::PlayerHealthComponent(ComponentSystem& System)
-	: Component(System)
+PlayerHealthComponent::PlayerHealthComponent(ComponentData& InData)
+	: HealthComponent(InData)
 {
 }
 
 // ----------------------------------------------------------------------------
-// PlayerAttackComponent - Definition
+// BasicAttackComponent - Definition
 // ----------------------------------------------------------------------------
 
-PlayerAttackComponent::PlayerAttackComponent(ComponentSystem& System)
-	: Component(System)
+BasicAttackComponent::BasicAttackComponent(ComponentData& InData)
+	: AttackComponent(InData)
 {
+}
+
+void BasicAttackComponent::Fire(float DeltaTime)
+{
+
+}
+
+// ----------------------------------------------------------------------------
+// Crazy88AttackComponent - Definition
+// ----------------------------------------------------------------------------
+
+Crazy88AttackComponent::Crazy88AttackComponent(ComponentData& InData)
+	: AttackComponent(InData)
+{
+}
+
+void Crazy88AttackComponent::Fire(float DeltaTime)
+{
+
+}
+
+// ----------------------------------------------------------------------------
+// BombAttackComponent - Definition
+// ----------------------------------------------------------------------------
+
+BombAttackComponent::BombAttackComponent(ComponentData& InData)
+	: AttackComponent(InData)
+{
+}
+
+void BombAttackComponent::Fire(float DeltaTime)
+{
+
+}
+
+// ----------------------------------------------------------------------------
+// BeamAttackComponent - Definition
+// ----------------------------------------------------------------------------
+
+BeamAttackComponent::BeamAttackComponent(ComponentData& InData)
+	: AttackComponent(InData)
+{
+}
+
+void BeamAttackComponent::Fire(float DeltaTime)
+{
+
 }
 
 // EOF

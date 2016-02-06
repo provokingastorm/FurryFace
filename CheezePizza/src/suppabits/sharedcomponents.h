@@ -26,7 +26,7 @@ enum ESuppabitsSharedDataID
 class HealthComponent : public Component
 {
 public:
-	HealthComponent(class ComponentSystem& System);
+	HealthComponent(class ComponentData& InData);
 
 	virtual int ModifyHealth(int HealthChange) = 0;
 	virtual void SetHealthMax(int NewMaxHealth) = 0;

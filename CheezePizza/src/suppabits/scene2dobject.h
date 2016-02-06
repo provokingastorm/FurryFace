@@ -23,7 +23,7 @@ public:
 
 	class IRenderable* GetRenderObject() const;
 	void SetRenderObject(class IRenderable& Object);
-	void SetComponentSystem(class ComponentSystem& System);
+	void SetComponentData(class ComponentData& InData);
 	bool CanRender() const;
 
 	// --------------------------------------------------------
@@ -40,7 +40,7 @@ public:
 private:
 
 	class IRenderable* RenderObject;
-	class ComponentSystem* Components;
+	class ComponentData* OwnerData;
 };
 
 

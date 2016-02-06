@@ -1,7 +1,6 @@
 #include "cheezepizza.h"
 #include "originscomponents.h"
 #include "sharedcomponents.h"
-#include "componentsystem.h"
 
 LinkComponent::LinkComponent(ComponentSystem& System)
 	: HealthComponent(System)

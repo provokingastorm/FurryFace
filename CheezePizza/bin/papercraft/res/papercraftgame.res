@@ -34,3 +34,21 @@ Sprite sprIdleShip
  blendmode=COLORMUL,BLEND_ALPHABLEND,NOZWRITE
  resgroup=1
 }
+
+Texture bullet
+{
+ filename=papercraft\res\graphics\Bullet.png
+ resgroup=1
+}
+
+Animation animBullet
+{
+ texture=link
+ rect=0,0,100,20
+ hotspot=10,10
+ blendmode=COLORMUL,BLEND_ALPHABLEND,NOZWRITE
+ frames=5
+ fps=5.0
+ mode=FORWARD,LOOP
+ resgroup=1
+}

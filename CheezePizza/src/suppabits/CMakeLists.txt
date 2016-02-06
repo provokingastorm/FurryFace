@@ -10,8 +10,6 @@ set( SUPPA_BITS_SRC
     cheezepizzaengine.h
 	component.h
 	componentdata.h
-	componentsystem.cpp
-	componentsystem.h
 	debugutilities.cpp
     debugutilities.h
 	delegate.h

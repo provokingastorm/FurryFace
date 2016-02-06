@@ -1,9 +1,8 @@
 #include "cheezepizza.h"
 #include "sharedcomponents.h"
-#include "componentsystem.h"
 
-HealthComponent::HealthComponent(ComponentSystem& System)
-	: Component(System)
+HealthComponent::HealthComponent(ComponentData& InData)
+	: Component(InData)
 {
 }
 

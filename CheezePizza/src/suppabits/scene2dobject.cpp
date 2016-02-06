@@ -1,13 +1,12 @@
 #include "cheezepizza.h"
 #include "scene2dobject.h"
-#include "componentsystem.h"
 #include "sharedcomponents.h"
 #include "irenderable.h"
 #include <stdio.h>
 
 Scene2DObject::Scene2DObject()
 	: RenderObject(NULL)
-	, Components(NULL)
+	, OwnerData(NULL)
 {
 }
 
@@ -19,10 +18,9 @@ Scene2DObject::~Scene2DObject()
 		RenderObject = NULL;
 	}
 
-	if(Components != NULL)
+	if(OwnerData != NULL)
 	{
-		delete Components;
-		Components = NULL;
+		OwnerData = NULL;
 	}
 }
 
@@ -31,9 +29,9 @@ void Scene2DObject::SetRenderObject(IRenderable& Object)
 	RenderObject = &Object;
 }
 
-void Scene2DObject::SetComponentSystem(class ComponentSystem& System)
+void Scene2DObject::SetComponentData(class ComponentData& InData)
 {
-	Components = &System;
+	OwnerData = &InData;
 }
 
 bool Scene2DObject::CanRender() const
@@ -45,7 +43,11 @@ void Scene2DObject::Tick(float DeltaTime)
 {
 	if(RenderObject != NULL)
 	{
-		RenderObject->SetHotSpot(Components->SharedData.Float(CMPID_X), Components->SharedData.Float(CMPID_Y));
+		if(OwnerData != NULL)
+		{
+			RenderObject->SetHotSpot(OwnerData->Float(CMPID_X), OwnerData->Float(CMPID_Y));
+		}
+
 		RenderObject->Tick(DeltaTime);
 	}
 }
@@ -76,5 +78,5 @@ void Scene2DObject::Pause()
 
 ComponentData& Scene2DObject::GetData() const
 {
-	return Components->SharedData;
+	return *OwnerData;
 }

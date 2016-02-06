@@ -21,6 +21,8 @@ public:
 
 	void ResetVelocity();
 
+	void FirePrimaryWeapon(float DeltaTime);
+
 protected:
 
 	void OnCreatedInternal();
@@ -28,6 +30,15 @@ protected:
 private:
 
 	class Scene2DObject* SceneObject;
+	class PapercraftShipComponentData* SharedData;
+
+	// Components
+	class AttackComponent* BasicShotComp;
+	class AttackComponent* Crazy88ShotComp;
+	class AttackComponent* BombComp;
+	class AttackComponent* BeamComp;
+	class HealthComponent* HealthComp;
+	class TacTriangleComponent* TacComp;
 
 	float UpVelocity;
 	float DownVelocity;
