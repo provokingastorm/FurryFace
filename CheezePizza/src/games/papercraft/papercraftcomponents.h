@@ -61,6 +61,7 @@ public:
 	{
 	}
 
+	virtual void Tick(float DeltaTime) = 0;
 	virtual void Fire(float DeltaTime) = 0;
 
 private:
@@ -76,6 +77,7 @@ class BasicAttackComponent : public AttackComponent
 public:
 	BasicAttackComponent(class ComponentData& InData);
 
+	void Tick(float DeltaTime);
 	void Fire(float DeltaTime);
 
 private:
@@ -94,6 +96,7 @@ class Crazy88AttackComponent : public AttackComponent
 public:
 	Crazy88AttackComponent(class ComponentData& InData);
 
+	void Tick(float DeltaTime);
 	void Fire(float DeltaTime);
 
 private:
@@ -109,6 +112,7 @@ class BombAttackComponent : public AttackComponent
 public:
 	BombAttackComponent(class ComponentData& InData);
 
+	void Tick(float DeltaTime);
 	void Fire(float DeltaTime);
 
 private:
@@ -124,6 +128,7 @@ class BeamAttackComponent : public AttackComponent
 public:
 	BeamAttackComponent(class ComponentData& InData);
 
+	void Tick(float DeltaTime);
 	void Fire(float DeltaTime);
 
 private:

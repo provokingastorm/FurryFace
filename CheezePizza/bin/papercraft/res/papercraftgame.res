@@ -35,20 +35,14 @@ Sprite sprIdleShip
  resgroup=1
 }
 
-Texture bullet
-{
- filename=papercraft\res\graphics\Bullet.png
- resgroup=1
-}
-
 Animation animBullet
 {
- texture=bullet
- rect=0,0,100,20
+ texture=papercraft\res\graphics\Bullet.png
+ rect=0,0,20,20
  hotspot=10,10
  blendmode=COLORMUL,BLEND_ALPHABLEND,NOZWRITE
  frames=5
- fps=5.0
+ fps=12.0
  mode=FORWARD,LOOP
  resgroup=1
 }

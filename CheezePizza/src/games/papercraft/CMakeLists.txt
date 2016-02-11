@@ -13,6 +13,8 @@ set( PAPERCRAFT_SRC
     papercrafthud.h
     papercraftplayer.cpp
     papercraftplayer.h
+    papercraftplayership.cpp
+    papercraftplayership.h
     papercraftplayerfactory.cpp
     papercraftplayerfactory.h
     papercraftsubsystem.cpp

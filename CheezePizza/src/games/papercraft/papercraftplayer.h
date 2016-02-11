@@ -26,24 +26,7 @@ protected:
 
 private:
 
-	class Scene2DObject* SceneObject;
-	class PapercraftShipComponentData* SharedData;
-
-	// Components
-	class AttackComponent* BasicShotComp;
-	class AttackComponent* Crazy88ShotComp;
-	class AttackComponent* BombComp;
-	class AttackComponent* BeamComp;
-	class HealthComponent* HealthComp;
-	class TacTriangleComponent* TacComp;
-
-	float UpVelocity;
-	float DownVelocity;
-	float RightVelocity;
-	float LeftVelocity;
-
-	static const float VelocityPerSec;
-	static const float MaxVelocity;
+	class PapercraftPlayerShip* Ship;
 };
 
 

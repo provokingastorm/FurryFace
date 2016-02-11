@@ -73,6 +73,10 @@ BasicShotRenderable::~BasicShotRenderable()
 void BasicShotRenderable::AddAnimation(hgeAnimation& InAnim)
 {
 	CurrentAnim = &InAnim;
+
+	// Temp make this configurable
+	DWORD Red = ARGB(255, 255, 0, 0);
+	CurrentAnim->SetColor(Red);
 }
 
 void BasicShotRenderable::Tick(float DeltaTime)
@@ -93,8 +97,8 @@ void BasicShotRenderable::Render(class HGE& Engine)
 
 void BasicShotRenderable::SetHotSpot(float X, float Y)
 {
-	HotSpot.X = X + 20.0f;
-	HotSpot.Y = Y + 20.0f;
+	HotSpot.X = X + 50.0f;
+	HotSpot.Y = Y + 50.0f;
 }
 
 void BasicShotRenderable::OnStart()
@@ -122,6 +126,14 @@ BasicAttackComponent::BasicAttackComponent(ComponentData& InData)
 {
 	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
 	BulletAnim = CE.ResourceManager->GetAnimation("animBullet");
+}
+
+void BasicAttackComponent::Tick(float DeltaTime)
+{
+}
+
+void BasicAttackComponent::Fire(float DeltaTime)
+{
 	if(BulletAnim != NULL)
 	{
 		BasicShotRenderable* BulletRO = new BasicShotRenderable();
@@ -129,14 +141,9 @@ BasicAttackComponent::BasicAttackComponent(ComponentData& InData)
 
 		Scene2DObject& SceneObjRef = *(new Scene2DObject());
 		SceneObjRef.SetRenderObject(*BulletRO);
-		SceneObjRef.SetComponentData(InData);
+		SceneObjRef.SetComponentData(SharedData);
 		World2D::Instance().AddPersistentObject(SceneObjRef, SOL_Layer2);
 	}
-}
-
-void BasicAttackComponent::Fire(float DeltaTime)
-{
-
 }
 
 // ----------------------------------------------------------------------------
@@ -148,9 +155,12 @@ Crazy88AttackComponent::Crazy88AttackComponent(ComponentData& InData)
 {
 }
 
+void Crazy88AttackComponent::Tick(float DeltaTime)
+{
+}
+
 void Crazy88AttackComponent::Fire(float DeltaTime)
 {
-
 }
 
 // ----------------------------------------------------------------------------
@@ -162,9 +172,12 @@ BombAttackComponent::BombAttackComponent(ComponentData& InData)
 {
 }
 
+void BombAttackComponent::Tick(float DeltaTime)
+{
+}
+
 void BombAttackComponent::Fire(float DeltaTime)
 {
-
 }
 
 // ----------------------------------------------------------------------------
@@ -176,9 +189,12 @@ BeamAttackComponent::BeamAttackComponent(ComponentData& InData)
 {
 }
 
+void BeamAttackComponent::Tick(float DeltaTime)
+{
+}
+
 void BeamAttackComponent::Fire(float DeltaTime)
 {
-
 }
 
 // EOF
