@@ -3,6 +3,8 @@ cmake_minimum_required( VERSION 2.8 )
 
 #------ sources ------
 set( PAPERCRAFT_SRC
+	papercraftbulletsystem.cpp
+	papercraftbulletsystem.h
     papercraftcomponentdata.cpp
     papercraftcomponentdata.h
     papercraftcomponents.cpp

@@ -19,6 +19,8 @@ public:
 
 	void InitializeGameEngine(class IPlatform& Platform);
 
+	class PapercraftBulletSystem* BulletSystem;
+
 protected:
 
 	// --------------------------------------------------------

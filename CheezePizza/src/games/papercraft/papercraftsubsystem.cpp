@@ -2,6 +2,7 @@
 
 // Papercraft
 #include "papercraftsubsystem.h"
+#include "papercraftbulletsystem.h"
 #include "papercraftplayerfactory.h"
 #include "papercraftplayer.h"
 #include "papercraftgameconfig.h"
@@ -60,10 +61,17 @@ void PapercraftSubsystem::InitializeInternal()
 
 	PapercraftPlayerCreated& CreationDelegate = *(new PapercraftPlayerCreated());
 	PlayerSubsystem::Instance().AddPlayerCreatedDelegate(CreationDelegate);
+
+	BulletSystem = new PapercraftBulletSystem();
 }
 
 void PapercraftSubsystem::ShutdownInternal()
 {
+	if(BulletSystem != NULL)
+	{
+		delete BulletSystem;
+		BulletSystem = NULL;
+	}
 }
 
 // EOF
