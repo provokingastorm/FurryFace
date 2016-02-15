@@ -19,8 +19,6 @@ public:
 
 	void InitializeGameEngine(class IPlatform& Platform);
 
-	class PapercraftBulletSystem* BulletSystem;
-
 protected:
 
 	// --------------------------------------------------------
@@ -28,6 +26,7 @@ protected:
 
 	void InitializeInternal();
 	void ShutdownInternal();
+	void Tick(float DeltaTime);
 
 private:
 };

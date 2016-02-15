@@ -62,16 +62,16 @@ void PapercraftSubsystem::InitializeInternal()
 	PapercraftPlayerCreated& CreationDelegate = *(new PapercraftPlayerCreated());
 	PlayerSubsystem::Instance().AddPlayerCreatedDelegate(CreationDelegate);
 
-	BulletSystem = new PapercraftBulletSystem();
+	PapercraftBulletSystem::Instance();
 }
 
 void PapercraftSubsystem::ShutdownInternal()
 {
-	if(BulletSystem != NULL)
-	{
-		delete BulletSystem;
-		BulletSystem = NULL;
-	}
+}
+
+void PapercraftSubsystem::Tick(float DeltaTime)
+{
+	PapercraftBulletSystem::Instance().Tick(DeltaTime);
 }
 
 // EOF

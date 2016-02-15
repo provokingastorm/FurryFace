@@ -1,8 +1,8 @@
 #ifndef PapercraftBulletSystem_H_
 #define PapercraftBulletSystem_H_
 
-#ifndef Vector2D_H_
-#include "vector2d.h"
+#ifndef PapercraftBulletBehaviors_H_
+#include "papercraftbulletbehaviors.h"
 #endif
 
 // ----------------------------------------------------------------------------
@@ -13,42 +13,48 @@
 
 
 // ----------------------------------------------------------------------------
-// PapercraftBulletSystem - Enums
-// ----------------------------------------------------------------------------
-
-enum EPapercraftBulletColor
-{
-	PBC_Red		= 0,
-};
-
-
-// ----------------------------------------------------------------------------
-// Bullet - Declaration
-// ----------------------------------------------------------------------------
-
-struct Bullet
-{
-	Vector2D Position;
-	Vector2D Direction;
-	float Angle;
-	EPapercraftBulletColor Color;
-};
-
-
-// ----------------------------------------------------------------------------
 // PapercraftBulletSystem - Declaration
 // ----------------------------------------------------------------------------
 
 class PapercraftBulletSystem
 {
 public:
-	PapercraftBulletSystem();
-	~PapercraftBulletSystem();
+	inline static PapercraftBulletSystem& Instance();
+
+	bool SpawnBullet(Bullet& Definition);
+	inline bool CanSpawnBullet() const;
+
+	void Tick(float DeltaTime);
 
 private:
+	PapercraftBulletSystem();
+	~PapercraftBulletSystem();
+	PapercraftBulletSystem(const PapercraftBulletSystem&);
+	PapercraftBulletSystem& operator=(const PapercraftBulletSystem&);
 
+	PapercraftBulletBehavior* Behaviors[BBT_Max];
+
+	int BulletIndexer[MAX_BULLETS];
 	Bullet BulletPool[MAX_BULLETS];
+
+	int FreeIndex;
 };
+
+
+// ----------------------------------------------------------------------------
+// PapercraftBulletSystem - Inline Functions
+// ----------------------------------------------------------------------------
+
+PapercraftBulletSystem& PapercraftBulletSystem::Instance()
+{
+	static PapercraftBulletSystem SubInstance;
+	return SubInstance;
+}
+
+bool PapercraftBulletSystem::CanSpawnBullet() const
+{
+	return FreeIndex >= 0 && FreeIndex < (MAX_BULLETS-1);
+}
 
 #endif
 

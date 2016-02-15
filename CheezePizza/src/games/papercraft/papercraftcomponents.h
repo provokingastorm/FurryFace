@@ -82,8 +82,6 @@ public:
 
 private:
 
-	class hgeAnimation* BulletAnim;
-
 	BasicAttackComponent();
 };
 

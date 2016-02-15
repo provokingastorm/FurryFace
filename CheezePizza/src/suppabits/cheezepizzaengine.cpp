@@ -185,9 +185,9 @@ void CheezePizzaEngine::Render()
 	// Render each object sequentially. Assumes that the client managed 
 	// the render order when adding objects to the render queue.
 	const int NumRenderables = RenderQueue.size();
-	for(int j = 0; j < NumRenderables; ++j)
+	for(int i = 0; i < NumRenderables; ++i)
 	{
-		RenderQueue[j]->Render(HGERef);
+		RenderQueue[i]->Render(HGERef);
 	}
 
 	HGERef.Gfx_EndScene();
