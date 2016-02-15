@@ -33,6 +33,7 @@ struct Bullet
 	Vector2D Direction;
 	EBulletBehaviorType Behavior;
 	float Angle;
+	DWORD Color;
 
 	Bullet()
 		: Position(Vector2D(0.0f, 0.0f))
@@ -40,6 +41,7 @@ struct Bullet
 		, Behavior(BBT_Default)
 		, Angle(0.0f)
 	{
+		Color = ARGB(255, 255, 255, 255);
 	}
 
 	void ResetToDefaults()
@@ -52,6 +54,7 @@ struct Bullet
 
 		Behavior = BBT_Default;
 		Angle = 0.0f;
+		Color = ARGB(255, 255, 255, 255);
 	}
 };
 

@@ -48,6 +48,7 @@ void BasicAttackComponent::Fire(float DeltaTime)
 	NewBullet.Position.X = SharedData.Float(CMPID_X) + 50.0f;
 	NewBullet.Position.Y = SharedData.Float(CMPID_Y) + 50.0f;
 	NewBullet.Behavior = BBT_Default;
+	NewBullet.Color = ARGB(255, 255, 0, 0);
 
 	PapercraftBulletSystem::Instance().SpawnBullet(NewBullet);
 }

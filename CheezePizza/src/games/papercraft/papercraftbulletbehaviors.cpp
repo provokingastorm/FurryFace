@@ -49,10 +49,6 @@ BasicShotRenderable::~BasicShotRenderable()
 void BasicShotRenderable::AddAnimation(hgeAnimation& InAnim)
 {
 	CurrentAnim = &InAnim;
-
-	// Temp make this configurable
-	DWORD Red = ARGB(255, 255, 0, 0);
-	CurrentAnim->SetColor(Red);
 }
 
 void BasicShotRenderable::AddBulletInstance(const Bullet& InBullet)
@@ -75,6 +71,7 @@ void BasicShotRenderable::Render(class HGE& Engine)
 		const int NumBullets = BulletInstances.size();
 		for(int i = 0; i < NumBullets; ++i)
 		{
+			CurrentAnim->SetColor(BulletInstances[i]->Color);
 			CurrentAnim->Render(BulletInstances[i]->Position.X, BulletInstances[i]->Position.Y);
 		}
 
