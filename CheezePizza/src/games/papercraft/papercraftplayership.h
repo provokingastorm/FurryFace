@@ -42,6 +42,8 @@ private:
 	float RightVelocity;
 	float LeftVelocity;
 
+	float FireCooldownTimer;
+
 	static const float VelocityPerSec;
 	static const float MaxVelocity;
 };

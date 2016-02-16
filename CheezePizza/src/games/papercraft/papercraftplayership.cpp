@@ -25,6 +25,7 @@ const float PapercraftPlayerShip::VelocityPerSec = 135.0;
 const float PapercraftPlayerShip::MaxVelocity = 100.0f;
 
 const float DefaultVelocity = 135.0f;
+const float FireRate = 0.5f;
 
 // ----------------------------------------------------------------------------
 // PapercraftPlayerShip - Definition
@@ -35,6 +36,7 @@ PapercraftPlayerShip::PapercraftPlayerShip()
 	, DownVelocity(VelocityPerSec)
 	, RightVelocity(VelocityPerSec)
 	, LeftVelocity(VelocityPerSec)
+	, FireCooldownTimer(0.0f)
 {
 	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
 
@@ -42,8 +44,10 @@ PapercraftPlayerShip::PapercraftPlayerShip()
 	SharedData = new PapercraftShipComponentData();
 
 	// TEMP: Position the ship in the middle of the screen for testing
-	SharedData->Float(CMPID_X) = static_cast<float>(CE.GetHGE().System_GetState(HGE_SCREENWIDTH)) * 0.5f;
-	SharedData->Float(CMPID_Y) = static_cast<float>(CE.GetHGE().System_GetState(HGE_SCREENHEIGHT)) * 0.5f;
+	const float ShipOriginX = static_cast<float>(CE.GetHGE().System_GetState(HGE_SCREENWIDTH)) * 0.5f;
+	const float ShipOriginY = static_cast<float>(CE.GetHGE().System_GetState(HGE_SCREENHEIGHT)) * 0.5f;
+	SharedData->Float(CMPID_X) = ShipOriginX;
+	SharedData->Float(CMPID_Y) = ShipOriginY;
 
 	// Create all the player's components
 	BasicShotComp = new BasicAttackComponent(*SharedData);
@@ -54,30 +58,38 @@ PapercraftPlayerShip::PapercraftPlayerShip()
 	hgeSprite* Ship = CE.ResourceManager->GetSprite("sprIdleShip");
 	if(Ship != NULL)
 	{
-		hgeRect ShipRect;
-		Ship->GetBoundingBoxEx(SharedData->Float(CMPID_X), SharedData->Float(CMPID_Y), 0.0f, 1.0f, 1.0f, &ShipRect);
+		const float ShipRotation = CheezePizzaEngine::Instance().GetHGE().Random_Float(0, M_PI * 2);
 
-		float FacingX = (ShipRect.x2 - ShipRect.x1) * 0.5f;
-		float FacingY = (ShipRect.y2 - ShipRect.y1) * 0.5f;
+		// Calculate the ship's facing direction
+		const float Cosine = cos(ShipRotation);
+		const float Sine = sin(ShipRotation);
 
-		// Since bounding boxes are in local coordinates, convert to world coordinates
-		FacingX += ShipRect.x1;
-		FacingY += ShipRect.y1;
+		// The default orientation of the ship is pointing straight up. To calculate the facing direction, 
+		// we can figure out the point at the top of the ship and use the origin to calculate the direction vector. 
+		// Unfortunately, we have to factor in the rotation of the ship to find the point at the top of the ship image.
+		// We will rotate around the origin (i.e. middle of the image - aka hotspot) in local coordinate space. 
+		// Fortunately, we can take a shortcut without figuring out the top point. Since the origin is in the middle of 
+		// the ship, we only need to divide the height in half to get the result of the subtraction of both points.
+		// Also, multiply by -0.5 instead of 0.5 because the Y-coordinate is inverted in screen coordinates.
+		const float VerticalDifference = Ship->GetHeight() * -0.5f;
 
-		// Figure out the facing direction based on the origin of the player
-		FacingX -= SharedData->Float(CMPID_X);
-		FacingY -= SharedData->Float(CMPID_Y);
+		// Since there is no horizontal translation between the two points, don't factor the X-component in the calculation.
+		float TopPointX = /*  X*Cosine  */ - VerticalDifference * Sine;
+		float TopPointY = /*  X*Sine +  */ VerticalDifference * Cosine;
 
-		const float Length = sqrt( (FacingX*SharedData->Float(CMPID_X)) + (FacingY*SharedData->Float(CMPID_Y)) );
+		// Translate the rotated point from local space to world space
+ 		TopPointX += ShipOriginX;
+		TopPointY += ShipOriginY;
 
-		FacingX /= Length;
-		FacingY /= Length;
+		// Now, figure out the facing direction 
+		const float DirectionLength = sqrt((TopPointX*TopPointY) + (ShipOriginX*ShipOriginY));
 
-		SharedData->Float(CMPID_FacingDirX) = FacingX;
-		SharedData->Float(CMPID_FacingDirY) = FacingY;
+ 		SharedData->Float(CMPID_FacingDirX) = (TopPointX - ShipOriginX) / DirectionLength;
+		SharedData->Float(CMPID_FacingDirY) = (TopPointY - ShipOriginY) / DirectionLength;
 
 		StaticImage* ShipRO = new StaticImage();
 		ShipRO->SetContent(*Ship);
+		ShipRO->SetRotation(ShipRotation);
 
 		SceneObject = new Scene2DObject();
 		SceneObject->SetRenderObject(*ShipRO);
@@ -123,6 +135,11 @@ PapercraftPlayerShip::~PapercraftPlayerShip()
 
 void PapercraftPlayerShip::Tick(float DeltaTime)
 {
+	if(FireCooldownTimer > 0.0f)
+	{
+		FireCooldownTimer -= DeltaTime;
+	}
+
 	if(BasicShotComp != NULL)
 	{
 		BasicShotComp->Tick(DeltaTime);
@@ -202,9 +219,10 @@ void PapercraftPlayerShip::ResetVelocity()
 
 void PapercraftPlayerShip::FirePrimaryWeapon(float DeltaTime)
 {
-	if(BasicShotComp != NULL)
+	if(BasicShotComp != NULL && FireCooldownTimer <= 0.0f)
 	{
 		BasicShotComp->Fire(DeltaTime);
+		FireCooldownTimer = FireRate;
 	}
 }
 

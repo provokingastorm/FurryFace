@@ -36,6 +36,7 @@ public:
 	~StaticImage();
 
 	void SetContent(class hgeSprite& InBackground);
+	inline void SetRotation(float RotationInRadians);
 
 	void Tick(float DeltaTime);
 	void Render(class HGE& Engine);
@@ -45,9 +46,16 @@ public:
 	void OnPause();
 
 private:
+
 	class hgeSprite* Image;
 	Vector2D HotSpot;
+	float Rotation;
 };
+
+void StaticImage::SetRotation(float RotationInRadians)
+{
+	Rotation = RotationInRadians;
+}
 
 #endif
 

@@ -14,6 +14,14 @@ PapercraftBulletSystem::PapercraftBulletSystem()
 
 PapercraftBulletSystem::~PapercraftBulletSystem()
 {
+	for(int i = 0; i < BBT_Max; ++i)
+	{
+		if(Behaviors[i] != NULL)
+		{
+			delete Behaviors[i];
+			Behaviors[i] = NULL;
+		}
+	}
 }
 
 bool PapercraftBulletSystem::SpawnBullet(Bullet& Definition)

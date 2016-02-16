@@ -1,5 +1,6 @@
 #include "cheezepizza.h"
 #include "sharedrenderables.h"
+#include "cheezepizzaengine.h"
 #include "hgesprite.h"
 #include "hgeanim.h"
 
@@ -86,7 +87,7 @@ void StaticImage::Render(HGE& Engine)
 {
 	if(Image != NULL)
 	{
-		Image->Render(HotSpot.X, HotSpot.Y);
+		Image->RenderEx( HotSpot.X, HotSpot.Y, Rotation);
 	}
 }
 

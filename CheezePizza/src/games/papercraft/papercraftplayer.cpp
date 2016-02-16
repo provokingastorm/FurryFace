@@ -4,6 +4,8 @@
 #include "papercraftplayer.h"
 #include "papercraftplayership.h"
 
+#include "world2d.h"
+
 
 // ----------------------------------------------------------------------------
 // PapercraftPlayer - Definition
@@ -25,6 +27,7 @@ PapercraftPlayer::~PapercraftPlayer()
 void PapercraftPlayer::OnCreatedInternal()
 {
 	Ship = new PapercraftPlayerShip();
+ 	World2D::Instance().AddTickObject(*Ship);
 }
 
 void PapercraftPlayer::MoveUp(float DeltaTime)
