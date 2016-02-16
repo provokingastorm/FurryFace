@@ -45,8 +45,10 @@ void BasicAttackComponent::Tick(float DeltaTime)
 void BasicAttackComponent::Fire(float DeltaTime)
 {
 	Bullet NewBullet;
-	NewBullet.Position.X = SharedData.Float(CMPID_X) + 50.0f;
-	NewBullet.Position.Y = SharedData.Float(CMPID_Y) + 50.0f;
+	NewBullet.Position.X = SharedData.Float(CMPID_X);
+	NewBullet.Position.Y = SharedData.Float(CMPID_Y);
+	NewBullet.Direction.X = SharedData.Float(CMPID_FacingDirX);
+	NewBullet.Direction.Y = SharedData.Float(CMPID_FacingDirY);
 	NewBullet.Behavior = BBT_Default;
 	NewBullet.Color = ARGB(255, 255, 0, 0);
 

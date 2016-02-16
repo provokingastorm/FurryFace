@@ -16,7 +16,9 @@ enum ESuppabitsSharedDataID
 	CMPID_Y				= 2,
 	CMPID_Health		= 3,
 	CMPID_HealthMax		= 4,
-	CMPID_Max			= 5,
+	CMPID_FacingDirX	= 5,
+	CMPID_FacingDirY	= 6,
+	CMPID_Max,
 };
 
 // ----------------------------------------------------------------------------

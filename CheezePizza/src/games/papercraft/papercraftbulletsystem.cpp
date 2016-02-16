@@ -43,6 +43,8 @@ void PapercraftBulletSystem::Tick(float DeltaTime)
 	{
 		for(int Index = 0; Index < FreeIndex; ++Index)
 		{
+			//SharedData->Float(CMPID_X) = static_cast<float>(CE.GetHGE().System_GetState(HGE_SCREENWIDTH)) * 0.5f;
+			//SharedData->Float(CMPID_Y) = static_cast<float>(CE.GetHGE().System_GetState(HGE_SCREENHEIGHT)) * 0.5f;
 			Behaviors[BulletPool[Index].Behavior]->TickBullet(DeltaTime, BulletPool[Index]);
 		}
 	}

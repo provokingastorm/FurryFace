@@ -5,6 +5,8 @@
 PapercraftShipComponentData::PapercraftShipComponentData()
 	: X(0.0f)
 	, Y(0.0f)
+	, FacingDirX(0.0f)
+	, FacingDirY(0.0f)
 	, Impulse(0.0f)
 	, InvalidFloat(0.0f)
 	, InvalidInt(0)
@@ -20,6 +22,8 @@ bool PapercraftShipComponentData::SupportsData(int DataID)
 	{
 	case CMPID_X:
 	case CMPID_Y:
+	case CMPID_FacingDirX:
+	case CMPID_FacingDirY:
 	case PDID_Impulse:
 		bSupports = true;
 		break;
@@ -69,6 +73,14 @@ float& PapercraftShipComponentData::Float(int DataID)
 		return Y;
 		break;
 
+	case CMPID_FacingDirX:
+		return FacingDirX;
+		break;
+
+	case CMPID_FacingDirY:
+		return FacingDirY;
+		break;
+
 	case PDID_Impulse:
 		return Impulse;
 		break;
@@ -91,6 +103,14 @@ const float& PapercraftShipComponentData::Float(int DataID) const
 
 	case CMPID_Y:
 		return Y;
+		break;
+
+	case CMPID_FacingDirX:
+		return FacingDirX;
+		break;
+
+	case CMPID_FacingDirY:
+		return FacingDirY;
 		break;
 
 	case PDID_Impulse:

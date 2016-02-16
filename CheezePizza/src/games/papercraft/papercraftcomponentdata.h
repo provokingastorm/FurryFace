@@ -49,6 +49,8 @@ private:
 
 	float X;
 	float Y;
+	float FacingDirX;
+	float FacingDirY;
 	float Impulse;
 
 	float InvalidFloat;

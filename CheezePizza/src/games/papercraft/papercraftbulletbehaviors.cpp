@@ -43,6 +43,7 @@ BasicShotRenderable::BasicShotRenderable()
 
 BasicShotRenderable::~BasicShotRenderable()
 {
+	BulletInstances.~vector();
 	CurrentAnim = NULL;
 }
 
@@ -100,7 +101,7 @@ void BasicShotRenderable::OnPause()
 // ----------------------------------------------------------------------------
 
 PapercraftBulletBehavior::PapercraftBulletBehavior()
-	: Color(PBC_White)
+	: Speed(0.0f)
 {
 }
 
@@ -110,7 +111,7 @@ PapercraftBulletBehavior::PapercraftBulletBehavior()
 
 PapercraftBulletBehaviorDefault::PapercraftBulletBehaviorDefault()
 {
-	Color = PBC_Red;
+	Speed = 1024.0f;
 
 	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
 	BulletAnim = CE.ResourceManager->GetAnimation("animBullet");
@@ -131,7 +132,10 @@ void PapercraftBulletBehaviorDefault::TickBullet(float DeltaTime, Bullet& ToTick
 {
 	if(BulletRO != NULL)
 	{
-		ToTick.Position.Y += (30.0f * DeltaTime);
+		float SpeedThisFrame = Speed * DeltaTime;
+		ToTick.Position.X += (ToTick.Direction.X * SpeedThisFrame);
+		ToTick.Position.Y += (ToTick.Direction.Y * SpeedThisFrame);
+
 		BulletRO->AddBulletInstance(ToTick);
 	}
 }

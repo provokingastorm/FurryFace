@@ -70,7 +70,9 @@ public:
 
 	virtual void TickBullet(float DeltaTime, Bullet& ToTick) {}
 
-	EPapercraftBulletColor Color;
+protected:
+
+	float Speed;
 };
 
 // ----------------------------------------------------------------------------

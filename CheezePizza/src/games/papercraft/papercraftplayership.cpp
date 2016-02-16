@@ -15,7 +15,7 @@
 #include "cheezepizzaengine.h"
 #include "hgeresource.h"
 
-
+#include <math.h>
 
 // ----------------------------------------------------------------------------
 // PapercraftPlayerShip - Static variables
@@ -54,6 +54,28 @@ PapercraftPlayerShip::PapercraftPlayerShip()
 	hgeSprite* Ship = CE.ResourceManager->GetSprite("sprIdleShip");
 	if(Ship != NULL)
 	{
+		hgeRect ShipRect;
+		Ship->GetBoundingBoxEx(SharedData->Float(CMPID_X), SharedData->Float(CMPID_Y), 0.0f, 1.0f, 1.0f, &ShipRect);
+
+		float FacingX = (ShipRect.x2 - ShipRect.x1) * 0.5f;
+		float FacingY = (ShipRect.y2 - ShipRect.y1) * 0.5f;
+
+		// Since bounding boxes are in local coordinates, convert to world coordinates
+		FacingX += ShipRect.x1;
+		FacingY += ShipRect.y1;
+
+		// Figure out the facing direction based on the origin of the player
+		FacingX -= SharedData->Float(CMPID_X);
+		FacingY -= SharedData->Float(CMPID_Y);
+
+		const float Length = sqrt( (FacingX*SharedData->Float(CMPID_X)) + (FacingY*SharedData->Float(CMPID_Y)) );
+
+		FacingX /= Length;
+		FacingY /= Length;
+
+		SharedData->Float(CMPID_FacingDirX) = FacingX;
+		SharedData->Float(CMPID_FacingDirY) = FacingY;
+
 		StaticImage* ShipRO = new StaticImage();
 		ShipRO->SetContent(*Ship);
 
