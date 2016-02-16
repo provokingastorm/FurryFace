@@ -1,6 +1,7 @@
 #include "cheezepizza.h"
 
 // Papercraft
+#include "papercraftstructures.h"
 #include "papercraftplayership.h"
 #include "papercraftcomponents.h"
 #include "papercraftcomponentdata.h"
@@ -49,6 +50,9 @@ PapercraftPlayerShip::PapercraftPlayerShip()
 	SharedData->Float(CMPID_X) = ShipOriginX;
 	SharedData->Float(CMPID_Y) = ShipOriginY;
 
+	// TEMP: Setting player's color to red. Player should be able to pick the color in the menus
+	SharedData->Int(PDID_PlayerColor) = PC_Red;
+
 	// Create all the player's components
 	BasicShotComp = new BasicAttackComponent(*SharedData);
 	Crazy88ShotComp = new Crazy88AttackComponent(*SharedData);
@@ -61,31 +65,32 @@ PapercraftPlayerShip::PapercraftPlayerShip()
 		const float ShipRotation = CheezePizzaEngine::Instance().GetHGE().Random_Float(0, M_PI * 2);
 
 		// Calculate the ship's facing direction
-		const float Cosine = cos(ShipRotation);
-		const float Sine = sin(ShipRotation);
+		{
+			// The default orientation of the ship is pointing straight up. To calculate the facing direction, 
+			// we can figure out the point at the top of the ship and use the origin to calculate the direction vector. 
+			// Unfortunately, we have to factor in the rotation of the ship to find the point at the top of the ship image.
+			// We will rotate around the origin (i.e. middle of the image - aka hotspot) in local coordinate space. 
+			// Fortunately, we can take a shortcut without figuring out the top point. Since the origin is in the middle of 
+			// the ship, we only need to divide the height in half to get the result of the subtraction of both points.
+			// Also, multiply by -0.5 instead of 0.5 because the Y-coordinate is inverted in screen coordinates.
+			const float VerticalDifference = Ship->GetHeight() * -0.5f;
 
-		// The default orientation of the ship is pointing straight up. To calculate the facing direction, 
-		// we can figure out the point at the top of the ship and use the origin to calculate the direction vector. 
-		// Unfortunately, we have to factor in the rotation of the ship to find the point at the top of the ship image.
-		// We will rotate around the origin (i.e. middle of the image - aka hotspot) in local coordinate space. 
-		// Fortunately, we can take a shortcut without figuring out the top point. Since the origin is in the middle of 
-		// the ship, we only need to divide the height in half to get the result of the subtraction of both points.
-		// Also, multiply by -0.5 instead of 0.5 because the Y-coordinate is inverted in screen coordinates.
-		const float VerticalDifference = Ship->GetHeight() * -0.5f;
+			// Since there is no horizontal translation between the two points, don't factor the X-component in the calculation.
+			float ShipTopPointX = /*  X*Cosine  */ - VerticalDifference * sin(ShipRotation);
+			float ShipTopPointY = /*  X*Sine +  */ VerticalDifference * cos(ShipRotation);
 
-		// Since there is no horizontal translation between the two points, don't factor the X-component in the calculation.
-		float TopPointX = /*  X*Cosine  */ - VerticalDifference * Sine;
-		float TopPointY = /*  X*Sine +  */ VerticalDifference * Cosine;
+			// Translate the rotated point from local space to world space
+ 			ShipTopPointX += ShipOriginX;
+			ShipTopPointY += ShipOriginY;
 
-		// Translate the rotated point from local space to world space
- 		TopPointX += ShipOriginX;
-		TopPointY += ShipOriginY;
+			// Now, figure out the facing direction 
+			const float TopToOriginLength = sqrt((ShipTopPointX*ShipTopPointY) + (ShipOriginX*ShipOriginY));
 
-		// Now, figure out the facing direction 
-		const float DirectionLength = sqrt((TopPointX*TopPointY) + (ShipOriginX*ShipOriginY));
+ 			SharedData->Float(CMPID_FacingDirX) = (ShipTopPointX - ShipOriginX) / TopToOriginLength;
+			SharedData->Float(CMPID_FacingDirY) = (ShipTopPointY - ShipOriginY) / TopToOriginLength;
+		}
 
- 		SharedData->Float(CMPID_FacingDirX) = (TopPointX - ShipOriginX) / DirectionLength;
-		SharedData->Float(CMPID_FacingDirY) = (TopPointY - ShipOriginY) / DirectionLength;
+		Ship->SetColor( GetPlayerColorFromInt(SharedData->Int(PDID_PlayerColor)) );
 
 		StaticImage* ShipRO = new StaticImage();
 		ShipRO->SetContent(*Ship);

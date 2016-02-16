@@ -2,14 +2,19 @@
 #include "papercraftcomponentdata.h"
 #include "sharedcomponents.h"
 
+// ----------------------------------------------------------------------------
+// PapercraftShipComponentData - Definition
+// ----------------------------------------------------------------------------
+
 PapercraftShipComponentData::PapercraftShipComponentData()
-	: X(0.0f)
+	: InvalidFloat(0.0f)
+	, X(0.0f)
 	, Y(0.0f)
 	, FacingDirX(0.0f)
 	, FacingDirY(0.0f)
 	, Impulse(0.0f)
-	, InvalidFloat(0.0f)
 	, InvalidInt(0)
+	, PlayerColor(0)
 	, InvalidBool(false)
 {
 }
@@ -25,6 +30,7 @@ bool PapercraftShipComponentData::SupportsData(int DataID)
 	case CMPID_FacingDirX:
 	case CMPID_FacingDirY:
 	case PDID_Impulse:
+	case PDID_PlayerColor:
 		bSupports = true;
 		break;
 
@@ -39,7 +45,6 @@ bool PapercraftShipComponentData::SupportsData(int DataID)
 bool& PapercraftShipComponentData::Bool(int DataID)
 {
 	CPForceAssert("Invalid component data ID provided");
-	InvalidBool = false;
 	return InvalidBool;
 }
 
@@ -51,13 +56,33 @@ const bool& PapercraftShipComponentData::Bool(int DataID) const
 
 int& PapercraftShipComponentData::Int(int DataID)
 {
-	CPForceAssert("Invalid component data ID provided");
+	switch(DataID)
+	{
+	case PDID_PlayerColor:
+		return PlayerColor;
+		break;
+
+	default:
+		CPForceAssert("Invalid component data ID provided");
+		break;
+	}
+
 	return InvalidInt;
 }
 
 const int& PapercraftShipComponentData::Int(int DataID) const
 {
-	CPForceAssert("Invalid component data ID provided");
+	switch(DataID)
+	{
+	case PDID_PlayerColor:
+		return PlayerColor;
+		break;
+
+	default:
+		CPForceAssert("Invalid component data ID provided");
+		break;
+	}
+
 	return InvalidInt;
 }
 

@@ -5,6 +5,10 @@
 #include "tickable.h"
 #endif
 
+// ----------------------------------------------------------------------------
+// PapercraftPlayerShip - Declaration
+// ----------------------------------------------------------------------------
+
 class PapercraftPlayerShip : public Tickable
 {
 public:

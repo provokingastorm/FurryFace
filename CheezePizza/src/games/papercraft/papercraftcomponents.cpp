@@ -1,6 +1,8 @@
 #include "cheezepizza.h"
 #include "papercraftcomponents.h"
+#include "papercraftcomponentdata.h"
 #include "papercraftbulletsystem.h"
+#include "papercraftstructures.h"
 
 // ----------------------------------------------------------------------------
 // PapercraftShipComponentData - Definition
@@ -50,7 +52,7 @@ void BasicAttackComponent::Fire(float DeltaTime)
 	NewBullet.Direction.X = SharedData.Float(CMPID_FacingDirX);
 	NewBullet.Direction.Y = SharedData.Float(CMPID_FacingDirY);
 	NewBullet.Behavior = BBT_Default;
-	NewBullet.Color = ARGB(255, 255, 0, 0);
+	NewBullet.Color = GetPlayerColorFromInt(SharedData.Int(PDID_PlayerColor));
 
 	PapercraftBulletSystem::Instance().SpawnBullet(NewBullet);
 }

@@ -22,6 +22,7 @@ enum EPapercraftDataID
 	PDID_MissleCapacity,
 	PDID_Turrets,
 	PDID_RateOfFire,
+	PDID_PlayerColor,
 	PDID_Max
 };
 
@@ -47,14 +48,16 @@ public:
 
 private:
 
+	float InvalidFloat;
 	float X;
 	float Y;
 	float FacingDirX;
 	float FacingDirY;
 	float Impulse;
 
-	float InvalidFloat;
 	int InvalidInt;
+	int PlayerColor;
+
 	bool InvalidBool;
 
 private:
