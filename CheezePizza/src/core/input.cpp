@@ -148,6 +148,19 @@ void HGE_Impl::_UpdateMouse()
 		bMouseOver=false;
 }
 
+
+// BEGIN CHEEZE MOD - pbennett - 2/16/16 - Implement gamepad support
+void HGE_Impl::_UpdateGamepads()
+{
+	DWORD dwResult;
+	for(DWORD ControllerIndex = 0; ControllerIndex < MAX_CONTROLLERS; ControllerIndex++)
+	{
+		dwResult = XInputGetState(ControllerIndex, &Controllers[ControllerIndex].state);
+		Controllers[ControllerIndex].isConnected = (dwResult == ERROR_SUCCESS);
+	}
+}
+// END CHEEZE MOD	
+
 void HGE_Impl::_BuildEvent(int type, int key, int scan, int flags, int x, int y)
 {
 	CInputEventList *last, *eptr=new CInputEventList;
