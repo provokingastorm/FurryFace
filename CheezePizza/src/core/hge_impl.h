@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include <hge_gapi.h>
 
+#include <Xinput.h>
+
 
 #define DEMO
 
@@ -60,6 +62,16 @@ struct CInputEventList
     hgeInputEvent       event;
     CInputEventList*    next;
 };
+
+// BEGIN CHEEZE MOD - pbennett - 2/16/16 - Implement gamepad support
+#define MAX_CONTROLLERS 4
+
+struct CControllerState
+{
+	XINPUT_STATE state;
+	bool isConnected;
+};
+// END CHEEZE MOD
 
 
 void DInit();
@@ -321,7 +333,13 @@ public:
     bool                bMouseOver;
     bool                bCaptured;
     char                keyz[256];
-    CInputEventList*    queue;
+	CInputEventList*    queue;
+
+	// BEGIN CHEEZE MOD - pbennett - 2/16/16 - Implement gamepad support
+	CControllerState		Controllers[4];
+	void				_UpdateGamepads();
+	// END CHEEZE MOD
+
     void                _UpdateMouse();
     void                _InputInit();
     void                _ClearQueue();

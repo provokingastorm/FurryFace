@@ -263,6 +263,10 @@ bool HGE_CALL HGE_Impl::System_Start()
 
         _UpdateMouse();
 
+		// BEGIN CHEEZE MOD - pbennett - 2/16/16 - Implement gamepad support
+		_UpdateGamepads();
+		// END CHEEZE MOD
+
         // If HGE window is focused or we have the "don't suspend" state - process the main loop
 
         if(bActive || bDontSuspend)
