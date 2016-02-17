@@ -30,11 +30,13 @@ bool PapercraftBulletSystem::SpawnBullet(Bullet& Definition)
 
 	if(CanSpawnBullet())
 	{
+		const int PoolIndex = BulletIndexer[FreeIndex];
+
 		// Clear the bullet's variables because they can continue 
 		// values stored from the last use of this bullet
-		BulletPool[FreeIndex].ResetToDefaults();
+		BulletPool[PoolIndex].ResetToDefaults();
 
-		BulletPool[FreeIndex] = Definition;
+		BulletPool[PoolIndex] = Definition;
 
 		// Increment the pointer to the next free bullet in the pool
 		FreeIndex += 1;
@@ -51,9 +53,28 @@ void PapercraftBulletSystem::Tick(float DeltaTime)
 	{
 		for(int Index = 0; Index < FreeIndex; ++Index)
 		{
-			//SharedData->Float(CMPID_X) = static_cast<float>(CE.GetHGE().System_GetState(HGE_SCREENWIDTH)) * 0.5f;
-			//SharedData->Float(CMPID_Y) = static_cast<float>(CE.GetHGE().System_GetState(HGE_SCREENHEIGHT)) * 0.5f;
-			Behaviors[BulletPool[Index].Behavior]->TickBullet(DeltaTime, BulletPool[Index]);
+			const int PoolIndex = BulletIndexer[Index];
+			PapercraftBulletBehavior* Behavior = Behaviors[BulletPool[PoolIndex].Behavior];
+
+			if(!Behavior->IsBulletOffScreen(BulletPool[PoolIndex]))
+			{
+				Behavior->TickBullet(DeltaTime, BulletPool[PoolIndex]);
+			}
+			else
+			{
+				// When there's only one bullet and we're recycling it, there's nothing to swap
+				if(FreeIndex > 1)
+				{
+					const int LastActiveIndex = FreeIndex - 1;
+
+					// "Kill" the bullet by recycling it (swapping the back active bullet with the killed bullet)
+					BulletIndexer[Index] = BulletIndexer[LastActiveIndex];
+					BulletIndexer[LastActiveIndex] = PoolIndex;
+				}
+
+				// Update the free index after killing a bullet
+				FreeIndex--;
+			}
 		}
 	}
 }

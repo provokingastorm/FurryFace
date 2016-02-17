@@ -6,6 +6,7 @@
 #include "scene2dobject.h"
 
 #include "cheezepizzaengine.h"
+#include "hgerect.h"
 #include "hgeresource.h"
 
 // ----------------------------------------------------------------------------
@@ -138,6 +139,21 @@ void PapercraftBulletBehaviorDefault::TickBullet(float DeltaTime, Bullet& ToTick
 
 		BulletRO->AddBulletInstance(ToTick);
 	}
+}
+
+bool PapercraftBulletBehaviorDefault::IsBulletOffScreen(const Bullet& TestBullet) const
+{
+	HGE& HGEEngine = CheezePizzaEngine::Instance().GetHGE();
+
+	const float ScreenWidth = static_cast<float>(HGEEngine.System_GetState(HGE_SCREENWIDTH));
+	const float ScreenHeight = static_cast<float>(HGEEngine.System_GetState(HGE_SCREENHEIGHT));
+	hgeRect ScreenRect(0.0f, 0.0f, ScreenWidth, ScreenHeight);
+
+	hgeRect BulletRect;
+	BulletAnim->GetBoundingBox(TestBullet.Position.X, TestBullet.Position.Y, &BulletRect);
+
+	// A bullet is fully-off-screen when its collision rect is outside the screen rect
+	return !ScreenRect.Intersect(&BulletRect);
 }
 
 // EOF
