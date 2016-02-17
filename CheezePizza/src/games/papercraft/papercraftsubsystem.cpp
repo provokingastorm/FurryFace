@@ -50,6 +50,7 @@ void PapercraftSubsystem::InitializeGameEngine(class IPlatform& Platform)
 	CE.AddEngineSubsystem(InputSubsystem::Instance());
 	CE.AddEngineSubsystem(PlayerSubsystem::Instance());
 	CE.AddEngineSubsystem(World2D::Instance());
+	CE.AddEngineSubsystem(PapercraftBulletSystem::Instance());
 	CE.AddEngineSubsystem(*this);
 }
 
@@ -61,8 +62,6 @@ void PapercraftSubsystem::InitializeInternal()
 
 	PapercraftPlayerCreated& CreationDelegate = *(new PapercraftPlayerCreated());
 	PlayerSubsystem::Instance().AddPlayerCreatedDelegate(CreationDelegate);
-
-	PapercraftBulletSystem::Instance();
 }
 
 void PapercraftSubsystem::ShutdownInternal()
@@ -71,7 +70,6 @@ void PapercraftSubsystem::ShutdownInternal()
 
 void PapercraftSubsystem::Tick(float DeltaTime)
 {
-	PapercraftBulletSystem::Instance().Tick(DeltaTime);
 }
 
 // EOF

@@ -1,6 +1,10 @@
 #ifndef PapercraftBulletSystem_H_
 #define PapercraftBulletSystem_H_
 
+#ifndef EngineSubsystem_H_
+#include "enginesubsystem.h"
+#endif
+
 #ifndef PapercraftBulletBehaviors_H_
 #include "papercraftbulletbehaviors.h"
 #endif
@@ -16,22 +20,29 @@
 // PapercraftBulletSystem - Declaration
 // ----------------------------------------------------------------------------
 
-class PapercraftBulletSystem
+class PapercraftBulletSystem : public EngineSubsystem
 {
 public:
-	inline static PapercraftBulletSystem& Instance();
+	DECLARE_SUBSYSTEM(PapercraftBulletSystem);
 
 	bool SpawnBullet(Bullet& Definition);
 	inline bool CanSpawnBullet() const;
 
+	// --------------------------------------------------------
+	//	EngineSubsystem inherited public methods
+
 	void Tick(float DeltaTime);
 
-private:
-	PapercraftBulletSystem();
-	~PapercraftBulletSystem();
-	PapercraftBulletSystem(const PapercraftBulletSystem&);
-	PapercraftBulletSystem& operator=(const PapercraftBulletSystem&);
+protected:
 
+	// --------------------------------------------------------
+	//	EngineSubsystem inherited protected methods
+
+	void InitializeInternal();
+	void ShutdownInternal();
+
+private:
+	
 	PapercraftBulletBehavior* Behaviors[BBT_Max];
 
 	int BulletIndexer[MAX_BULLETS];
@@ -44,12 +55,6 @@ private:
 // ----------------------------------------------------------------------------
 // PapercraftBulletSystem - Inline Functions
 // ----------------------------------------------------------------------------
-
-PapercraftBulletSystem& PapercraftBulletSystem::Instance()
-{
-	static PapercraftBulletSystem SubInstance;
-	return SubInstance;
-}
 
 bool PapercraftBulletSystem::CanSpawnBullet() const
 {

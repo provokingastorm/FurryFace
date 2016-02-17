@@ -1,9 +1,10 @@
 #include "cheezepizza.h"
 #include "papercraftbulletsystem.h"
 
-PapercraftBulletSystem::PapercraftBulletSystem()
-	: FreeIndex(0)
+void PapercraftBulletSystem::InitializeInternal()
 {
+	FreeIndex = 0;
+
 	for(int Index = 0; Index < MAX_BULLETS; ++Index)
 	{
 		BulletIndexer[Index] = Index;
@@ -12,7 +13,7 @@ PapercraftBulletSystem::PapercraftBulletSystem()
 	Behaviors[BBT_Default] = new PapercraftBulletBehaviorDefault();
 }
 
-PapercraftBulletSystem::~PapercraftBulletSystem()
+void PapercraftBulletSystem::ShutdownInternal()
 {
 	for(int i = 0; i < BBT_Max; ++i)
 	{
@@ -28,7 +29,7 @@ bool PapercraftBulletSystem::SpawnBullet(Bullet& Definition)
 {
 	bool bSpawnedBullet = false;
 
-	if(CanSpawnBullet())
+	if(CanSpawnBullet() && Behaviors[Definition.Behavior] != NULL)
 	{
 		const int PoolIndex = BulletIndexer[FreeIndex];
 
@@ -56,24 +57,27 @@ void PapercraftBulletSystem::Tick(float DeltaTime)
 			const int PoolIndex = BulletIndexer[Index];
 			PapercraftBulletBehavior* Behavior = Behaviors[BulletPool[PoolIndex].Behavior];
 
-			if(!Behavior->IsBulletOffScreen(BulletPool[PoolIndex]))
+			if(Behavior != NULL)
 			{
-				Behavior->TickBullet(DeltaTime, BulletPool[PoolIndex]);
-			}
-			else
-			{
-				// When there's only one bullet and we're recycling it, there's nothing to swap
-				if(FreeIndex > 1)
+				if(!Behavior->IsBulletOffScreen(BulletPool[PoolIndex]))
 				{
-					const int LastActiveIndex = FreeIndex - 1;
-
-					// "Kill" the bullet by recycling it (swapping the back active bullet with the killed bullet)
-					BulletIndexer[Index] = BulletIndexer[LastActiveIndex];
-					BulletIndexer[LastActiveIndex] = PoolIndex;
+					Behavior->TickBullet(DeltaTime, BulletPool[PoolIndex]);
 				}
+				else
+				{
+					// When there's only one bullet and we're recycling it, there's nothing to swap
+					if(FreeIndex > 1)
+					{
+						const int LastActiveIndex = FreeIndex - 1;
 
-				// Update the free index after killing a bullet
-				FreeIndex--;
+						// "Kill" the bullet by recycling it (swapping the back active bullet with the killed bullet)
+						BulletIndexer[Index] = BulletIndexer[LastActiveIndex];
+						BulletIndexer[LastActiveIndex] = PoolIndex;
+					}
+
+					// Update the free index after killing a bullet
+					FreeIndex--;
+				}
 			}
 		}
 	}
