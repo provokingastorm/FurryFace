@@ -336,7 +336,7 @@ public:
 	CInputEventList*    queue;
 
 	// BEGIN CHEEZE MOD - pbennett - 2/16/16 - Implement gamepad support
-	CControllerState		Controllers[4];
+	CControllerState	Controllers[4];
 	void				_UpdateGamepads();
 	// END CHEEZE MOD
 

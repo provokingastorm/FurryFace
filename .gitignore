@@ -46,8 +46,17 @@ CheezePizza/build/**
 CheezePizza/linklib/**
 CheezePizza/logs/**
 CheezePizza/bin/*.ilk
+CheezePizza/bin/hge.dll
+CheezePizza/bin/hge.ilk
+CheezePizza/bin/hge.pdb
+CheezePizza/bin/esm.exe
+CheezePizza/bin/esm.pdb
 CheezePizza/bin/origins.exe
 CheezePizza/bin/origins.pdb
+CheezePizza/bin/papercraft.exe
+CheezePizza/bin/papercraft.pdb
+CheezePizza/bin/tetris.exe
+CheezePizza/bin/tetris.pdb
 RabbitHole/bin/**
 RabbitHole/obj/**
 RabbitHole/src/*.opensdf

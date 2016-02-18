@@ -9,6 +9,7 @@
 
 // Subsystems
 #include "world2d.h"
+#include "collisionsubsystem.h"
 #include "playersubsystem.h"
 #include "inputsubsystem.h"
 
@@ -49,6 +50,7 @@ void PapercraftSubsystem::InitializeGameEngine(class IPlatform& Platform)
 
 	CE.AddEngineSubsystem(InputSubsystem::Instance());
 	CE.AddEngineSubsystem(PlayerSubsystem::Instance());
+	CE.AddEngineSubsystem(CollisionSubsystem::Instance());
 	CE.AddEngineSubsystem(World2D::Instance());
 	CE.AddEngineSubsystem(PapercraftBulletSystem::Instance());
 	CE.AddEngineSubsystem(*this);

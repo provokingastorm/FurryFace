@@ -67,10 +67,10 @@ add_subdirectory( src/suppabits_win32 )
 
 
 #--- Games ---
-add_subdirectory( src/games/esm )
-add_subdirectory( src/games/origins )
+#add_subdirectory( src/games/esm )
+#add_subdirectory( src/games/origins )
 add_subdirectory( src/games/papercraft )
-add_subdirectory( src/games/tetrisgame )
+#add_subdirectory( src/games/tetrisgame )
 
 
 #--- Demos ---
