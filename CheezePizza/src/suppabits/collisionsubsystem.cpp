@@ -13,28 +13,38 @@ void CollisionSubsystem::Tick(float DeltaTime)
 {
 }
 
-CollisionID CollisionSubsystem::AddCollisionPrimitive(hgeRect& InRect, class CollisionCallback* InCallback, DWORD InCollisionFlags)
+CollisionID CollisionSubsystem::AddCollisionPrimitive(hgeRect* InRect, class CollisionCallback* InCallback, DWORD InCollisionFlags)
 {
 	CollisionID ID = INVALID_COL_INDEX;
 
-	if(InCallback != NULL)
+	if(InRect != NULL && InCallback != NULL)
 	{
-		CollisionEntry Entry;
-		Entry.Bounds = InRect;
-		Entry.Callback = InCallback;
-		Entry.Flags = InCollisionFlags;
+		CollisionPrimitive Primitive;
+		Primitive.Bounds	= InRect;
+		Primitive.Callback	= InCallback;
+		Primitive.Flags		= InCollisionFlags;
 
 		// TODO: Set collision ID here
 
-		if( (Entry.Flags & COLLISIONACTION_DisableOnRegistration) != 0 )
+		if( (Primitive.Flags & COLLISION_DisableOnRegistration) != 0 )
 		{
-			// TODO: Disable entry here
+			// TODO: Disable primitive here
 
-			Entry.Callback->OnDisabled();
+			Primitive.Callback->OnDisabledOnRegistration();
 		}
 	}
 
 	return ID;
+}
+
+bool CollisionSubsystem::RemoveCollisionPrimitive(CollisionID InID)
+{
+	return false;
+}
+
+void CollisionSubsystem::SetScreenBounds(const hgeRect& InScreenBounds)
+{
+	ScreenBounds = InScreenBounds;
 }
 
 // EOF

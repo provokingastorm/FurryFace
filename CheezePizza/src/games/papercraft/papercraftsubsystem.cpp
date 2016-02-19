@@ -58,12 +58,20 @@ void PapercraftSubsystem::InitializeGameEngine(class IPlatform& Platform)
 
 void PapercraftSubsystem::InitializeInternal()
 {
+	HGE& HGEEngine = CheezePizzaEngine::Instance().GetHGE();
+
 	// Provide the engine with a factory that will create Papercraft-specific players
 	PapercraftPlayerFactory& Factory = *(new PapercraftPlayerFactory());
 	PlayerSubsystem::Instance().SetPlayerFactory(Factory);
 
 	PapercraftPlayerCreated& CreationDelegate = *(new PapercraftPlayerCreated());
 	PlayerSubsystem::Instance().AddPlayerCreatedDelegate(CreationDelegate);
+
+	const float ScreenWidth = static_cast<float>(HGEEngine.System_GetState(HGE_SCREENWIDTH));
+	const float ScreenHeight = static_cast<float>(HGEEngine.System_GetState(HGE_SCREENHEIGHT));
+
+	hgeRect ScreenBounds(0.0f, 0.0f, ScreenWidth, ScreenHeight);
+	CollisionSubsystem::Instance().SetScreenBounds(ScreenBounds);
 }
 
 void PapercraftSubsystem::ShutdownInternal()

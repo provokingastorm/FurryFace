@@ -21,7 +21,7 @@ public:
 	~BasicShotRenderable();
 
 	void AddAnimation(class hgeAnimation& InAnim);
-	void AddBulletInstance(const Bullet& InBullet);
+	void AddBulletToRenderList(const Bullet& InBullet);
 
 	void SetHotSpot(float X, float Y) { /* Intentionally blank because this object renders multiple bullets, not just one */ }
 
@@ -53,7 +53,7 @@ void BasicShotRenderable::AddAnimation(hgeAnimation& InAnim)
 	CurrentAnim = &InAnim;
 }
 
-void BasicShotRenderable::AddBulletInstance(const Bullet& InBullet)
+void BasicShotRenderable::AddBulletToRenderList(const Bullet& InBullet)
 {
 	BulletInstances.push_back(&InBullet);
 }
@@ -137,7 +137,10 @@ void PapercraftBulletBehaviorDefault::TickBullet(float DeltaTime, Bullet& ToTick
 		ToTick.Position.X += (ToTick.Direction.X * SpeedThisFrame);
 		ToTick.Position.Y += (ToTick.Direction.Y * SpeedThisFrame);
 
-		BulletRO->AddBulletInstance(ToTick);
+		// Update the world bounds for the collision system
+		BulletAnim->GetBoundingBox(ToTick.Position.X, ToTick.Position.Y, &ToTick.WorldBounds);
+
+		BulletRO->AddBulletToRenderList(ToTick);
 	}
 }
 

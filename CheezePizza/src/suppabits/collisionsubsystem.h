@@ -16,13 +16,15 @@
 #define INVALID_COL_INDEX	-1
 
 // Collision Flags
-#define	COLLISIONACTION_None					0x00000000
-/* Remove the entry from the collision result when a collision occurs */
-#define	COLLISIONACTION_RemoveOnCollision		0x00000001
-/* Disable the entry in the collision system when a collision occurs */
-#define	COLLISIONACTION_DisableOnCollision		0x00000002
+#define	COLLISION_None							0x00000000
+/* Remove the primitive from the collision result when a collision occurs */
+#define	COLLISION_RemoveOnCollision				0x00000001
+/* Remove the primitive from the collision system when its bounds is completely off-screen */
+#define COLLISION_RemoveWhenOffScreen			0x00000002
+/* Disable the primitive in the collision system when a collision occurs */
+#define	COLLISION_DisableOnCollision			0x00000004
 /* Automatically disables the entry when first registered with the system */
-#define COLLISIONACTION_DisableOnRegistration	0x00000004
+#define COLLISION_DisableOnRegistration			0x00000008
 /* Do everything */
 #define	COLLISIONACTION_All						0xFFFFFFFF
 
@@ -36,12 +38,12 @@ typedef int CollisionID;
 // CollisionSubsystem - Structs
 // ----------------------------------------------------------------------------
 
-struct CollisionEntry
+struct CollisionPrimitive
 {
 	CollisionID ID;
+	hgeRect* Bounds;
 	class CollisionCallback* Callback;
 	DWORD Flags;
-	hgeRect Bounds;
 };
 
 // ----------------------------------------------------------------------------
@@ -56,9 +58,11 @@ public:
 	virtual void OnCollision(const hgeRect& Other) = 0;
 
 	// Optional functionality
-	virtual void OnEnabled()	{}
-	virtual void OnDisabled()	{}
-	virtual void OnRemoved()	{}
+	virtual void OnEnabled()				{}
+	virtual void OnRemovedOnCollision()		{}
+	virtual void OnRemovedOnOffScreen()		{}
+	virtual void OnDisabledOnRegistration()	{}
+	virtual void OnDisabledOnCollision()	{}
 };
 
 
@@ -78,9 +82,16 @@ public:
 	void Tick(float DeltaTime);
 
 	// --------------------------------------------------------
-	//	CollisionSubsystem public methods
+	//	CollisionSubsystem registration public methods
 
-	CollisionID AddCollisionPrimitive(hgeRect& InRect, class CollisionCallback* InCallback, DWORD InCollisionFlags);
+	CollisionID AddCollisionPrimitive(hgeRect* InRect, class CollisionCallback* InCallback, DWORD InCollisionFlags);
+	bool RemoveCollisionPrimitive(CollisionID InID);
+
+	// --------------------------------------------------------
+	//	Screen bounds public methods
+
+	inline hgeRect GetScreenBounds() const;
+	void SetScreenBounds(const hgeRect& InScreenBounds);
 
 protected:
 
@@ -90,7 +101,21 @@ protected:
 	void InitializeInternal();
 	void ShutdownInternal();
 
+private:
+
+	hgeRect ScreenBounds;
+
 };
+
+
+// ----------------------------------------------------------------------------
+// CollisionSubsystem - Declaration
+// ----------------------------------------------------------------------------
+
+hgeRect CollisionSubsystem::GetScreenBounds() const
+{
+	return ScreenBounds;
+}
 
 #endif
 

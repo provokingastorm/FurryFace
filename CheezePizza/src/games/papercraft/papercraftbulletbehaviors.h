@@ -5,6 +5,10 @@
 #include "vector2d.h"
 #endif
 
+#ifndef HGERECT_H
+#include "hgerect.h"
+#endif
+
 
 // ----------------------------------------------------------------------------
 // PapercraftBulletBehavior - Enums
@@ -34,6 +38,7 @@ struct Bullet
 	EBulletBehaviorType Behavior;
 	float Angle;
 	DWORD Color;
+	hgeRect WorldBounds;
 
 	Bullet()
 		: Position(Vector2D(0.0f, 0.0f))
