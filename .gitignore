@@ -63,3 +63,7 @@ RabbitHole/src/*.opensdf
 RabbitHole/src/*.suo
 RabbitHole/src/*.sdf
 RabbitHole/src/rabbitholesrc/*.user
+CheezePizza/bin/texasm.pdb
+CheezePizza/bin/texasm.ilk
+CheezePizza/bin/fontconv.exe
+CheezePizza/bin/fontconv.ilk

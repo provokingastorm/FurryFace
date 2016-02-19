@@ -13,20 +13,21 @@ void CollisionSubsystem::Tick(float DeltaTime)
 {
 }
 
-CollisionID CollisionSubsystem::AddCollisionPrimitive(hgeRect* InRect, class CollisionCallback* InCallback, DWORD InCollisionFlags)
+CollisionID CollisionSubsystem::AddCollisionPrimitive(hgeRect* InRect, class CollisionCallback* InCallback, DWORD InChannelFlags, DWORD InResponseFlags)
 {
 	CollisionID ID = INVALID_COL_INDEX;
 
 	if(InRect != NULL && InCallback != NULL)
 	{
 		CollisionPrimitive Primitive;
-		Primitive.Bounds	= InRect;
-		Primitive.Callback	= InCallback;
-		Primitive.Flags		= InCollisionFlags;
+		Primitive.Bounds			= InRect;
+		Primitive.Callback			= InCallback;
+		Primitive.ChannelFlags		= InChannelFlags;
+		Primitive.ResponseFlags		= InResponseFlags;
 
 		// TODO: Set collision ID here
 
-		if( (Primitive.Flags & COLLISION_DisableOnRegistration) != 0 )
+		if( (Primitive.ResponseFlags & COLLISION_DisableOnRegistration) != 0 )
 		{
 			// TODO: Disable primitive here
 

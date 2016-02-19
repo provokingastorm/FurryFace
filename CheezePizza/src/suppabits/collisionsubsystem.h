@@ -28,6 +28,18 @@
 /* Do everything */
 #define	COLLISIONACTION_All						0xFFFFFFFF
 
+// Collision channels
+#define COLLISIONCHANNEL_None					0x00000000
+#define COLLISIONCHANNEL_01						0x00000001
+#define COLLISIONCHANNEL_02						0x00000010
+#define COLLISIONCHANNEL_03						0x00000100
+#define COLLISIONCHANNEL_04						0x00001000
+#define COLLISIONCHANNEL_05						0x00010000
+#define COLLISIONCHANNEL_06						0x00100000
+#define COLLISIONCHANNEL_07						0x01000000
+#define COLLISIONCHANNEL_08						0x10000000
+#define COLLISIONCHANNEL_All					0x11111111
+
 // ----------------------------------------------------------------------------
 // CollisionSubsystem - Typedefs
 // ----------------------------------------------------------------------------
@@ -43,7 +55,8 @@ struct CollisionPrimitive
 	CollisionID ID;
 	hgeRect* Bounds;
 	class CollisionCallback* Callback;
-	DWORD Flags;
+	DWORD ChannelFlags;
+	DWORD ResponseFlags;
 };
 
 // ----------------------------------------------------------------------------
@@ -84,7 +97,7 @@ public:
 	// --------------------------------------------------------
 	//	CollisionSubsystem registration public methods
 
-	CollisionID AddCollisionPrimitive(hgeRect* InRect, class CollisionCallback* InCallback, DWORD InCollisionFlags);
+	CollisionID AddCollisionPrimitive(hgeRect* InRect, class CollisionCallback* InCallback, DWORD InChannelFlags, DWORD InResponseFlags);
 	bool RemoveCollisionPrimitive(CollisionID InID);
 
 	// --------------------------------------------------------
