@@ -21,7 +21,7 @@ public:
 	void Append(Tickable& LinkObj);
 	void Remove(Tickable& LinkObj);
 
-	void PreTick(float DeltaTime)
+	void PreTick(float DeltaTime);
 	void Tick(float DeltaTime);
 	void PostTick(float DeltaTime);
 

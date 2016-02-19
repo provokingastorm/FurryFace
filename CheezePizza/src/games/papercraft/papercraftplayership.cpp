@@ -7,9 +7,7 @@
 #include "papercraftcomponentdata.h"
 
 // Suppa bits
-#include "world2d.h"
 #include "sharedrenderables.h"
-#include "scene2dobject.h"
 #include "componentdata.h"
 
 // Base engine
@@ -42,7 +40,7 @@ PapercraftPlayerShip::PapercraftPlayerShip()
 	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
 
 	// Setup the shared variables used by the components
-	SharedData = new PapercraftShipComponentData();
+	PapercraftShipComponentData* SharedData = new PapercraftShipComponentData();
 
 	// TEMP: Position the ship in the middle of the screen for testing
 	const float ShipOriginX = static_cast<float>(CE.GetHGE().System_GetState(HGE_SCREENWIDTH)) * 0.5f;
@@ -96,17 +94,13 @@ PapercraftPlayerShip::PapercraftPlayerShip()
 		ShipRO->SetContent(*Ship);
 		ShipRO->SetRotation(ShipRotation);
 
-		SceneObject = new Scene2DObject();
-		SceneObject->SetRenderObject(*ShipRO);
-		SceneObject->SetComponentData(*SharedData);
-		World2D::Instance().AddPersistentObject(*SceneObject, SOL_Foreground);
+		SetRenderObject(*ShipRO);
+		SetComponentData(*SharedData);
 	}
 }
 
 PapercraftPlayerShip::~PapercraftPlayerShip()
 {
-	SceneObject = NULL;
-
 	if(BasicShotComp != NULL)
 	{
 		delete BasicShotComp;
@@ -129,12 +123,6 @@ PapercraftPlayerShip::~PapercraftPlayerShip()
 	{
 		delete BeamComp;
 		BeamComp = NULL;
-	}
-
-	if(SharedData != NULL)
-	{
-		delete SharedData;
-		SharedData = NULL;
 	}
 }
 
@@ -166,52 +154,32 @@ void PapercraftPlayerShip::Tick(float DeltaTime)
 	}
 }
 
-void PapercraftPlayerShip::OnTickStarted()
-{
-}
-
-void PapercraftPlayerShip::OnTickStopped()
-{
-}
-
 void PapercraftPlayerShip::MoveUp(float DeltaTime)
 {
-	if(SceneObject != NULL)
-	{
-		float& Y = SharedData->Float(CMPID_Y);
-		const float MoveDelta = (UpVelocity * DeltaTime);
-		Y = Y - MoveDelta;
-	}
+	float& Y = OwnerData->Float(CMPID_Y);
+	const float MoveDelta = (UpVelocity * DeltaTime);
+	Y = Y - MoveDelta;
 }
 
 void PapercraftPlayerShip::MoveDown(float DeltaTime)
 {
-	if(SceneObject != NULL)
-	{
-		float& Y = SharedData->Float(CMPID_Y);
-		const float MoveDelta = (DownVelocity * DeltaTime);
-		Y = Y + MoveDelta;
-	}
+	float& Y = OwnerData->Float(CMPID_Y);
+	const float MoveDelta = (DownVelocity * DeltaTime);
+	Y = Y + MoveDelta;
 }
 
 void PapercraftPlayerShip::MoveLeft(float DeltaTime)
 {
-	if(SceneObject != NULL)
-	{
-		float& X = SharedData->Float(CMPID_X);
-		const float MoveDelta = (LeftVelocity * DeltaTime);
-		X = X - MoveDelta;
-	}
+	float& X = OwnerData->Float(CMPID_X);
+	const float MoveDelta = (LeftVelocity * DeltaTime);
+	X = X - MoveDelta;
 }
 
 void PapercraftPlayerShip::MoveRight(float DeltaTime)
 {
-	if(SceneObject != NULL)
-	{
-		float& X = SharedData->Float(CMPID_X);
-		const float MoveDelta = (RightVelocity * DeltaTime);
-		X = X + MoveDelta;
-	}
+	float& X = OwnerData->Float(CMPID_X);
+	const float MoveDelta = (RightVelocity * DeltaTime);
+	X = X + MoveDelta;
 }
 
 void PapercraftPlayerShip::ResetVelocity()

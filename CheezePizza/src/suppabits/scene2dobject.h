@@ -35,7 +35,7 @@ public:
 	virtual void Stop();
 	virtual void Pause();
 
-private:
+protected:
 
 	class IRenderable* RenderObject;
 	class ComponentData* OwnerData;

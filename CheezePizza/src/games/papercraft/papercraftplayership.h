@@ -1,23 +1,21 @@
 #ifndef PapercraftPlayerShip_H_
 #define PapercraftPlayerShip_H_
 
-#ifndef Tickable_H_
-#include "tickable.h"
+#ifndef Scene2DObject_H_
+#include "scene2dobject.h"
 #endif
 
 // ----------------------------------------------------------------------------
 // PapercraftPlayerShip - Declaration
 // ----------------------------------------------------------------------------
 
-class PapercraftPlayerShip : public Tickable
+class PapercraftPlayerShip : public Scene2DObject
 {
 public:
 	PapercraftPlayerShip();
 	~PapercraftPlayerShip();
 
 	void Tick(float DeltaTime);
-	void OnTickStarted();
-	void OnTickStopped();
 
 	void MoveUp(float DeltaTime);
 	void MoveDown(float DeltaTime);
@@ -29,9 +27,6 @@ public:
 	void FirePrimaryWeapon(float DeltaTime);
 
 private:
-
-	class Scene2DObject* SceneObject;
-	class PapercraftShipComponentData* SharedData;
 
 	// Components
 	class AttackComponent* BasicShotComp;

@@ -17,17 +17,14 @@ PapercraftPlayer::PapercraftPlayer()
 
 PapercraftPlayer::~PapercraftPlayer()
 {
-	if(Ship != NULL)
-	{
-		delete Ship;
-		Ship = NULL;
-	}
+	// The ship's lifetime is managed by World2D
+	Ship = NULL;
 }
 
 void PapercraftPlayer::OnCreatedInternal()
 {
 	Ship = new PapercraftPlayerShip();
- 	World2D::Instance().AddTickObject(*Ship);
+	World2D::Instance().AddPersistentObject(*Ship, SOL_Foreground);
 }
 
 void PapercraftPlayer::MoveUp(float DeltaTime)

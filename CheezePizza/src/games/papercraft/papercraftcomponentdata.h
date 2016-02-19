@@ -35,7 +35,7 @@ class PapercraftShipComponentData : public ComponentData
 public:
 	PapercraftShipComponentData();
 
-	bool SupportsData(int DataID);
+	virtual bool SupportsData(int DataID);
 
 	int& Int(int DataIDa);
 	const int& Int(int DataID) const;

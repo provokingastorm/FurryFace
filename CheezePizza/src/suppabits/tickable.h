@@ -14,7 +14,10 @@ public:
 	Tickable();
 	virtual ~Tickable();
 
+	virtual void PreTick(float DeltaTime) {}
 	virtual void Tick(float DeltaTime) {}
+	virtual void PostTick(float DeltaTime) {}
+
 	virtual void OnTickStarted() {}
 	virtual void OnTickStopped() {}
 
