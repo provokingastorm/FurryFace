@@ -128,6 +128,8 @@ PapercraftPlayerShip::~PapercraftPlayerShip()
 
 void PapercraftPlayerShip::Tick(float DeltaTime)
 {
+	Scene2DObject::Tick(DeltaTime);
+
 	if(FireCooldownTimer > 0.0f)
 	{
 		FireCooldownTimer -= DeltaTime;
