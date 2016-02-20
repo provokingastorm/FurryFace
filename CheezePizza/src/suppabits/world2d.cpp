@@ -1,8 +1,14 @@
 #include "cheezepizza.h"
 #include "world2d.h"
+#include "collisionsubsystem.h"
 #include "scene2d.h"
 #include "scene2dobject.h"
 #include "cheezepizzaengine.h"
+
+
+// ----------------------------------------------------------------------------
+// World2D - Definition
+// ----------------------------------------------------------------------------
 
 void World2D::InitializeInternal()
 {
@@ -65,6 +71,9 @@ void World2D::Tick(float DeltaTime)
 		ElapsedGameTime += DeltaTime;
 
 		PreTickList.Tick(DeltaTime);
+
+		CollisionSubsystem::Instance().CheckForCollisions(DeltaTime);
+
 		TickList.Tick(DeltaTime);
 		PostTickList.Tick(DeltaTime);
 	}
@@ -226,6 +235,7 @@ bool World2D::HasPersistentObjectInLayer(Scene2DObject& Object, ESceneObjectLaye
 void World2D::OnSceneObjectEntered(class Scene2DObject& Object)
 {
 	AddTickObject(Object);
+	Object.RegisterCollisionComponent();
 	Object.Start();
 }
 

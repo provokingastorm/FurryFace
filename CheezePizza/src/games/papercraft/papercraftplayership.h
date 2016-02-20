@@ -17,6 +17,8 @@ public:
 
 	void Tick(float DeltaTime);
 
+	void RegisterCollisionComponent();
+
 	void MoveUp(float DeltaTime);
 	void MoveDown(float DeltaTime);
 	void MoveLeft(float DeltaTime);
@@ -35,6 +37,8 @@ private:
 	class AttackComponent* BeamComp;
 	class HealthComponent* HealthComp;
 	class TacTriangleComponent* TacComp;
+
+	class CollisionComponent* CollisionComp;
 
 	float UpVelocity;
 	float DownVelocity;

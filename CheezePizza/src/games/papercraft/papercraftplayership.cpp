@@ -9,6 +9,7 @@
 // Suppa bits
 #include "sharedrenderables.h"
 #include "componentdata.h"
+#include "collisionsubsystem.h"
 
 // Base engine
 #include "cheezepizzaengine.h"
@@ -50,6 +51,9 @@ PapercraftPlayerShip::PapercraftPlayerShip()
 
 	// TEMP: Setting player's color to red. Player should be able to pick the color in the menus
 	SharedData->Int(PDID_PlayerColor) = PC_Red;
+
+	// Setup the player's collision component
+	CollisionComp = new CollisionComponent();
 
 	// Create all the player's components
 	BasicShotComp = new BasicAttackComponent(*SharedData);
@@ -153,6 +157,14 @@ void PapercraftPlayerShip::Tick(float DeltaTime)
 	if(BeamComp != NULL)
 	{
 		BeamComp->Tick(DeltaTime);
+	}
+}
+
+void PapercraftPlayerShip::RegisterCollisionComponent()
+{
+	if(CollisionComp != NULL)
+	{
+		CollisionSubsystem::Instance().AddCollisionComponent(CollisionComp);
 	}
 }
 

@@ -47,16 +47,26 @@
 typedef int CollisionID;
 
 // ----------------------------------------------------------------------------
-// CollisionSubsystem - Structs
+// CollisionComponent - Declaration
 // ----------------------------------------------------------------------------
 
-struct CollisionPrimitive
+class CollisionComponent
 {
+private:
+
 	CollisionID ID;
-	hgeRect* Bounds;
-	class CollisionCallback* Callback;
+
+public:
+
+	CollisionID GetCollisionID() const { return ID; }
+
+	bool bIsActive;
 	DWORD ChannelFlags;
+	hgeRect Bounds;
+	class CollisionCallback* Callback;
 	DWORD ResponseFlags;
+
+	friend class CollisionSubsystem;
 };
 
 // ----------------------------------------------------------------------------
@@ -97,8 +107,10 @@ public:
 	// --------------------------------------------------------
 	//	CollisionSubsystem registration public methods
 
-	CollisionID AddCollisionPrimitive(hgeRect* InRect, class CollisionCallback* InCallback, DWORD InChannelFlags, DWORD InResponseFlags);
-	bool RemoveCollisionPrimitive(CollisionID InID);
+	CollisionID AddCollisionComponent(CollisionComponent* InComponent);
+	bool RemoveCollisionComponent(CollisionID InID);
+
+	void CheckForCollisions(float DeltaTime);
 
 	// --------------------------------------------------------
 	//	Screen bounds public methods
@@ -117,6 +129,7 @@ protected:
 private:
 
 	hgeRect ScreenBounds;
+	class ScreenPartition* HeadPartition;
 
 };
 

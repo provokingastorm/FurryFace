@@ -35,6 +35,8 @@ public:
 	virtual void Stop();
 	virtual void Pause();
 
+	virtual void RegisterCollisionComponent() {}
+
 protected:
 
 	class IRenderable* RenderObject;
