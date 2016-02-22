@@ -35,7 +35,6 @@ private:
 	class AttackComponent* Crazy88ShotComp;
 	class AttackComponent* BombComp;
 	class AttackComponent* BeamComp;
-	class HealthComponent* HealthComp;
 	class TacTriangleComponent* TacComp;
 
 	class CollisionComponent* CollisionComp;

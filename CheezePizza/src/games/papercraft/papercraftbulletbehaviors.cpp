@@ -106,6 +106,10 @@ PapercraftBulletBehavior::PapercraftBulletBehavior()
 {
 }
 
+PapercraftBulletBehavior::~PapercraftBulletBehavior()
+{
+}
+
 // ----------------------------------------------------------------------------
 // PapercraftBulletBehaviorDefault - Definition
 // ----------------------------------------------------------------------------
@@ -127,6 +131,14 @@ PapercraftBulletBehaviorDefault::PapercraftBulletBehaviorDefault()
 
 		World2D::Instance().AddPersistentObject(*BulletScene, SOL_Layer2);
 	}
+}
+
+PapercraftBulletBehaviorDefault::~PapercraftBulletBehaviorDefault()
+{
+	// All of these object lifetimes are managed by World2D or the engine
+	BulletRO = NULL;
+	BulletScene = NULL;
+	BulletAnim = NULL;
 }
 
 void PapercraftBulletBehaviorDefault::TickBullet(float DeltaTime, Bullet& ToTick)

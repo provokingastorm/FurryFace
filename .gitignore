@@ -44,7 +44,7 @@ Temporary Items
 CheezePizza/bin/logs/**
 CheezePizza/build/**
 CheezePizza/linklib/**
-CheezePizza/logs/**
+CheezePizza/logs/*.log
 CheezePizza/bin/*.ilk
 CheezePizza/bin/hge.dll
 CheezePizza/bin/hge.ilk
@@ -67,3 +67,5 @@ CheezePizza/bin/texasm.pdb
 CheezePizza/bin/texasm.ilk
 CheezePizza/bin/fontconv.exe
 CheezePizza/bin/fontconv.ilk
+CheezePizza/bin/papercraft.exe
+CheezePizza/bin/papercraft.pdb

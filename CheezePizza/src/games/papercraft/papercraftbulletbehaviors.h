@@ -72,6 +72,7 @@ class PapercraftBulletBehavior
 public:
 
 	PapercraftBulletBehavior();
+	virtual ~PapercraftBulletBehavior();
 
 	virtual void TickBullet(float DeltaTime, Bullet& ToTick) {}
 	virtual bool IsBulletOffScreen(const Bullet& TestBullet) const { return false; }
@@ -90,6 +91,7 @@ class PapercraftBulletBehaviorDefault : public PapercraftBulletBehavior
 public:
 
 	PapercraftBulletBehaviorDefault();
+	~PapercraftBulletBehaviorDefault();
 
 	void TickBullet(float DeltaTime, Bullet& ToTick);
 	bool IsBulletOffScreen(const Bullet& TestBullet) const;

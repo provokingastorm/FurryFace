@@ -60,6 +60,7 @@ PapercraftPlayerShip::PapercraftPlayerShip()
 	Crazy88ShotComp = new Crazy88AttackComponent(*SharedData);
 	BombComp = new BombAttackComponent(*SharedData);
 	BeamComp = new BeamAttackComponent(*SharedData);
+	TacComp = new TacTriangleComponent(*SharedData);
 
 	hgeSprite* Ship = CE.ResourceManager->GetSprite("sprIdleShip");
 	if(Ship != NULL)
@@ -127,6 +128,18 @@ PapercraftPlayerShip::~PapercraftPlayerShip()
 	{
 		delete BeamComp;
 		BeamComp = NULL;
+	}
+
+	if(TacComp != NULL)
+	{
+		delete TacComp;
+		TacComp = NULL;
+	}
+
+	if(CollisionComp != NULL)
+	{
+		delete CollisionComp;
+		CollisionComp = NULL;
 	}
 }
 

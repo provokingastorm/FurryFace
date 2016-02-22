@@ -47,6 +47,28 @@
 typedef int CollisionID;
 
 // ----------------------------------------------------------------------------
+// CollisionCallback - Declaration
+// ----------------------------------------------------------------------------
+
+class CollisionCallback
+{
+public:
+
+	CollisionCallback() {}
+	~CollisionCallback() {}
+
+	// Mandatory functionality
+	virtual void OnCollision(const hgeRect& Other) = 0;
+
+	// Optional functionality
+	virtual void OnEnabled()				{}
+	virtual void OnRemovedOnCollision()		{}
+	virtual void OnRemovedOnOffScreen()		{}
+	virtual void OnDisabledOnRegistration()	{}
+	virtual void OnDisabledOnCollision()	{}
+};
+
+// ----------------------------------------------------------------------------
 // CollisionComponent - Declaration
 // ----------------------------------------------------------------------------
 
@@ -58,6 +80,25 @@ private:
 
 public:
 
+	CollisionComponent()
+		: ID(INVALID_COL_INDEX)
+		, bIsActive(false)
+		, ChannelFlags(COLLISIONCHANNEL_None)
+		, Bounds(hgeRect(0.0f, 0.0f, 0.0f, 0.0f))
+		, Callback(NULL)
+		, ResponseFlags(COLLISION_None)
+	{
+	}
+
+	~CollisionComponent()
+	{
+		if(Callback != NULL)
+		{
+			delete Callback;
+			Callback = NULL;
+		}
+	}
+
 	CollisionID GetCollisionID() const { return ID; }
 
 	bool bIsActive;
@@ -67,25 +108,6 @@ public:
 	DWORD ResponseFlags;
 
 	friend class CollisionSubsystem;
-};
-
-// ----------------------------------------------------------------------------
-// CollisionCallback - Declaration
-// ----------------------------------------------------------------------------
-
-class CollisionCallback
-{
-public:
-
-	// Mandatory functionality
-	virtual void OnCollision(const hgeRect& Other) = 0;
-
-	// Optional functionality
-	virtual void OnEnabled()				{}
-	virtual void OnRemovedOnCollision()		{}
-	virtual void OnRemovedOnOffScreen()		{}
-	virtual void OnDisabledOnRegistration()	{}
-	virtual void OnDisabledOnCollision()	{}
 };
 
 
