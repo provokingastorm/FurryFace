@@ -1,6 +1,10 @@
 #include "cheezepizza.h"
 #include "papercraftbulletsystem.h"
 
+// ----------------------------------------------------------------------------
+// PapercraftBulletSystem - Definition
+// ----------------------------------------------------------------------------
+
 void PapercraftBulletSystem::InitializeInternal()
 {
 	FreeIndex = 0;
@@ -15,7 +19,7 @@ void PapercraftBulletSystem::InitializeInternal()
 
 void PapercraftBulletSystem::ShutdownInternal()
 {
-	for(int i = 0; i < BBT_Max; ++i)
+	for(int i = 0; i < BBT_Max; i++)
 	{
 		if(Behaviors[i] != NULL)
 		{

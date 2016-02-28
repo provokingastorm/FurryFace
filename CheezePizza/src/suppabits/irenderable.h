@@ -4,6 +4,8 @@
 class IRenderable
 {
 public:
+	virtual ~IRenderable() {}
+
 	virtual void Render(class HGE& Engine) = 0;
 	virtual void Tick(float DeltaTime) = 0;
 	virtual void OnStart() = 0;

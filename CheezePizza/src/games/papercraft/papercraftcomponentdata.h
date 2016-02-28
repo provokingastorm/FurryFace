@@ -34,6 +34,7 @@ class PapercraftShipComponentData : public ComponentData
 {
 public:
 	PapercraftShipComponentData();
+	~PapercraftShipComponentData();
 
 	virtual bool SupportsData(int DataID);
 

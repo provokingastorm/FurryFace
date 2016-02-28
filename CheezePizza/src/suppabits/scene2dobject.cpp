@@ -20,6 +20,7 @@ Scene2DObject::~Scene2DObject()
 
 	if(OwnerData != NULL)
 	{
+		delete OwnerData;
 		OwnerData = NULL;
 	}
 }
