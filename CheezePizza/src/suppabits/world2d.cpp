@@ -1,6 +1,7 @@
 #include "cheezepizza.h"
 #include "world2d.h"
 #include "collisionsubsystem.h"
+#include "scenepartition.h"
 #include "scene2d.h"
 #include "scene2dobject.h"
 #include "cheezepizzaengine.h"
@@ -269,6 +270,11 @@ void World2D::AddLayerToRenderQueue(ESceneObjectLayer DrawLayer)
 			CheezePizzaEngine::Instance().AddToRenderQueue(*RenderObject);
 		}
 	}
+}
+
+void World2D::SetScreenBounds(const hgeRect& InScreenBounds)
+{
+	ScreenBounds = InScreenBounds;
 }
 
 // EOF

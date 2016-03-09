@@ -41,6 +41,8 @@ set( SUPPA_BITS_SRC
     scene2d.h
 	scene2dobject.cpp
     scene2dobject.h
+	screenpartition.cpp
+	screenpartition.h
 	sharedcomponents.cpp
 	sharedcomponents.h
     sharedinputconfigs.cpp

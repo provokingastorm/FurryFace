@@ -71,7 +71,7 @@ void PapercraftSubsystem::InitializeInternal()
 	const float ScreenHeight = static_cast<float>(HGEEngine.System_GetState(HGE_SCREENHEIGHT));
 
 	hgeRect ScreenBounds(0.0f, 0.0f, ScreenWidth, ScreenHeight);
-	CollisionSubsystem::Instance().SetScreenBounds(ScreenBounds);
+	World2D::Instance().SetScreenBounds(ScreenBounds);
 }
 
 void PapercraftSubsystem::ShutdownInternal()

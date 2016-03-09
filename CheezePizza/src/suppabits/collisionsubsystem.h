@@ -41,12 +41,6 @@
 #define COLLISIONCHANNEL_All					0x11111111
 
 // ----------------------------------------------------------------------------
-// CollisionSubsystem - Typedefs
-// ----------------------------------------------------------------------------
-
-typedef int CollisionID;
-
-// ----------------------------------------------------------------------------
 // CollisionCallback - Declaration
 // ----------------------------------------------------------------------------
 
@@ -76,7 +70,7 @@ class CollisionComponent
 {
 private:
 
-	CollisionID ID;
+	int ID;
 
 public:
 
@@ -99,7 +93,7 @@ public:
 		}
 	}
 
-	CollisionID GetCollisionID() const { return ID; }
+	int GetCollisionID() const { return ID; }
 
 	bool bIsActive;
 	DWORD ChannelFlags;
@@ -129,16 +123,10 @@ public:
 	// --------------------------------------------------------
 	//	CollisionSubsystem registration public methods
 
-	CollisionID AddCollisionComponent(CollisionComponent* InComponent);
-	bool RemoveCollisionComponent(CollisionID InID);
+	int AddCollisionComponent(CollisionComponent* InComponent);
+	bool RemoveCollisionComponent(int InID);
 
 	void CheckForCollisions(float DeltaTime);
-
-	// --------------------------------------------------------
-	//	Screen bounds public methods
-
-	inline hgeRect GetScreenBounds() const;
-	void SetScreenBounds(const hgeRect& InScreenBounds);
 
 protected:
 
@@ -150,20 +138,8 @@ protected:
 
 private:
 
-	hgeRect ScreenBounds;
-	class ScreenPartition* HeadPartition;
-
+	static int NextCollisionID;
 };
-
-
-// ----------------------------------------------------------------------------
-// CollisionSubsystem - Declaration
-// ----------------------------------------------------------------------------
-
-hgeRect CollisionSubsystem::GetScreenBounds() const
-{
-	return ScreenBounds;
-}
 
 #endif
 

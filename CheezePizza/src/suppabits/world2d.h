@@ -21,6 +21,10 @@
 #include "scene2d.h"
 #endif
 
+#ifndef HGERECT_H
+#include "hgerect.h"
+#endif
+
 // ----------------------------------------------------------------------------
 // World2D - Declaration
 // ----------------------------------------------------------------------------
@@ -50,6 +54,12 @@ public:
 
 	bool IsGamePaused() const;
 	void Pause();
+
+	// --------------------------------------------------------
+	//	Screen bounds public methods
+
+	inline hgeRect GetScreenBounds() const;
+	void SetScreenBounds(const hgeRect& InScreenBounds);
 
 protected:
 
@@ -94,6 +104,12 @@ private:
 	TickLinkedList PostTickList;
 	std::vector<class Tickable*> StopTickQueue;
 
+	// --------------------------------------------------------
+	//	ScreenPartition variables
+
+	hgeRect ScreenBounds;
+	class ScreenPartition* HeadPartition;
+
 	double ElapsedGameTime;
 	bool bIsGamePaused;
 };
@@ -111,6 +127,11 @@ inline double World2D::GetGameTime() const
 inline bool World2D::IsGamePaused() const
 {
 	return bIsGamePaused;
+}
+
+inline hgeRect World2D::GetScreenBounds() const
+{
+	return ScreenBounds;
 }
 
 
