@@ -35,7 +35,11 @@ public:
 	virtual void Stop();
 	virtual void Pause();
 
-	virtual void RegisterCollisionComponent() {}
+	Vector2D GetPosition() const;
+	virtual bool MovedThisTick() const			{ return false; }
+
+	virtual void RegisterCollisionComponent()	{}
+	void SetPartition(int PartitionID);
 
 protected:
 

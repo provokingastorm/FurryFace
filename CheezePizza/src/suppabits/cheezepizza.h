@@ -5,6 +5,10 @@
 #include "hge.h"
 #endif
 
+#ifndef Vector2D_H_
+#include "vector2d.h"
+#endif
+
 #ifndef DebugUtilities_H_
 #include "debugutilities.h"
 #endif

@@ -27,6 +27,7 @@ bool PapercraftShipComponentData::SupportsData(int DataID)
 	{
 	case CMPID_X:
 	case CMPID_Y:
+	case CMPID_PartitionID:
 	case CMPID_FacingDirX:
 	case CMPID_FacingDirY:
 	case PDID_Impulse:
@@ -35,7 +36,6 @@ bool PapercraftShipComponentData::SupportsData(int DataID)
 		break;
 
 	default:
-		CPForceAssert("Invalid component data ID provided");
 		break;
 	}
 
@@ -58,6 +58,10 @@ int& PapercraftShipComponentData::Int(int DataID)
 {
 	switch(DataID)
 	{
+	case CMPID_PartitionID:
+		return ParitionID;
+		break;
+
 	case PDID_PlayerColor:
 		return PlayerColor;
 		break;
@@ -74,6 +78,10 @@ const int& PapercraftShipComponentData::Int(int DataID) const
 {
 	switch(DataID)
 	{
+	case CMPID_PartitionID:
+		return ParitionID;
+		break;
+
 	case PDID_PlayerColor:
 		return PlayerColor;
 		break;

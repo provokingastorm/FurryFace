@@ -73,6 +73,8 @@ protected:
 
 private:
 
+	void RecalculateObjectsPartition();
+
 	// --------------------------------------------------------
 	//	Tick Methods
 
@@ -96,6 +98,7 @@ private:
 	class Scene2D* CurrentScene;
 	std::vector<class Scene2D*> Scenes;
 	std::vector<class Scene2DObject*> PersistentObjects[SOL_Max];
+	std::vector<class Scene2DObject*> ActiveObjects[SOL_Max];
 
 	// --------------------------------------------------------
 	//	Tick variables

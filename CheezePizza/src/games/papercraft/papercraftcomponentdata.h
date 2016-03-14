@@ -57,6 +57,7 @@ private:
 	float Impulse;
 
 	int InvalidInt;
+	int ParitionID;
 	int PlayerColor;
 
 	bool InvalidBool;

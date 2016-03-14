@@ -33,6 +33,8 @@ void World2D::ShutdownInternal()
 	// Don't need to delete CurrentScene because it should be contained in the Scenes vector.
 	CurrentScene = NULL;
 
+	ActiveObjects->~vector();
+
 	SAFE_DELETE_STL_VECTOR(Scenes);
 
 	for(int j = 0; j < SOL_Max; ++j)
@@ -57,11 +59,11 @@ void World2D::FirstEngineTickInternal()
 		CurrentScene->EnterScene();
 	}
 
-	for(int i = 0; i < SOL_Max; ++i)
+	for(int i = 0; i < SOL_Max; i++)
 	{
 		const int NumObjs = PersistentObjects[i].size();
 
-		for(int j = 0; j < NumObjs; ++j)
+		for(int j = 0; j < NumObjs; j++)
 		{
 			Scene2DObject& Object = *PersistentObjects[i][j];
 			OnSceneObjectEntered(Object);
@@ -76,6 +78,8 @@ void World2D::Tick(float DeltaTime)
 		ElapsedGameTime += DeltaTime;
 
 		PreTickList.Tick(DeltaTime);
+
+		RecalculateObjectsPartition();
 
 		CollisionSubsystem::Instance().CheckForCollisions(DeltaTime);
 
@@ -124,6 +128,29 @@ void World2D::StopTickingObject(Tickable& InObject)
 {
 	// Defer removing the object from the tick list until all ticking is finished. 
 	StopTickQueue.push_back(&InObject);
+}
+
+void World2D::RecalculateObjectsPartition()
+{
+	for(int DrawLayer = 0; DrawLayer < SOL_Max; DrawLayer++)
+	{
+		const int NumObjs = PersistentObjects[DrawLayer].size();
+
+		for(int i = 0; i < NumObjs; ++i)
+		{
+			Scene2DObject& Obj = *(PersistentObjects[DrawLayer][i]);
+
+			// Only update the object's parition ID if they moved to avoid unnecessary calculations
+			if(Obj.MovedThisTick())
+			{
+				Vector2D Position = Obj.GetPosition();
+				int PartitionID = Partition->GetPartitionIDForPoint(Position.X, Position.Y);
+
+				// NOTE: We allow setting invalid partition IDs (-1) which means the object is off-screen.
+				Obj.SetPartition(PartitionID);
+			}
+		}
+	}
 }
 
 void World2D::ProcessTickRemovals()
@@ -240,7 +267,13 @@ bool World2D::HasPersistentObjectInLayer(Scene2DObject& Object, ESceneObjectLaye
 void World2D::OnSceneObjectEntered(class Scene2DObject& Object)
 {
 	AddTickObject(Object);
+
 	Object.RegisterCollisionComponent();
+
+	Vector2D Position = Object.GetPosition();
+	int PartitionID = Partition->GetPartitionIDForPoint(Position.X, Position.Y);
+	Object.SetPartition(PartitionID);
+
 	Object.Start();
 }
 
