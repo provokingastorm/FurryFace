@@ -1,7 +1,7 @@
 #include "cheezepizza.h"
 #include "world2d.h"
 #include "collisionsubsystem.h"
-#include "scenepartition.h"
+#include "screenpartition.h"
 #include "scene2d.h"
 #include "scene2dobject.h"
 #include "cheezepizzaengine.h"
@@ -17,6 +17,8 @@ void World2D::InitializeInternal()
 	ElapsedGameTime = 0.0f;
 	bIsGamePaused = false;
 
+	Partition = new ScreenPartition();
+
 	StopTickQueue.clear();
 
 	PreTickList.SetTickType(ETT_PreTick);
@@ -26,6 +28,8 @@ void World2D::InitializeInternal()
 
 void World2D::ShutdownInternal()
 {
+	delete Partition;
+
 	// Don't need to delete CurrentScene because it should be contained in the Scenes vector.
 	CurrentScene = NULL;
 
@@ -275,6 +279,14 @@ void World2D::AddLayerToRenderQueue(ESceneObjectLayer DrawLayer)
 void World2D::SetScreenBounds(const hgeRect& InScreenBounds)
 {
 	ScreenBounds = InScreenBounds;
+	
+	// TODO: Make the rows, columns configurable (maybe in an INI file)
+	Partition->RecalculateBounds(ScreenBounds, 3, 2);
+}
+
+const ScreenPartition& World2D::GetPartition() const
+{
+	return *Partition;
 }
 
 // EOF

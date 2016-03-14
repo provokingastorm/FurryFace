@@ -58,3 +58,15 @@ float MaxFloat(float First, float Second)
 {
 	return (First > Second) ? First : Second;
 }
+
+int MinInt(int First, int Second)
+{
+	return (First < Second) ? First : Second;
+}
+
+float MinFloat(float First, float Second)
+{
+	return (First < Second) ? First : Second;
+}
+
+// EOF

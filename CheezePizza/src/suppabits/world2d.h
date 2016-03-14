@@ -60,6 +60,7 @@ public:
 
 	inline hgeRect GetScreenBounds() const;
 	void SetScreenBounds(const hgeRect& InScreenBounds);
+	const class ScreenPartition& GetPartition() const;
 
 protected:
 
@@ -108,7 +109,7 @@ private:
 	//	ScreenPartition variables
 
 	hgeRect ScreenBounds;
-	class ScreenPartition* HeadPartition;
+	class ScreenPartition* Partition;
 
 	double ElapsedGameTime;
 	bool bIsGamePaused;

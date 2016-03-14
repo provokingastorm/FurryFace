@@ -5,14 +5,6 @@
 #include "hgerect.h"
 #endif
 
-// ----------------------------------------------------------------------------
-// ScreenPartition - Defines
-// ----------------------------------------------------------------------------
-
-/* Should be a multiple of 2! */
-#define PARTITION_SIZE		4
-#define PARTITION_SUBLEVELS	2
-
 
 // ----------------------------------------------------------------------------
 // ScreenPartition - Declaration
@@ -25,13 +17,19 @@ public:
 	ScreenPartition();
 	~ScreenPartition();
 
-	void AddChildren(class hgeRect& InBounds, int Children);
-	void DeleteChildren();
+	void RecalculateBounds(class hgeRect& InBounds, int InRows, int InColumns);
+	int GetPartitionIDForPoint(float ScreenPointX, float ScreenPointY) const;
 
 private:
 
-	ScreenPartition* ChildPartitions[PARTITION_SIZE];
+	hgeRect* Partitions;
 	hgeRect Bounds;
+
+	int RowSize;
+	int ColumnSize;
+
+	float PartitionWidth;
+	float PartitionHeight;
 };
 
 #endif

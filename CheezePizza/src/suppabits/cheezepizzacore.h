@@ -31,4 +31,9 @@ char* ChzStrLower(const char* SrcString);
 int MaxInt(int First, int Second);
 float MaxFloat(float First, float Second);
 
+int MinInt(int First, int Second);
+float MinFloat(float First, float Second);
+
 #endif
+
+// EOF
