@@ -15,18 +15,28 @@ public:
 	PapercraftPlayerShip();
 	~PapercraftPlayerShip();
 
-	void Tick(float DeltaTime);
+	// --------------------------------------------------------
+	//	Inherited public functions
 
+	void PreTick(float DeltaTime);
+	void Tick(float DeltaTime);
 	void RegisterCollisionComponent();
 
-	void MoveUp(float DeltaTime);
-	void MoveDown(float DeltaTime);
-	void MoveLeft(float DeltaTime);
-	void MoveRight(float DeltaTime);
+	// --------------------------------------------------------
+	//	Movement public functions
 
+	void MoveHorizontal(float Amount);
+	void MoveVertical(float Amount);
 	void ResetVelocity();
 
 	void FirePrimaryWeapon(float DeltaTime);
+
+protected:
+
+	// --------------------------------------------------------
+	//	Inherited protected functions
+
+	void OnSetPartitionID(int PartitionID);
 
 private:
 

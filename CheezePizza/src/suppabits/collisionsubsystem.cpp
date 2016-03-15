@@ -1,5 +1,6 @@
 #include "cheezepizza.h"
 #include "collisionsubsystem.h"
+#include "collisioncomponent.h"
 #include "cheezepizzaengine.h"
 
 // ----------------------------------------------------------------------------

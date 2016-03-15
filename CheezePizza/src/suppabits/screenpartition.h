@@ -10,7 +10,7 @@
 // ScreenPartition - Defines
 // ----------------------------------------------------------------------------
 
-#define PARITION_INVALID_ID		-1
+#define INVALID_PARTITION_ID	-1
 
 // ----------------------------------------------------------------------------
 // ScreenPartition - Declaration

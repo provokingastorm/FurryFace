@@ -10,6 +10,7 @@
 #include "sharedrenderables.h"
 #include "componentdata.h"
 #include "collisionsubsystem.h"
+#include "collisioncomponent.h"
 
 // Base engine
 #include "cheezepizzaengine.h"
@@ -143,6 +144,17 @@ PapercraftPlayerShip::~PapercraftPlayerShip()
 	}
 }
 
+void PapercraftPlayerShip::PreTick(float DeltaTime)
+{
+	/*float& X = OwnerData->Float(CMPID_X);
+	const float MoveDelta = (RightVelocity * DeltaTime);
+	X = X + MoveDelta;
+
+	float& Y = OwnerData->Float(CMPID_Y);
+	const float MoveDelta = (DownVelocity * DeltaTime);
+	Y = Y + MoveDelta;*/
+}
+
 void PapercraftPlayerShip::Tick(float DeltaTime)
 {
 	Scene2DObject::Tick(DeltaTime);
@@ -181,34 +193,6 @@ void PapercraftPlayerShip::RegisterCollisionComponent()
 	}
 }
 
-void PapercraftPlayerShip::MoveUp(float DeltaTime)
-{
-	float& Y = OwnerData->Float(CMPID_Y);
-	const float MoveDelta = (UpVelocity * DeltaTime);
-	Y = Y - MoveDelta;
-}
-
-void PapercraftPlayerShip::MoveDown(float DeltaTime)
-{
-	float& Y = OwnerData->Float(CMPID_Y);
-	const float MoveDelta = (DownVelocity * DeltaTime);
-	Y = Y + MoveDelta;
-}
-
-void PapercraftPlayerShip::MoveLeft(float DeltaTime)
-{
-	float& X = OwnerData->Float(CMPID_X);
-	const float MoveDelta = (LeftVelocity * DeltaTime);
-	X = X - MoveDelta;
-}
-
-void PapercraftPlayerShip::MoveRight(float DeltaTime)
-{
-	float& X = OwnerData->Float(CMPID_X);
-	const float MoveDelta = (RightVelocity * DeltaTime);
-	X = X + MoveDelta;
-}
-
 void PapercraftPlayerShip::ResetVelocity()
 {
 	UpVelocity = VelocityPerSec;
@@ -223,6 +207,14 @@ void PapercraftPlayerShip::FirePrimaryWeapon(float DeltaTime)
 	{
 		BasicShotComp->Fire(DeltaTime);
 		FireCooldownTimer = FireRate;
+	}
+}
+
+void PapercraftPlayerShip::OnSetPartitionID(int PartitionID)
+{
+	if(CollisionComp != NULL)
+	{
+		CollisionComp->PartitonID = PartitionID;
 	}
 }
 

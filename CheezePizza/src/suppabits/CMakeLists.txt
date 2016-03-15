@@ -8,6 +8,8 @@ set( SUPPA_BITS_SRC
     cheezepizzacore.h
 	cheezepizzaengine.cpp
     cheezepizzaengine.h
+	collisioncomponent.cpp
+	collisioncomponent.h
 	collisionsubsystem.cpp
 	collisionsubsystem.h
 	component.h

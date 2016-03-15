@@ -99,6 +99,8 @@ void Scene2DObject::SetPartition(int PartitionID)
 	if(OwnerData != NULL)
 	{
 		OwnerData->Int(CMPID_PartitionID) = PartitionID;
+
+		OnSetPartitionID(PartitionID);
 	}
 }
 

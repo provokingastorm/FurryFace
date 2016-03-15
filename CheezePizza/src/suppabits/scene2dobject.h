@@ -43,6 +43,8 @@ public:
 
 protected:
 
+	virtual void OnSetPartitionID(int PartitionID) {}
+
 	class IRenderable* RenderObject;
 	class ComponentData* OwnerData;
 };

@@ -84,7 +84,7 @@ void ScreenPartition::RecalculateBounds(hgeRect& InBounds, int InRows, int InCol
 
 int ScreenPartition::GetPartitionIDForPoint(float ScreenPointX, float ScreenPointY) const
 {
-	int PartitionID = PARITION_INVALID_ID;
+	int PartitionID = INVALID_PARTITION_ID;
 
 	if( RowSize > 0 && ColumnSize > 0 && Bounds.TestPoint(ScreenPointX, ScreenPointY) )
 	{
