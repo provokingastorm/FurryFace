@@ -33,10 +33,9 @@ const float FireRate = 0.5f;
 // ----------------------------------------------------------------------------
 
 PapercraftPlayerShip::PapercraftPlayerShip()
-	: UpVelocity(VelocityPerSec)
-	, DownVelocity(VelocityPerSec)
-	, RightVelocity(VelocityPerSec)
-	, LeftVelocity(VelocityPerSec)
+	: Velocity(VelocityPerSec)
+	, HorizontalMoveScalar(0.0f)
+	, VeriticalMoveScalar(0.0f)
 	, FireCooldownTimer(0.0f)
 {
 	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
@@ -146,13 +145,13 @@ PapercraftPlayerShip::~PapercraftPlayerShip()
 
 void PapercraftPlayerShip::PreTick(float DeltaTime)
 {
-	/*float& X = OwnerData->Float(CMPID_X);
-	const float MoveDelta = (RightVelocity * DeltaTime);
-	X = X + MoveDelta;
+	float& X = OwnerData->Float(CMPID_X);
+	const float VerticalMoveDelta = (HorizontalMoveScalar * Velocity.X * DeltaTime);
+	X = X + VerticalMoveDelta;
 
 	float& Y = OwnerData->Float(CMPID_Y);
-	const float MoveDelta = (DownVelocity * DeltaTime);
-	Y = Y + MoveDelta;*/
+	const float HorizontalMoveDelta = (VeriticalMoveScalar * Velocity.Y * DeltaTime);
+	Y = Y + HorizontalMoveDelta;
 }
 
 void PapercraftPlayerShip::Tick(float DeltaTime)
@@ -193,12 +192,22 @@ void PapercraftPlayerShip::RegisterCollisionComponent()
 	}
 }
 
+void PapercraftPlayerShip::MoveHorizontal(float Scalar)
+{
+	HorizontalMoveScalar = Scalar;
+}
+
+void PapercraftPlayerShip::MoveVertical(float Scalar)
+{
+	VeriticalMoveScalar = Scalar;
+}
+
 void PapercraftPlayerShip::ResetVelocity()
 {
-	UpVelocity = VelocityPerSec;
-	DownVelocity = VelocityPerSec;
-	LeftVelocity = VelocityPerSec;
-	RightVelocity = VelocityPerSec;
+	HorizontalMoveScalar = 0.0f;
+	VeriticalMoveScalar = 0.0f;
+	Velocity.X = VelocityPerSec;
+	Velocity.Y = VelocityPerSec;
 }
 
 void PapercraftPlayerShip::FirePrimaryWeapon(float DeltaTime)

@@ -31,7 +31,7 @@ void PapercraftPlayer::MoveUp(float DeltaTime)
 {
 	if(Ship != NULL)
 	{
-		Ship->MoveUp(DeltaTime);
+		Ship->MoveVertical(1.0f);
 	}
 }
 
@@ -39,7 +39,7 @@ void PapercraftPlayer::MoveDown(float DeltaTime)
 {
 	if(Ship != NULL)
 	{
-		Ship->MoveDown(DeltaTime);
+		Ship->MoveVertical(-1.0f);
 	}
 }
 
@@ -47,7 +47,7 @@ void PapercraftPlayer::MoveLeft(float DeltaTime)
 {
 	if(Ship != NULL)
 	{
-		Ship->MoveLeft(DeltaTime);
+		Ship->MoveHorizontal(-1.0f);
 	}
 }
 
@@ -55,7 +55,7 @@ void PapercraftPlayer::MoveRight(float DeltaTime)
 {
 	if(Ship != NULL)
 	{
-		Ship->MoveRight(DeltaTime);
+		Ship->MoveHorizontal(1.0f);
 	}
 }
 

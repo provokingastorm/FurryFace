@@ -25,8 +25,8 @@ public:
 	// --------------------------------------------------------
 	//	Movement public functions
 
-	void MoveHorizontal(float Amount);
-	void MoveVertical(float Amount);
+	void MoveHorizontal(float Scalar);
+	void MoveVertical(float Scalar);
 	void ResetVelocity();
 
 	void FirePrimaryWeapon(float DeltaTime);
@@ -46,14 +46,14 @@ private:
 	class AttackComponent* BombComp;
 	class AttackComponent* BeamComp;
 	class TacTriangleComponent* TacComp;
-
 	class CollisionComponent* CollisionComp;
 
-	float UpVelocity;
-	float DownVelocity;
-	float RightVelocity;
-	float LeftVelocity;
+	// Movement
+	float VeriticalMoveScalar;
+	float HorizontalMoveScalar;
+	Vector2D Velocity;
 
+	// Combat
 	float FireCooldownTimer;
 
 	static const float VelocityPerSec;
