@@ -16,11 +16,16 @@ CollisionComponent::CollisionComponent()
 
 CollisionComponent::~CollisionComponent()
 {
-	if(Callback != NULL)
-	{
-		delete Callback;
-		Callback = NULL;
-	}
+}
+
+void CollisionComponent::Reset()
+{
+	PartitonID = INVALID_PARTITION_ID;
+	bIsActive = false;
+	ChannelFlags = COLLISIONCHANNEL_None;
+	Bounds = hgeRect(0.0f, 0.0f, 0.0f, 0.0f);
+	Callback = NULL;
+	ResponseFlags = COLLISION_None;
 }
 
 // EOF

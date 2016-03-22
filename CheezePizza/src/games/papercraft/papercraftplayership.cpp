@@ -52,9 +52,6 @@ PapercraftPlayerShip::PapercraftPlayerShip()
 	// TEMP: Setting player's color to red. Player should be able to pick the color in the menus
 	SharedData->Int(PDID_PlayerColor) = PC_Red;
 
-	// Setup the player's collision component
-	CollisionComp = new CollisionComponent();
-
 	// Create all the player's components
 	BasicShotComp = new BasicAttackComponent(*SharedData);
 	Crazy88ShotComp = new Crazy88AttackComponent(*SharedData);
@@ -135,12 +132,6 @@ PapercraftPlayerShip::~PapercraftPlayerShip()
 		delete TacComp;
 		TacComp = NULL;
 	}
-
-	if(CollisionComp != NULL)
-	{
-		delete CollisionComp;
-		CollisionComp = NULL;
-	}
 }
 
 void PapercraftPlayerShip::PreTick(float DeltaTime)
@@ -186,10 +177,7 @@ void PapercraftPlayerShip::Tick(float DeltaTime)
 
 void PapercraftPlayerShip::RegisterCollisionComponent()
 {
-	if(CollisionComp != NULL)
-	{
-		CollisionSubsystem::Instance().AddCollisionComponent(CollisionComp);
-	}
+	CollisionComp = CollisionSubsystem::Instance().CreateCollisionComponent();
 }
 
 void PapercraftPlayerShip::MoveHorizontal(float Scalar)

@@ -1,16 +1,20 @@
 #include "cheezepizza.h"
 #include "collisionsubsystem.h"
-#include "collisioncomponent.h"
 #include "cheezepizzaengine.h"
 
 // ----------------------------------------------------------------------------
 // CollisionSubsystem - Definition
 // ----------------------------------------------------------------------------
 
-int CollisionSubsystem::NextCollisionID = 0;
-
 void CollisionSubsystem::InitializeInternal()
 {
+	FirstFreeCompIndex = 0;
+
+	for(int i = 0; i < MAX_COLLISION_COMPONENTS; i++)
+	{
+		Components[i].Reset();
+		Components[i].ID = i;
+	}
 }
 
 void CollisionSubsystem::ShutdownInternal()
@@ -21,30 +25,45 @@ void CollisionSubsystem::Tick(float DeltaTime)
 {
 }
 
-int CollisionSubsystem::AddCollisionComponent(CollisionComponent* InComponent)
+CollisionComponent* CollisionSubsystem::CreateCollisionComponent()
 {
-	int ID = INVALID_COL_INDEX;
+	CollisionComponent* NewComponent = NULL;
 
-	if(InComponent != NULL)
+	// Only create a new collision component if we 
+	if( FirstFreeCompIndex < (MAX_COLLISION_COMPONENTS-1) )
 	{
-		InComponent->ID = NextCollisionID;
-		NextCollisionID++;
-
-		if( InComponent->Callback != NULL && (InComponent->ResponseFlags & COLLISION_DisableOnRegistration) != 0 )
-		{
-			// TODO: Disable primitive here (put in a different list or append to back?)
-
-			InComponent->bIsActive = false;
-			InComponent->Callback->OnDisabledOnRegistration();
-		}
+		NewComponent = &Components[FirstFreeCompIndex];
+		FirstFreeCompIndex += 1;
 	}
 
-	return ID;
+	return NewComponent;
 }
 
-bool CollisionSubsystem::RemoveCollisionComponent(int InID)
+bool CollisionSubsystem::RemoveCollisionComponent(CollisionComponent* InComponent)
 {
-	return false;
+	bool bWasRemoved = false;
+
+	if(InComponent != NULL && InComponent->ID >= 0 && InComponent->ID < MAX_COLLISION_COMPONENTS)
+	{
+		// "Remove" the component by swapping the component with the last valid component in the array
+
+		const int ToRemoveID = InComponent->ID;
+		const int LastValidID = FirstFreeCompIndex - 1;
+
+		// Perform the component swap
+		Components[ToRemoveID] = Components[LastValidID];
+
+		// Update the ID of the valid component since we moved its position in the array
+		Components[ToRemoveID].ID = ToRemoveID;
+
+		// Don't bother copying the "removed" component. Since we're freeing it, just clear out the existing 
+		Components[LastValidID].Reset();
+
+		// Update the index pointer to the new first free component
+		FirstFreeCompIndex = LastValidID;
+	}
+
+	return bWasRemoved;
 }
 
 void CollisionSubsystem::CheckForCollisions(float DeltaTime)

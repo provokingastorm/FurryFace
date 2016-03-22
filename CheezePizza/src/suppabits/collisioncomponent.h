@@ -1,5 +1,5 @@
 #ifndef CollisionComponent_H_
-#define CollisionComponont_H_
+#define CollisionComponent_H_
 
 #ifndef HGERECT_H
 #include "hgerect.h"
@@ -19,8 +19,6 @@
 #define COLLISION_RemoveWhenOffScreen			0x00000002
 /* Disable the primitive in the collision system when a collision occurs */
 #define	COLLISION_DisableOnCollision			0x00000004
-/* Automatically disables the entry when first registered with the system */
-#define COLLISION_DisableOnRegistration			0x00000008
 /* Do everything */
 #define	COLLISIONACTION_All						0xFFFFFFFF
 
@@ -66,6 +64,7 @@ class CollisionComponent
 {
 private:
 
+	// This ID is set by the collision system and cannot be reset
 	int ID;
 
 public:
@@ -73,6 +72,7 @@ public:
 	CollisionComponent();
 	~CollisionComponent();
 
+	void Reset();
 	int GetCollisionID() const { return ID; }
 
 	int PartitonID;

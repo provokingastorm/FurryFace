@@ -5,6 +5,16 @@
 #include "enginesubsystem.h"
 #endif
 
+#ifndef CollisionComponent_H_
+#include "collisioncomponent.h"
+#endif
+
+
+// ----------------------------------------------------------------------------
+// CollisionSubsystem - Defines
+// ----------------------------------------------------------------------------
+
+#define	MAX_COLLISION_COMPONENTS	50
 
 // ----------------------------------------------------------------------------
 // CollisionSubsystem - Declaration
@@ -24,8 +34,8 @@ public:
 	// --------------------------------------------------------
 	//	CollisionSubsystem registration public methods
 
-	int AddCollisionComponent(class CollisionComponent* InComponent);
-	bool RemoveCollisionComponent(int InID);
+	CollisionComponent* CreateCollisionComponent();
+	bool RemoveCollisionComponent(CollisionComponent* InComponent);
 
 	void CheckForCollisions(float DeltaTime);
 
@@ -39,7 +49,8 @@ protected:
 
 private:
 
-	static int NextCollisionID;
+	CollisionComponent Components[MAX_COLLISION_COMPONENTS];
+	int FirstFreeCompIndex;
 };
 
 #endif
