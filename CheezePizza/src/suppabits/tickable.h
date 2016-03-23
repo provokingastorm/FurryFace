@@ -11,6 +11,7 @@ enum EEngineTickType
 class Tickable
 {
 public:
+
 	Tickable();
 	virtual ~Tickable();
 
@@ -22,11 +23,15 @@ public:
 	virtual void OnTickStopped() {}
 
 	EEngineTickType GetTickType() const { return TickType; }
-	void SetTickType(EEngineTickType NewTickType) { TickType = NewTickType; }
 
 	bool WillTick() const;
 
+protected:
+
+	void SetTickType(EEngineTickType NewTickType) { TickType = NewTickType; }
+
 private:
+
 	EEngineTickType TickType;
 
 	Tickable* ListPrevous;

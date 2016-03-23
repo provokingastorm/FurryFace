@@ -27,6 +27,7 @@ protected:
 private:
 
 	class PapercraftPlayerShip* Ship;
+	class PlayerInputCoordinator* InputCoodinator;
 };
 
 

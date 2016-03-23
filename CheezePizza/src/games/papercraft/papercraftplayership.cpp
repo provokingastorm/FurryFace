@@ -19,6 +19,30 @@
 #include <math.h>
 
 // ----------------------------------------------------------------------------
+// PlayerShipCollisionCallback - Definition
+// ----------------------------------------------------------------------------
+
+class PlayerShipCollisionCallback : public CollisionCallback
+{
+public:
+
+	PlayerShipCollisionCallback(PapercraftPlayerShip& InShip)
+		: Ship(InShip)
+	{
+	}
+
+	void OnCollision(const hgeRect& Other)
+	{
+	}
+
+private:
+
+	PlayerShipCollisionCallback();
+
+	PapercraftPlayerShip& Ship;
+};
+
+// ----------------------------------------------------------------------------
 // PapercraftPlayerShip - Static variables
 // ----------------------------------------------------------------------------
 
@@ -33,7 +57,13 @@ const float FireRate = 0.5f;
 // ----------------------------------------------------------------------------
 
 PapercraftPlayerShip::PapercraftPlayerShip()
-	: Velocity(VelocityPerSec)
+	: BasicShotComp(NULL)
+	, Crazy88ShotComp(NULL)
+	, BombComp(NULL)
+	, BeamComp(NULL)
+	, TacComp(NULL)
+	, CollisionComp(NULL)
+	, Velocity(VelocityPerSec)
 	, HorizontalMoveScalar(0.0f)
 	, VeriticalMoveScalar(0.0f)
 	, FireCooldownTimer(0.0f)
@@ -136,6 +166,7 @@ PapercraftPlayerShip::~PapercraftPlayerShip()
 
 void PapercraftPlayerShip::PreTick(float DeltaTime)
 {
+	// Move the player's ship
 	float& X = OwnerData->Float(CMPID_X);
 	const float VerticalMoveDelta = (HorizontalMoveScalar * Velocity.X * DeltaTime);
 	X = X + VerticalMoveDelta;
@@ -177,7 +208,21 @@ void PapercraftPlayerShip::Tick(float DeltaTime)
 
 void PapercraftPlayerShip::RegisterCollisionComponent()
 {
-	CollisionComp = CollisionSubsystem::Instance().CreateCollisionComponent();
+	if(CollisionComp == NULL)
+	{
+		CollisionComp = CollisionSubsystem::Instance().CreateCollisionComponent();
+
+		if(CollisionComp != NULL)
+		{
+			CollisionComp->ChannelFlags = COLLISIONCHANNEL_01;
+			CollisionComp->Callback = new PlayerShipCollisionCallback(*this);
+		}
+	}
+
+	if(CollisionComp != NULL)
+	{
+		CollisionComp->bIsActive = true;
+	}
 }
 
 void PapercraftPlayerShip::MoveHorizontal(float Scalar)
