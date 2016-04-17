@@ -13,7 +13,7 @@ class PapercraftGameConfig : public InputConfig
 {
 public:
 	PapercraftGameConfig();
-	PapercraftGameConfig(class LocalPlayer& AssignedPlayer);
+	PapercraftGameConfig(class InputCoordinator& InCoordinator);
 	~PapercraftGameConfig();
 
 	void HandleInput(float DeltaTime);

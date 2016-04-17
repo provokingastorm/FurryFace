@@ -8,8 +8,8 @@ PapercraftGameConfig::PapercraftGameConfig()
 {
 }
 
-PapercraftGameConfig::PapercraftGameConfig(LocalPlayer& AssignedPlayer)
-	: InputConfig(AssignedPlayer)
+PapercraftGameConfig::PapercraftGameConfig(InputCoordinator& InCoordinator)
+	: InputConfig(InCoordinator)
 {
 }
 
@@ -26,28 +26,28 @@ void PapercraftGameConfig::HandleInput(float DeltaTime)
 		CheezePizzaEngine::Instance().ExitApplication();
 	}
 
-	if(Player != NULL)
+	if(Coordinator != NULL)
 	{
-		PapercraftPlayer& PapercraftLocalPlayer = static_cast<PapercraftPlayer&>(*Player);
+		PapercraftInputCoordinator& PapercraftCoordinator = static_cast<PapercraftInputCoordinator&>(*Coordinator);
 
 		if(HGEEngine.Input_GetKeyState(HGEK_W))
 		{
-			PapercraftLocalPlayer.MoveUp(DeltaTime);
+			PapercraftCoordinator.MoveUp(DeltaTime);
 		}
 
 		if(HGEEngine.Input_GetKeyState(HGEK_S))
 		{
-			PapercraftLocalPlayer.MoveDown(DeltaTime);
+			PapercraftCoordinator.MoveDown(DeltaTime);
 		}
 
 		if(HGEEngine.Input_GetKeyState(HGEK_A))
 		{
-			PapercraftLocalPlayer.MoveLeft(DeltaTime);
+			PapercraftCoordinator.MoveLeft(DeltaTime);
 		}
 
 		if(HGEEngine.Input_GetKeyState(HGEK_D))
 		{
-			PapercraftLocalPlayer.MoveRight(DeltaTime);
+			PapercraftCoordinator.MoveRight(DeltaTime);
 		}
 
 		if(		HGEEngine.Input_KeyUp(HGEK_W)
@@ -56,12 +56,12 @@ void PapercraftGameConfig::HandleInput(float DeltaTime)
 			||	HGEEngine.Input_KeyUp(HGEK_D)
 			)
 		{
-			PapercraftLocalPlayer.ResetVelocity();
+			PapercraftCoordinator.ResetVelocity();
 		}
 
 		if(HGEEngine.Input_GetKeyState(HGEK_SPACE))
 		{
-			PapercraftLocalPlayer.FirePrimaryWeapon(DeltaTime);
+			PapercraftCoordinator.FirePrimaryWeapon(DeltaTime);
 		}
 	}
 }

@@ -5,11 +5,15 @@
 #include "inputconfig.h"
 #endif
 
+// ----------------------------------------------------------------------------
+// DefaultEngineConfig - Declaration
+// ----------------------------------------------------------------------------
+
 class DefaultEngineConfig : public InputConfig
 {
 public:
 	DefaultEngineConfig();
-	DefaultEngineConfig(class LocalPlayer& AssignedPlayer);
+	DefaultEngineConfig(class PlayerInputCoordinator& InCoordinator);
 	~DefaultEngineConfig();
 
 private:
@@ -17,3 +21,5 @@ private:
 
 
 #endif
+
+// EOF

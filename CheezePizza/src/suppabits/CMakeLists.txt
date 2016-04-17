@@ -25,6 +25,8 @@ set( SUPPA_BITS_SRC
     hud.h
 	inputconfig.cpp
     inputconfig.h
+	inputhandler.cpp
+	inputhandler.h
 	inputsubsystem.cpp
     inputsubsystem.h
 	iplatform.h

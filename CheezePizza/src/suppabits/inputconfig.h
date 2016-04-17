@@ -9,15 +9,17 @@ class InputConfig
 {
 public:
 	InputConfig();
-	InputConfig(class LocalPlayer& AssignedPlayer);
+	InputConfig(class InputCoordinator& InCoordinator);
 	virtual ~InputConfig();
 
 	virtual void HandleInput(float DeltaTime) {}
 
 protected:
 
-	class LocalPlayer* Player;
+	class InputCoordinator* Coordinator;
 };
 
 
 #endif
+
+// EOF

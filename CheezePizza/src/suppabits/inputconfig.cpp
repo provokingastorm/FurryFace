@@ -1,17 +1,23 @@
 #include "cheezepizza.h"
 #include "inputconfig.h"
-#include "localplayer.h"
+#include "inputcoordinator.h"
+
+// ----------------------------------------------------------------------------
+// InputConfig - Definition
+// ----------------------------------------------------------------------------
 
 InputConfig::InputConfig()
-	: Player(NULL)
+	: Coordinator(NULL)
 {
 }
 
-InputConfig::InputConfig(LocalPlayer& AssignedPlayer)
-	: Player(&AssignedPlayer)
+InputConfig::InputConfig(InputCoordinator& InCoordinator)
+	: Coordinator(&InCoordinator)
 {
 }
 
 InputConfig::~InputConfig()
 {
 }
+
+// EOF

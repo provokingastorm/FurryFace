@@ -3,16 +3,22 @@
 #include "localplayer.h"
 #include "cheezepizzaengine.h"
 
+// ----------------------------------------------------------------------------
+// DefaultEngineConfig - Definintion
+// ----------------------------------------------------------------------------
+
 DefaultEngineConfig::DefaultEngineConfig()
 	:	InputConfig()
 {
 }
 
-DefaultEngineConfig::DefaultEngineConfig(LocalPlayer& AssignedPlayer)
-	:	InputConfig(AssignedPlayer)
+DefaultEngineConfig::DefaultEngineConfig(PlayerInputCoordinator& InCoordinator)
+	:	InputConfig(InCoordinator)
 {
 }
 
 DefaultEngineConfig::~DefaultEngineConfig()
 {
 }
+
+// EOF
