@@ -11,15 +11,6 @@ public:
 	PapercraftPlayer();
 	~PapercraftPlayer();
 
-	void MoveUp(float DeltaTime);
-	void MoveDown(float DeltaTime);
-	void MoveLeft(float DeltaTime);
-	void MoveRight(float DeltaTime);
-
-	void ResetVelocity();
-
-	void FirePrimaryWeapon(float DeltaTime);
-
 protected:
 
 	void OnCreatedInternal();
@@ -27,7 +18,6 @@ protected:
 private:
 
 	class PapercraftPlayerShip* Ship;
-	class PlayerInputCoordinator* InputCoodinator;
 };
 
 

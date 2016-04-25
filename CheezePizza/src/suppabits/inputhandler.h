@@ -1,19 +1,19 @@
-#ifndef InputCoordinator_H_
-#define InputCoordinator_H_
+#ifndef InputHandler_H_
+#define InputHandler_H_
 
 #ifndef Tickable_H_
 #include "tickable.h"
 #endif
 
 // ----------------------------------------------------------------------------
-// InputCoordinator - Declaration
+// InputHandler - Declaration
 // ----------------------------------------------------------------------------
 
-class InputCoordinator : public Tickable
+class InputHandler : public Tickable
 {
 public:
 
-	InputCoordinator();
+	InputHandler();
 
 private:
 

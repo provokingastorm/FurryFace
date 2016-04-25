@@ -12,8 +12,8 @@ DefaultEngineConfig::DefaultEngineConfig()
 {
 }
 
-DefaultEngineConfig::DefaultEngineConfig(PlayerInputCoordinator& InCoordinator)
-	:	InputConfig(InCoordinator)
+DefaultEngineConfig::DefaultEngineConfig(InputHandler& InHandler)
+	:	InputConfig(InHandler)
 {
 }
 

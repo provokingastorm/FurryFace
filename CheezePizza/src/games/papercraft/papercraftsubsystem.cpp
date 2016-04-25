@@ -5,6 +5,7 @@
 #include "papercraftbulletsystem.h"
 #include "papercraftplayerfactory.h"
 #include "papercraftplayer.h"
+#include "papercraftinputhandler.h"
 #include "papercraftgameconfig.h"
 
 // Subsystems
@@ -33,7 +34,8 @@ struct PapercraftPlayerCreated : public DelegatePlayer
 	{
 		PapercraftPlayer& PapercraftLocalPlayer = static_cast<PapercraftPlayer&>(Player);
 
-		PapercraftGameConfig& PapercraftInput = *(new PapercraftGameConfig(PapercraftLocalPlayer));
+		PapercraftInputHandler* Handler = new PapercraftInputHandler();
+		PapercraftGameConfig& PapercraftInput = *(new PapercraftGameConfig(*Handler));
 		InputSubsystem::Instance().PushConfig(PapercraftInput);
 	}
 };

@@ -1,18 +1,18 @@
 #include "cheezepizza.h"
 #include "inputconfig.h"
-#include "inputcoordinator.h"
+#include "inputhandler.h"
 
 // ----------------------------------------------------------------------------
 // InputConfig - Definition
 // ----------------------------------------------------------------------------
 
 InputConfig::InputConfig()
-	: Coordinator(NULL)
+	: Handler(NULL)
 {
 }
 
-InputConfig::InputConfig(InputCoordinator& InCoordinator)
-	: Coordinator(&InCoordinator)
+InputConfig::InputConfig(InputHandler& InHandler)
+	: Handler(&InHandler)
 {
 }
 

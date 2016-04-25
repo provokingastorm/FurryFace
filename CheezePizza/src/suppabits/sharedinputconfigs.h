@@ -13,7 +13,7 @@ class DefaultEngineConfig : public InputConfig
 {
 public:
 	DefaultEngineConfig();
-	DefaultEngineConfig(class PlayerInputCoordinator& InCoordinator);
+	DefaultEngineConfig(class InputHandler& InHandler);
 	~DefaultEngineConfig();
 
 private:
