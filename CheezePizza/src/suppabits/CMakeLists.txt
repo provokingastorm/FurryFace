@@ -3,6 +3,8 @@ cmake_minimum_required( VERSION 2.8 )
 
 #------ sources ------
 set( SUPPA_BITS_SRC
+	actionhandler.cpp
+	actionhandler.h
     cheezepizza.h
 	cheezepizzacore.cpp
     cheezepizzacore.h
@@ -25,8 +27,6 @@ set( SUPPA_BITS_SRC
     hud.h
 	inputconfig.cpp
     inputconfig.h
-	inputhandler.cpp
-	inputhandler.h
 	inputsubsystem.cpp
     inputsubsystem.h
 	iplatform.h

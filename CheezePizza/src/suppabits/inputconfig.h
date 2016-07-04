@@ -9,14 +9,14 @@ class InputConfig
 {
 public:
 	InputConfig();
-	InputConfig(class InputHandler& InHandler);
+	InputConfig(class ActionHandler& InHandler);
 	virtual ~InputConfig();
 
 	virtual void HandleInput(float DeltaTime) {}
 
 protected:
 
-	class InputHandler* Handler;
+	class ActionHandler* Handler;
 };
 
 

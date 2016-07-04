@@ -41,6 +41,8 @@ public:
 	virtual void RegisterCollisionComponent()	{}
 	void SetPartition(int PartitionID);
 
+	void QueueAction(int ActionType);
+
 protected:
 
 	virtual void OnSetPartitionID(int PartitionID) {}

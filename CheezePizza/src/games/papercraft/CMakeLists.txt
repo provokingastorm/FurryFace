@@ -15,10 +15,10 @@ set( PAPERCRAFT_SRC
     papercraftgameconfig.h
     papercrafthud.cpp
     papercrafthud.h
-    papercraftinputhandler.cpp
-    papercraftinputhandler.h
     papercraftplayer.cpp
     papercraftplayer.h
+    papercraftplayerhandler.cpp
+    papercraftplayerhandler.h
     papercraftplayership.cpp
     papercraftplayership.h
 	papercraftstructures.cpp

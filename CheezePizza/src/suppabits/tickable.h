@@ -15,6 +15,7 @@ public:
 	Tickable();
 	virtual ~Tickable();
 
+	// TODO Make this class only declare a Tick() function. Pre and post tickables should be seperated in different arrays
 	virtual void PreTick(float DeltaTime) {}
 	virtual void Tick(float DeltaTime) {}
 	virtual void PostTick(float DeltaTime) {}

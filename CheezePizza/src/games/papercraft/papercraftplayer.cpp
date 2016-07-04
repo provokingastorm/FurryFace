@@ -3,8 +3,11 @@
 // Papercraft
 #include "papercraftplayer.h"
 #include "papercraftplayership.h"
+#include "papercraftplayerhandler.h"
+#include "papercraftgameconfig.h"
 
 #include "world2d.h"
+#include "inputsubsystem.h"
 
 
 // ----------------------------------------------------------------------------
@@ -23,11 +26,15 @@ PapercraftPlayer::~PapercraftPlayer()
 
 void PapercraftPlayer::OnCreatedInternal()
 {
+	// TODO Do we really need to save a reference to this object if World2D is managing it?
 	Ship = new PapercraftPlayerShip();
 	World2D::Instance().AddPersistentObject(*Ship, SOL_Foreground);
 
-	//InputCoodinator = new PlayerInputCoordinator(*Ship);
-	//World2D::Instance().AddTickObject(*InputCoodinator);
+	PapercraftPlayerHandler& Handler = *(new PapercraftPlayerHandler());
+	Handler.SetShip(*Ship);
+
+	PapercraftGameConfig& PapercraftInput = *(new PapercraftGameConfig(Handler));
+	InputSubsystem::Instance().PushConfig(PapercraftInput);
 }
 
 // EOF

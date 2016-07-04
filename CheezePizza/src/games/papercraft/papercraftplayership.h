@@ -37,6 +37,7 @@ protected:
 	//	Inherited protected functions
 
 	void OnSetPartitionID(int PartitionID);
+	void HandleAction(int ActionType);
 
 private:
 

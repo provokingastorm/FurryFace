@@ -1,6 +1,6 @@
 #include "cheezepizza.h"
 #include "inputconfig.h"
-#include "inputhandler.h"
+#include "actionhandler.h"
 
 // ----------------------------------------------------------------------------
 // InputConfig - Definition
@@ -11,7 +11,7 @@ InputConfig::InputConfig()
 {
 }
 
-InputConfig::InputConfig(InputHandler& InHandler)
+InputConfig::InputConfig(ActionHandler& InHandler)
 	: Handler(&InHandler)
 {
 }

@@ -1,7 +1,7 @@
 #include "cheezepizza.h"
 #include "papercraftgameconfig.h"
 #include "papercraftplayer.h"
-#include "papercraftinputhandler.h"
+#include "papercraftplayerhandler.h"
 #include "cheezepizzaengine.h"
 
 PapercraftGameConfig::PapercraftGameConfig()
@@ -9,13 +9,14 @@ PapercraftGameConfig::PapercraftGameConfig()
 {
 }
 
-PapercraftGameConfig::PapercraftGameConfig(InputHandler& InHandler)
+PapercraftGameConfig::PapercraftGameConfig(ActionHandler& InHandler)
 	: InputConfig(InHandler)
 {
 }
 
 PapercraftGameConfig::~PapercraftGameConfig()
 {
+	Handler = NULL;
 }
 
 void PapercraftGameConfig::HandleInput(float DeltaTime)
@@ -29,26 +30,22 @@ void PapercraftGameConfig::HandleInput(float DeltaTime)
 
 	if(Handler != NULL)
 	{
-		PapercraftInputHandler& PapercraftHandler = static_cast<PapercraftInputHandler&>(*Handler);
+		PapercraftPlayerHandler& PapercraftHandler = static_cast<PapercraftPlayerHandler&>(*Handler);
 
 		if(HGEEngine.Input_GetKeyState(HGEK_W))
 		{
-			PapercraftHandler.MoveUp(DeltaTime);
 		}
 
 		if(HGEEngine.Input_GetKeyState(HGEK_S))
 		{
-			PapercraftHandler.MoveDown(DeltaTime);
 		}
 
 		if(HGEEngine.Input_GetKeyState(HGEK_A))
 		{
-			PapercraftHandler.MoveLeft(DeltaTime);
 		}
 
 		if(HGEEngine.Input_GetKeyState(HGEK_D))
 		{
-			PapercraftHandler.MoveRight(DeltaTime);
 		}
 
 		if(		HGEEngine.Input_KeyUp(HGEK_W)
@@ -57,12 +54,10 @@ void PapercraftGameConfig::HandleInput(float DeltaTime)
 			||	HGEEngine.Input_KeyUp(HGEK_D)
 			)
 		{
-			PapercraftHandler.ResetVelocity();
 		}
 
 		if(HGEEngine.Input_GetKeyState(HGEK_SPACE))
 		{
-			PapercraftHandler.FirePrimaryWeapon(DeltaTime);
 		}
 	}
 }

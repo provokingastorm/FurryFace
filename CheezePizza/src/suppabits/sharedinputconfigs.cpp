@@ -12,7 +12,7 @@ DefaultEngineConfig::DefaultEngineConfig()
 {
 }
 
-DefaultEngineConfig::DefaultEngineConfig(InputHandler& InHandler)
+DefaultEngineConfig::DefaultEngineConfig(ActionHandler& InHandler)
 	:	InputConfig(InHandler)
 {
 }

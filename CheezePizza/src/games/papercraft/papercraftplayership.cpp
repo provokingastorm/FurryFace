@@ -225,6 +225,10 @@ void PapercraftPlayerShip::RegisterCollisionComponent()
 	}
 }
 
+void PapercraftPlayerShip::HandleAction(int ActionType)
+{
+}
+
 void PapercraftPlayerShip::MoveHorizontal(float Scalar)
 {
 	HorizontalMoveScalar = Scalar;

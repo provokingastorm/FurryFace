@@ -104,4 +104,9 @@ void Scene2DObject::SetPartition(int PartitionID)
 	}
 }
 
+void Scene2DObject::QueueAction(int ActionType)
+{
+
+}
+
 // EOF

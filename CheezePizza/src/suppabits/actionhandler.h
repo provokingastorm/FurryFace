@@ -1,23 +1,25 @@
-#ifndef InputHandler_H_
-#define InputHandler_H_
+#ifndef ActionHandler_H_
+#define ActionHandler_H_
 
 #ifndef Tickable_H_
 #include "tickable.h"
 #endif
 
 // ----------------------------------------------------------------------------
-// InputHandler - Declaration
+// ActionHandler - Declaration
 // ----------------------------------------------------------------------------
 
-class InputHandler : public Tickable
+class ActionHandler : public Tickable
 {
 public:
 
-	InputHandler();
+	ActionHandler();
+
+	void ScheduleAction(int ActionType);
 
 private:
 
-	void PreTick(float DeltaTime);
+	void Tick(float DeltaTime);
 };
 
 

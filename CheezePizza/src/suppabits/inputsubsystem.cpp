@@ -70,3 +70,5 @@ InputConfig* InputSubsystem::GetCurrentConfig()
 
 	return CurrentConfig;
 }
+
+// EOF
