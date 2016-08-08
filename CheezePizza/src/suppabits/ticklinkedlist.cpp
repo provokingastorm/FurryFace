@@ -125,26 +125,6 @@ void TickLinkedList::Remove(Tickable& LinkObj)
 	LinkObj.ListNext = NULL;
 }
 
-void TickLinkedList::PreTick(float DeltaTime)
-{
-	if(First != NULL)
-	{
-		if(Last != NULL)
-		{
-			Tickable* Current = First;
-			while(Current != NULL)
-			{
-				Current->Tick(DeltaTime);
-				Current = Current->ListNext;
-			}
-		}
-		else
-		{
-			First->Tick(DeltaTime);
-		}
-	}
-}
-
 void TickLinkedList::Tick(float DeltaTime)
 {
 	if(First != NULL)
@@ -165,22 +145,4 @@ void TickLinkedList::Tick(float DeltaTime)
 	}
 }
 
-void TickLinkedList::PostTick(float DeltaTime)
-{
-	if(First != NULL)
-	{
-		if(Last != NULL)
-		{
-			Tickable* Current = First;
-			while(Current != NULL)
-			{
-				Current->Tick(DeltaTime);
-				Current = Current->ListNext;
-			}
-		}
-		else
-		{
-			First->Tick(DeltaTime);
-		}
-	}
-}
+// EOF
