@@ -18,15 +18,14 @@ public:
 	// --------------------------------------------------------
 	//	Inherited public functions
 
-	void PreTick(float DeltaTime);
 	void Tick(float DeltaTime);
 	void RegisterCollisionComponent();
 
 	// --------------------------------------------------------
 	//	Movement public functions
 
-	void MoveHorizontal(float Scalar);
-	void MoveVertical(float Scalar);
+	void MoveHorizontal(float Scalar, float DeltaTime);
+	void MoveVertical(float Scalar, float DeltaTime);
 	void ResetVelocity();
 
 	void FirePrimaryWeapon(float DeltaTime);

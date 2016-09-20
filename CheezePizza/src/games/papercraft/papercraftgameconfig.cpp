@@ -34,18 +34,30 @@ void PapercraftGameConfig::HandleInput(float DeltaTime)
 
 		if(HGEEngine.Input_GetKeyState(HGEK_W))
 		{
+			ScheduledAction Action;
+			Action.ActionType = PPA_MoveShipUp;
+			PapercraftHandler.ScheduleAction(Action);
 		}
 
 		if(HGEEngine.Input_GetKeyState(HGEK_S))
 		{
+			ScheduledAction Action;
+			Action.ActionType = PPA_MoveShipDown;
+			PapercraftHandler.ScheduleAction(Action);
 		}
 
 		if(HGEEngine.Input_GetKeyState(HGEK_A))
 		{
+			ScheduledAction Action;
+			Action.ActionType = PPA_MoveShipLeft;
+			PapercraftHandler.ScheduleAction(Action);
 		}
 
 		if(HGEEngine.Input_GetKeyState(HGEK_D))
 		{
+			ScheduledAction Action;
+			Action.ActionType = PPA_MoveShipRight;
+			PapercraftHandler.ScheduleAction(Action);
 		}
 
 		if(		HGEEngine.Input_KeyUp(HGEK_W)
@@ -54,10 +66,16 @@ void PapercraftGameConfig::HandleInput(float DeltaTime)
 			||	HGEEngine.Input_KeyUp(HGEK_D)
 			)
 		{
+			ScheduledAction Action;
+			Action.ActionType = PPA_StopMovingShip;
+			PapercraftHandler.ScheduleAction(Action);
 		}
 
 		if(HGEEngine.Input_GetKeyState(HGEK_SPACE))
 		{
+			ScheduledAction Action;
+			Action.ActionType = PPA_FirePrimaryWeapon;
+			PapercraftHandler.ScheduleAction(Action);
 		}
 	}
 }

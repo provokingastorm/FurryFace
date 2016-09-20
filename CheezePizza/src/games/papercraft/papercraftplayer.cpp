@@ -32,6 +32,7 @@ void PapercraftPlayer::OnCreatedInternal()
 
 	PapercraftPlayerHandler& Handler = *(new PapercraftPlayerHandler());
 	Handler.SetShip(*Ship);
+	World2D::Instance().AddTickObject(Handler);
 
 	PapercraftGameConfig& PapercraftInput = *(new PapercraftGameConfig(Handler));
 	InputSubsystem::Instance().PushConfig(PapercraftInput);

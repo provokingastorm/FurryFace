@@ -79,6 +79,8 @@ PapercraftPlayerShip::PapercraftPlayerShip()
 	SharedData->Float(CMPID_X) = ShipOriginX;
 	SharedData->Float(CMPID_Y) = ShipOriginY;
 
+	ResetVelocity();
+
 	// TEMP: Setting player's color to red. Player should be able to pick the color in the menus
 	SharedData->Int(PDID_PlayerColor) = PC_Red;
 
@@ -164,18 +166,6 @@ PapercraftPlayerShip::~PapercraftPlayerShip()
 	}
 }
 
-void PapercraftPlayerShip::PreTick(float DeltaTime)
-{
-	// Move the player's ship
-	float& X = OwnerData->Float(CMPID_X);
-	const float VerticalMoveDelta = (HorizontalMoveScalar * Velocity.X * DeltaTime);
-	X = X + VerticalMoveDelta;
-
-	float& Y = OwnerData->Float(CMPID_Y);
-	const float HorizontalMoveDelta = (VeriticalMoveScalar * Velocity.Y * DeltaTime);
-	Y = Y + HorizontalMoveDelta;
-}
-
 void PapercraftPlayerShip::Tick(float DeltaTime)
 {
 	Scene2DObject::Tick(DeltaTime);
@@ -229,14 +219,22 @@ void PapercraftPlayerShip::HandleAction(int ActionType)
 {
 }
 
-void PapercraftPlayerShip::MoveHorizontal(float Scalar)
+void PapercraftPlayerShip::MoveHorizontal(float Scalar, float DeltaTime)
 {
 	HorizontalMoveScalar = Scalar;
+
+	float& X = OwnerData->Float(CMPID_X);
+	const float VerticalMoveDelta = (HorizontalMoveScalar * Velocity.X * DeltaTime);
+	X = X + VerticalMoveDelta;
 }
 
-void PapercraftPlayerShip::MoveVertical(float Scalar)
+void PapercraftPlayerShip::MoveVertical(float Scalar, float DeltaTime)
 {
-	VeriticalMoveScalar = Scalar;
+	VeriticalMoveScalar = Scalar * -1.0f;
+
+	float& Y = OwnerData->Float(CMPID_Y);
+	const float HorizontalMoveDelta = (VeriticalMoveScalar * Velocity.Y * DeltaTime);
+	Y = Y + HorizontalMoveDelta;
 }
 
 void PapercraftPlayerShip::ResetVelocity()
