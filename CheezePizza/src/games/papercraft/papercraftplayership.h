@@ -5,6 +5,21 @@
 #include "scene2dobject.h"
 #endif
 
+struct PapercraftShipData
+{
+public:
+
+	PapercraftShipData();
+
+	// Movement
+	float VeriticalMoveScalar;
+	float HorizontalMoveScalar;
+	Vector2D Velocity;
+
+	// Combat
+	float FireCooldownTimer;
+};
+
 // ----------------------------------------------------------------------------
 // PapercraftPlayerShip - Declaration
 // ----------------------------------------------------------------------------
@@ -48,16 +63,7 @@ private:
 	class TacTriangleComponent* TacComp;
 	class CollisionComponent* CollisionComp;
 
-	// Movement
-	float VeriticalMoveScalar;
-	float HorizontalMoveScalar;
-	Vector2D Velocity;
-
-	// Combat
-	float FireCooldownTimer;
-
-	static const float VelocityPerSec;
-	static const float MaxVelocity;
+	PapercraftShipData ShipData;
 };
 
 #endif

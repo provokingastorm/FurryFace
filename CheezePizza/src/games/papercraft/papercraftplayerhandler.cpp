@@ -37,7 +37,7 @@ void PapercraftPlayerHandler::HandleAction(ScheduledAction& UnhandledAction, flo
 		break;
 
 	case PPA_FirePrimaryWeapon:
-		Ship->FirePrimaryWeapon();
+		//Ship->FirePrimaryWeapon();
 		break;
 
 	default:

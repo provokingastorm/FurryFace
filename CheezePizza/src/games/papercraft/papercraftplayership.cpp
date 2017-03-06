@@ -46,11 +46,20 @@ private:
 // PapercraftPlayerShip - Static variables
 // ----------------------------------------------------------------------------
 
-const float PapercraftPlayerShip::VelocityPerSec = 135.0;
-const float PapercraftPlayerShip::MaxVelocity = 100.0f;
+// TODO PBENNETT: Put these in a namespace?
+const float VelocityPerSec = 135.0;
+const float MaxVelocity = 100.0f;
 
 const float DefaultVelocity = 135.0f;
 const float FireRate = 0.5f;
+
+PapercraftShipData::PapercraftShipData()
+	: Velocity(VelocityPerSec)
+	, HorizontalMoveScalar(0.0f)
+	, VeriticalMoveScalar(0.0f)
+	, FireCooldownTimer(0.0f)
+{
+}
 
 // ----------------------------------------------------------------------------
 // PapercraftPlayerShip - Definition
@@ -63,10 +72,6 @@ PapercraftPlayerShip::PapercraftPlayerShip()
 	, BeamComp(NULL)
 	, TacComp(NULL)
 	, CollisionComp(NULL)
-	, Velocity(VelocityPerSec)
-	, HorizontalMoveScalar(0.0f)
-	, VeriticalMoveScalar(0.0f)
-	, FireCooldownTimer(0.0f)
 {
 	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
 
@@ -170,9 +175,9 @@ void PapercraftPlayerShip::Tick(float DeltaTime)
 {
 	Scene2DObject::Tick(DeltaTime);
 
-	if(FireCooldownTimer > 0.0f)
+	if(ShipData.FireCooldownTimer > 0.0f)
 	{
-		FireCooldownTimer -= DeltaTime;
+		ShipData.FireCooldownTimer -= DeltaTime;
 	}
 
 	if(BasicShotComp != NULL)
@@ -221,36 +226,36 @@ void PapercraftPlayerShip::HandleAction(int ActionType)
 
 void PapercraftPlayerShip::MoveHorizontal(float Scalar, float DeltaTime)
 {
-	HorizontalMoveScalar = Scalar;
+	ShipData.HorizontalMoveScalar = Scalar;
 
 	float& X = OwnerData->Float(CMPID_X);
-	const float VerticalMoveDelta = (HorizontalMoveScalar * Velocity.X * DeltaTime);
+	const float VerticalMoveDelta = (ShipData.HorizontalMoveScalar * ShipData.Velocity.X * DeltaTime);
 	X = X + VerticalMoveDelta;
 }
 
 void PapercraftPlayerShip::MoveVertical(float Scalar, float DeltaTime)
 {
-	VeriticalMoveScalar = Scalar * -1.0f;
+	ShipData.VeriticalMoveScalar = Scalar * -1.0f;
 
 	float& Y = OwnerData->Float(CMPID_Y);
-	const float HorizontalMoveDelta = (VeriticalMoveScalar * Velocity.Y * DeltaTime);
+	const float HorizontalMoveDelta = (ShipData.VeriticalMoveScalar * ShipData.Velocity.Y * DeltaTime);
 	Y = Y + HorizontalMoveDelta;
 }
 
 void PapercraftPlayerShip::ResetVelocity()
 {
-	HorizontalMoveScalar = 0.0f;
-	VeriticalMoveScalar = 0.0f;
-	Velocity.X = VelocityPerSec;
-	Velocity.Y = VelocityPerSec;
+	ShipData.HorizontalMoveScalar = 0.0f;
+	ShipData.VeriticalMoveScalar = 0.0f;
+	ShipData.Velocity.X = VelocityPerSec;
+	ShipData.Velocity.Y = VelocityPerSec;
 }
 
 void PapercraftPlayerShip::FirePrimaryWeapon(float DeltaTime)
 {
-	if(BasicShotComp != NULL && FireCooldownTimer <= 0.0f)
+	if(BasicShotComp != NULL && ShipData.FireCooldownTimer <= 0.0f)
 	{
 		BasicShotComp->Fire(DeltaTime);
-		FireCooldownTimer = FireRate;
+		ShipData.FireCooldownTimer = FireRate;
 	}
 }
 
