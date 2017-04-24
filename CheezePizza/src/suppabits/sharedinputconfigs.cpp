@@ -4,16 +4,11 @@
 #include "cheezepizzaengine.h"
 
 // ----------------------------------------------------------------------------
-// DefaultEngineConfig - Definintion
+// DefaultEngineConfig - Definition
 // ----------------------------------------------------------------------------
 
 DefaultEngineConfig::DefaultEngineConfig()
 	:	InputConfig()
-{
-}
-
-DefaultEngineConfig::DefaultEngineConfig(ActionHandler& InHandler)
-	:	InputConfig(InHandler)
 {
 }
 

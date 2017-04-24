@@ -12,13 +12,18 @@
 class PapercraftGameConfig : public InputConfig
 {
 public:
-	PapercraftGameConfig();
-	PapercraftGameConfig(class ActionHandler& InHandler);
+
+	PapercraftGameConfig(class PapercraftPlayerShip& InShip);
 	~PapercraftGameConfig();
 
 	void HandleInput(float DeltaTime);
 
 private:
+
+	// Hide default constructor in favor of using a parameterized constructor to initialize reference objects
+	PapercraftGameConfig();
+
+	class PapercraftPlayerShip& PlayerShip;
 };
 
 #endif

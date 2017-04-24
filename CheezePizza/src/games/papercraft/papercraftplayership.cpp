@@ -3,12 +3,11 @@
 // Papercraft
 #include "papercraftstructures.h"
 #include "papercraftplayership.h"
-#include "papercraftcomponents.h"
-#include "papercraftcomponentdata.h"
 
 // Suppa bits
 #include "sharedrenderables.h"
-#include "componentdata.h"
+#include "world2d.h"
+#include "scene2dobject.h"
 #include "collisionsubsystem.h"
 #include "collisioncomponent.h"
 
@@ -57,39 +56,23 @@ const float FireRate = 0.5f;
 // ----------------------------------------------------------------------------
 
 PapercraftPlayerShip::PapercraftPlayerShip()
-	: BasicShotComp(NULL)
-	, Crazy88ShotComp(NULL)
-	, BombComp(NULL)
-	, BeamComp(NULL)
-	, TacComp(NULL)
-	, CollisionComp(NULL)
-	, Velocity(VelocityPerSec)
-	, HorizontalMoveScalar(0.0f)
-	, VeriticalMoveScalar(0.0f)
-	, FireCooldownTimer(0.0f)
+	: CollisionComp(NULL)
 {
 	CheezePizzaEngine& CE = CheezePizzaEngine::Instance();
 
-	// Setup the shared variables used by the components
-	PapercraftShipComponentData* SharedData = new PapercraftShipComponentData();
+	// Initialize ship data
+	ShipData.Velocity = VelocityPerSec;
 
 	// TEMP: Position the ship in the middle of the screen for testing
 	const float ShipOriginX = static_cast<float>(CE.GetHGE().System_GetState(HGE_SCREENWIDTH)) * 0.5f;
 	const float ShipOriginY = static_cast<float>(CE.GetHGE().System_GetState(HGE_SCREENHEIGHT)) * 0.5f;
-	SharedData->Float(CMPID_X) = ShipOriginX;
-	SharedData->Float(CMPID_Y) = ShipOriginY;
+	ShipData.X = ShipOriginX;
+	ShipData.Y = ShipOriginY;
 
 	ResetVelocity();
 
 	// TEMP: Setting player's color to red. Player should be able to pick the color in the menus
-	SharedData->Int(PDID_PlayerColor) = PC_Red;
-
-	// Create all the player's components
-	BasicShotComp = new BasicAttackComponent(*SharedData);
-	Crazy88ShotComp = new Crazy88AttackComponent(*SharedData);
-	BombComp = new BombAttackComponent(*SharedData);
-	BeamComp = new BeamAttackComponent(*SharedData);
-	TacComp = new TacTriangleComponent(*SharedData);
+	ShipData.PlayerColor = PC_Red;
 
 	hgeSprite* Ship = CE.ResourceManager->GetSprite("sprIdleShip");
 	if(Ship != NULL)
@@ -118,81 +101,32 @@ PapercraftPlayerShip::PapercraftPlayerShip()
 			// Now, figure out the facing direction 
 			const float TopToOriginLength = sqrt((ShipTopPointX*ShipTopPointY) + (ShipOriginX*ShipOriginY));
 
- 			SharedData->Float(CMPID_FacingDirX) = (ShipTopPointX - ShipOriginX) / TopToOriginLength;
-			SharedData->Float(CMPID_FacingDirY) = (ShipTopPointY - ShipOriginY) / TopToOriginLength;
+ 			ShipData.FacingDirX = (ShipTopPointX - ShipOriginX) / TopToOriginLength;
+			ShipData.FacingDirY = (ShipTopPointY - ShipOriginY) / TopToOriginLength;
 		}
 
-		Ship->SetColor( GetPlayerColorFromInt(SharedData->Int(PDID_PlayerColor)) );
+		Ship->SetColor( GetPlayerColorFromInt(ShipData.PlayerColor) );
 
 		StaticImage* ShipRO = new StaticImage();
 		ShipRO->SetContent(*Ship);
 		ShipRO->SetRotation(ShipRotation);
 
-		SetRenderObject(*ShipRO);
-		SetComponentData(*SharedData);
+		ShipData.SceneData.RenderObject = ShipRO;
+		Scene2DObject* ShipSceneObject = new Scene2DObject(ShipData.SceneData);
+		//ShipSceneObject->SetRenderObject(*ShipRO);
+		World2D::Instance().AddPersistentObject(*ShipSceneObject, SOL_Foreground);
 	}
 }
 
 PapercraftPlayerShip::~PapercraftPlayerShip()
 {
-	if(BasicShotComp != NULL)
-	{
-		delete BasicShotComp;
-		BasicShotComp = NULL;
-	}
-
-	if(Crazy88ShotComp != NULL)
-	{
-		delete Crazy88ShotComp;
-		Crazy88ShotComp = NULL;
-	}
-
-	if(BombComp != NULL)
-	{
-		delete BombComp;
-		BombComp = NULL;
-	}
-
-	if(BeamComp != NULL)
-	{
-		delete BeamComp;
-		BeamComp = NULL;
-	}
-
-	if(TacComp != NULL)
-	{
-		delete TacComp;
-		TacComp = NULL;
-	}
 }
 
 void PapercraftPlayerShip::Tick(float DeltaTime)
 {
-	Scene2DObject::Tick(DeltaTime);
-
-	if(FireCooldownTimer > 0.0f)
+	if(ShipData.FireCooldownTimer > 0.0f)
 	{
-		FireCooldownTimer -= DeltaTime;
-	}
-
-	if(BasicShotComp != NULL)
-	{
-		BasicShotComp->Tick(DeltaTime);
-	}
-
-	if(Crazy88ShotComp != NULL)
-	{
-		Crazy88ShotComp->Tick(DeltaTime);
-	}
-
-	if(BombComp != NULL)
-	{
-		BombComp->Tick(DeltaTime);
-	}
-
-	if(BeamComp != NULL)
-	{
-		BeamComp->Tick(DeltaTime);
+		ShipData.FireCooldownTimer -= DeltaTime;
 	}
 }
 
@@ -215,43 +149,32 @@ void PapercraftPlayerShip::RegisterCollisionComponent()
 	}
 }
 
-void PapercraftPlayerShip::HandleAction(int ActionType)
-{
-}
-
 void PapercraftPlayerShip::MoveHorizontal(float Scalar, float DeltaTime)
 {
-	HorizontalMoveScalar = Scalar;
+	ShipData.HorizontalMoveScalar = Scalar;
 
-	float& X = OwnerData->Float(CMPID_X);
-	const float VerticalMoveDelta = (HorizontalMoveScalar * Velocity.X * DeltaTime);
-	X = X + VerticalMoveDelta;
+	const float VerticalMoveDelta = (ShipData.HorizontalMoveScalar * ShipData.Velocity.X * DeltaTime);
+	ShipData.X = ShipData.X + VerticalMoveDelta;
 }
 
 void PapercraftPlayerShip::MoveVertical(float Scalar, float DeltaTime)
 {
-	VeriticalMoveScalar = Scalar * -1.0f;
+	ShipData.VeriticalMoveScalar = Scalar * -1.0f;
 
-	float& Y = OwnerData->Float(CMPID_Y);
-	const float HorizontalMoveDelta = (VeriticalMoveScalar * Velocity.Y * DeltaTime);
-	Y = Y + HorizontalMoveDelta;
+	const float HorizontalMoveDelta = (ShipData.VeriticalMoveScalar * ShipData.Velocity.Y * DeltaTime);
+	ShipData.Y = ShipData.Y + HorizontalMoveDelta;
 }
 
 void PapercraftPlayerShip::ResetVelocity()
 {
-	HorizontalMoveScalar = 0.0f;
-	VeriticalMoveScalar = 0.0f;
-	Velocity.X = VelocityPerSec;
-	Velocity.Y = VelocityPerSec;
+	ShipData.HorizontalMoveScalar = 0.0f;
+	ShipData.VeriticalMoveScalar = 0.0f;
+	ShipData.Velocity.X = VelocityPerSec;
+	ShipData.Velocity.Y = VelocityPerSec;
 }
 
 void PapercraftPlayerShip::FirePrimaryWeapon(float DeltaTime)
 {
-	if(BasicShotComp != NULL && FireCooldownTimer <= 0.0f)
-	{
-		BasicShotComp->Fire(DeltaTime);
-		FireCooldownTimer = FireRate;
-	}
 }
 
 void PapercraftPlayerShip::OnSetPartitionID(int PartitionID)

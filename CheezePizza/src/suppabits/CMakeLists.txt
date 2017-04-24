@@ -3,8 +3,6 @@ cmake_minimum_required( VERSION 2.8 )
 
 #------ sources ------
 set( SUPPA_BITS_SRC
-	actionhandler.cpp
-	actionhandler.h
     cheezepizza.h
 	cheezepizzacore.cpp
     cheezepizzacore.h
@@ -12,10 +10,9 @@ set( SUPPA_BITS_SRC
     cheezepizzaengine.h
 	collisioncomponent.cpp
 	collisioncomponent.h
+	collisiondatatypes.h
 	collisionsubsystem.cpp
 	collisionsubsystem.h
-	component.h
-	componentdata.h
 	debugutilities.cpp
     debugutilities.h
 	delegate.h
@@ -36,6 +33,8 @@ set( SUPPA_BITS_SRC
 	messagepump.cpp
     messagepump.h
     messagetypes.h
+    physicssubsystem.cpp
+    physicssubsystem.h
 	playerfactory.cpp
     playerfactory.h
 	playersubsystem.cpp
@@ -43,12 +42,11 @@ set( SUPPA_BITS_SRC
     point.h
 	scene2d.cpp
     scene2d.h
+    scene2ddatatypes.h
 	scene2dobject.cpp
     scene2dobject.h
 	screenpartition.cpp
 	screenpartition.h
-	sharedcomponents.cpp
-	sharedcomponents.h
     sharedinputconfigs.cpp
     sharedinputconfigs.h
     sharedrenderables.cpp

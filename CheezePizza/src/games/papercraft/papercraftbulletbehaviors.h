@@ -9,6 +9,10 @@
 #include "hgerect.h"
 #endif
 
+#ifndef Scene2DDataTypes_H_
+#include "scene2ddatatypes.h"
+#endif
+
 
 // ----------------------------------------------------------------------------
 // PapercraftBulletBehavior - Enums
@@ -101,6 +105,7 @@ private:
 	class BasicShotRenderable* BulletRO;
 	class Scene2DObject* BulletScene;
 	class hgeAnimation* BulletAnim;
+	Scene2DObjectData BulletData;
 };
 
 #endif

@@ -1,5 +1,6 @@
 #include "cheezepizza.h"
 #include "collisioncomponent.h"
+#include "collisiondatatypes.h"
 #include "screenpartition.h"
 
 

@@ -8,15 +8,13 @@
 class InputConfig
 {
 public:
+
 	InputConfig();
-	InputConfig(class ActionHandler& InHandler);
 	virtual ~InputConfig();
 
 	virtual void HandleInput(float DeltaTime) {}
 
-protected:
-
-	class ActionHandler* Handler;
+private:
 };
 
 

@@ -7,18 +7,13 @@ set( PAPERCRAFT_SRC
 	papercraftbulletbehaviors.h
 	papercraftbulletsystem.cpp
 	papercraftbulletsystem.h
-    papercraftcomponentdata.cpp
-    papercraftcomponentdata.h
-    papercraftcomponents.cpp
-    papercraftcomponents.h
     papercraftgameconfig.cpp
     papercraftgameconfig.h
     papercrafthud.cpp
     papercrafthud.h
     papercraftplayer.cpp
     papercraftplayer.h
-    papercraftplayerhandler.cpp
-    papercraftplayerhandler.h
+    papercraftplayerdatatypes.h
     papercraftplayership.cpp
     papercraftplayership.h
 	papercraftstructures.cpp

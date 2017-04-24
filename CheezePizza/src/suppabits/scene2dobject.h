@@ -14,7 +14,7 @@ class Scene2DObject : public Tickable
 {
 public:
 
-	Scene2DObject();
+	Scene2DObject(struct Scene2DObjectData& InData);
 	virtual ~Scene2DObject();
 
 
@@ -23,7 +23,6 @@ public:
 
 	class IRenderable* GetRenderObject() const;
 	void SetRenderObject(class IRenderable& Object);
-	void SetComponentData(class ComponentData& InData);
 	bool CanRender() const;
 
 	// --------------------------------------------------------
@@ -45,21 +44,11 @@ public:
 
 protected:
 
+	Scene2DObject();
 	virtual void OnSetPartitionID(int PartitionID) {}
 
-	class IRenderable* RenderObject;
-	class ComponentData* OwnerData;
+	struct Scene2DObjectData& ObjectData;
 };
-
-
-// ----------------------------------------------------------------------------
-// Scene2DObject - Inline Methods
-// ----------------------------------------------------------------------------
-
-inline class IRenderable* Scene2DObject::GetRenderObject() const
-{
-	return RenderObject;
-}
 
 #endif
 

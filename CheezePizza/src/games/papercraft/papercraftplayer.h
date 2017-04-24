@@ -5,6 +5,10 @@
 #include "localplayer.h"
 #endif
 
+#ifndef Scene2DDataTypes_H_
+#include "scene2ddatatypes.h"
+#endif
+
 class PapercraftPlayer : public LocalPlayer
 {
 public:

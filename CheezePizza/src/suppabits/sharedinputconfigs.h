@@ -13,7 +13,6 @@ class DefaultEngineConfig : public InputConfig
 {
 public:
 	DefaultEngineConfig();
-	DefaultEngineConfig(class ActionHandler& InHandler);
 	~DefaultEngineConfig();
 
 private:

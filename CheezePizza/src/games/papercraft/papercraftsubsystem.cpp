@@ -5,7 +5,6 @@
 #include "papercraftbulletsystem.h"
 #include "papercraftplayerfactory.h"
 #include "papercraftplayer.h"
-#include "papercraftplayerhandler.h"
 #include "papercraftgameconfig.h"
 
 // Subsystems

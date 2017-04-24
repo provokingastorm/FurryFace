@@ -126,7 +126,7 @@ PapercraftBulletBehaviorDefault::PapercraftBulletBehaviorDefault()
 		BulletRO = new BasicShotRenderable();
 		BulletRO->AddAnimation(*BulletAnim);
 
-		BulletScene = new Scene2DObject();
+		BulletScene = new Scene2DObject(BulletData);
 		BulletScene->SetRenderObject(*BulletRO);
 
 		World2D::Instance().AddPersistentObject(*BulletScene, SOL_Layer2);

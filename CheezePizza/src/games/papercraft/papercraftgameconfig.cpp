@@ -1,22 +1,16 @@
 #include "cheezepizza.h"
 #include "papercraftgameconfig.h"
 #include "papercraftplayer.h"
-#include "papercraftplayerhandler.h"
 #include "cheezepizzaengine.h"
 
-PapercraftGameConfig::PapercraftGameConfig()
+PapercraftGameConfig::PapercraftGameConfig(PapercraftPlayerShip& InShip)
 	: InputConfig()
-{
-}
-
-PapercraftGameConfig::PapercraftGameConfig(ActionHandler& InHandler)
-	: InputConfig(InHandler)
+	, PlayerShip(InShip)
 {
 }
 
 PapercraftGameConfig::~PapercraftGameConfig()
 {
-	Handler = NULL;
 }
 
 void PapercraftGameConfig::HandleInput(float DeltaTime)
@@ -28,7 +22,7 @@ void PapercraftGameConfig::HandleInput(float DeltaTime)
 		CheezePizzaEngine::Instance().ExitApplication();
 	}
 
-	if(Handler != NULL)
+	/*if(Handler != NULL)
 	{
 		PapercraftPlayerHandler& PapercraftHandler = static_cast<PapercraftPlayerHandler&>(*Handler);
 
@@ -77,7 +71,7 @@ void PapercraftGameConfig::HandleInput(float DeltaTime)
 			Action.ActionType = PPA_FirePrimaryWeapon;
 			PapercraftHandler.ScheduleAction(Action);
 		}
-	}
+	}*/
 }
 
 // EOF
