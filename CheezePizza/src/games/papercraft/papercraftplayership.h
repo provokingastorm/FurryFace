@@ -5,6 +5,21 @@
 #include "papercraftplayerdatatypes.h"
 #endif
 
+struct PapercraftShipData
+{
+public:
+
+	PapercraftShipData();
+
+	// Movement
+	float VeriticalMoveScalar;
+	float HorizontalMoveScalar;
+	Vector2D Velocity;
+
+	// Combat
+	float FireCooldownTimer;
+};
+
 // ----------------------------------------------------------------------------
 // PapercraftPlayerShip - Declaration
 // ----------------------------------------------------------------------------
@@ -44,8 +59,12 @@ private:
 	// Components
 	class CollisionComponent* CollisionComp;
 
+<<<<<<< HEAD
 	static const float VelocityPerSec;
 	static const float MaxVelocity;
+=======
+	PapercraftShipData ShipData;
+>>>>>>> 028803145319c38e2b00fad0648b76161795a891
 };
 
 #endif
