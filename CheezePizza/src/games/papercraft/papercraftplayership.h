@@ -58,13 +58,6 @@ private:
 
 	// Components
 	class CollisionComponent* CollisionComp;
-
-<<<<<<< HEAD
-	static const float VelocityPerSec;
-	static const float MaxVelocity;
-=======
-	PapercraftShipData ShipData;
->>>>>>> 028803145319c38e2b00fad0648b76161795a891
 };
 
 #endif
