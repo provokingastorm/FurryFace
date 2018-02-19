@@ -29,8 +29,8 @@ CollisionComponent* CollisionSubsystem::CreateCollisionComponent()
 {
 	CollisionComponent* NewComponent = NULL;
 
-	// Only create a new collision component if we 
-	if( FirstFreeCompIndex < (MAX_COLLISION_COMPONENTS-1) )
+	// Only create a new collision component if we haven't reached the max
+	if(FirstFreeCompIndex < (MAX_COLLISION_COMPONENTS-1))
 	{
 		NewComponent = &Components[FirstFreeCompIndex];
 		FirstFreeCompIndex += 1;

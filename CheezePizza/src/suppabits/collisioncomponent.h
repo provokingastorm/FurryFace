@@ -34,6 +34,7 @@
 #define COLLISIONCHANNEL_08						0x10000000
 #define COLLISIONCHANNEL_All					0x11111111
 
+
 // ----------------------------------------------------------------------------
 // CollisionCallback - Declaration
 // ----------------------------------------------------------------------------
@@ -57,6 +58,31 @@ public:
 };
 
 // ----------------------------------------------------------------------------
+// CollisionCallback - Declaration
+// ----------------------------------------------------------------------------
+
+struct CollisionOwnerProperties
+{
+public:
+
+	CollisionCallback* Callback;
+	int PartitonID;
+	bool bIsActive;
+	DWORD ChannelFlags;
+	DWORD ResponseFlags;
+	hgeRect Bounds;
+
+	CollisionOwnerProperties()
+		: Callback(NULL)
+		, PartitonID(INVALID_COL_INDEX)
+		, bIsActive(false)
+		, ChannelFlags(COLLISIONCHANNEL_None)
+		, ResponseFlags(COLLISION_None)
+	{
+	}
+};
+
+// ----------------------------------------------------------------------------
 // CollisionComponent - Declaration
 // ----------------------------------------------------------------------------
 
@@ -64,6 +90,7 @@ class CollisionComponent
 {
 private:
 
+	friend class CollisionSubsystem;
 	// This ID is set by the collision system and cannot be reset
 	int ID;
 
@@ -72,17 +99,11 @@ public:
 	CollisionComponent();
 	~CollisionComponent();
 
+	void Setup(CollisionOwnerProperties& InProperties);
 	void Reset();
 	int GetCollisionID() const { return ID; }
 
-	int PartitonID;
-	bool bIsActive;
-	DWORD ChannelFlags;
-	hgeRect Bounds;
-	CollisionCallback* Callback;
-	DWORD ResponseFlags;
-
-	friend class CollisionSubsystem;
+	CollisionOwnerProperties* OwnerProperties;
 };
 
 #endif

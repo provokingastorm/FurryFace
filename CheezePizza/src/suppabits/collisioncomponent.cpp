@@ -6,27 +6,23 @@
 
 CollisionComponent::CollisionComponent()
 	: ID(INVALID_COL_INDEX)
-	, PartitonID(INVALID_PARTITION_ID)
-	, bIsActive(false)
-	, ChannelFlags(COLLISIONCHANNEL_None)
-	, Bounds(hgeRect(0.0f, 0.0f, 0.0f, 0.0f))
-	, Callback(NULL)
-	, ResponseFlags(COLLISION_None)
+	, OwnerProperties(NULL)
 {
 }
 
 CollisionComponent::~CollisionComponent()
 {
+	OwnerProperties = NULL;
+}
+
+void CollisionComponent::Setup(CollisionOwnerProperties& InProperties)
+{
+	OwnerProperties = &InProperties;
 }
 
 void CollisionComponent::Reset()
 {
-	PartitonID = INVALID_PARTITION_ID;
-	bIsActive = false;
-	ChannelFlags = COLLISIONCHANNEL_None;
-	Bounds = hgeRect(0.0f, 0.0f, 0.0f, 0.0f);
-	Callback = NULL;
-	ResponseFlags = COLLISION_None;
+	OwnerProperties = NULL;
 }
 
 // EOF

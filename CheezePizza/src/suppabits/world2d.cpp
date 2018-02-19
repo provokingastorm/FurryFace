@@ -140,7 +140,7 @@ void World2D::RecalculateObjectsPartition()
 		{
 			Scene2DObject& Obj = *(PersistentObjects[DrawLayer][i]);
 
-			// Only update the object's parition ID if they moved to avoid unnecessary calculations
+			// Only update the object's partition ID if they moved to avoid unnecessary calculations
 			if(Obj.MovedThisTick())
 			{
 				Vector2D Position = Obj.GetPosition();

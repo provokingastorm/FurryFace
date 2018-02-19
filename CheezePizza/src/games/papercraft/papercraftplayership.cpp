@@ -83,6 +83,10 @@ PapercraftPlayerShip::PapercraftPlayerShip()
 	// TEMP: Setting player's color to red. Player should be able to pick the color in the menus
 	ShipData.PlayerColor = PC_Red;
 
+	// Initialize collision properties
+	ShipData.CollisionProperties.ChannelFlags = COLLISIONCHANNEL_01;
+	ShipData.CollisionProperties.Callback = new PlayerShipCollisionCallback(*this);
+
 	hgeSprite* Ship = CE.ResourceManager->GetSprite("sprIdleShip");
 	if(Ship != NULL)
 	{
@@ -122,7 +126,7 @@ PapercraftPlayerShip::PapercraftPlayerShip()
 
 		ShipData.SceneData.RenderObject = ShipRO;
 		Scene2DObject* ShipSceneObject = new Scene2DObject(ShipData.SceneData);
-		//ShipSceneObject->SetRenderObject(*ShipRO);
+		ShipSceneObject->SetRenderObject(*ShipRO);
 		World2D::Instance().AddPersistentObject(*ShipSceneObject, SOL_Foreground);
 	}
 }
@@ -147,15 +151,11 @@ void PapercraftPlayerShip::RegisterCollisionComponent()
 
 		if(CollisionComp != NULL)
 		{
-			CollisionComp->ChannelFlags = COLLISIONCHANNEL_01;
-			CollisionComp->Callback = new PlayerShipCollisionCallback(*this);
+			CollisionComp->Setup(ShipData.CollisionProperties);
 		}
 	}
 
-	if(CollisionComp != NULL)
-	{
-		CollisionComp->bIsActive = true;
-	}
+	ShipData.CollisionProperties.bIsActive = (CollisionComp != NULL);
 }
 
 void PapercraftPlayerShip::MoveHorizontal(float Scalar, float DeltaTime)
@@ -188,10 +188,7 @@ void PapercraftPlayerShip::FirePrimaryWeapon(float DeltaTime)
 
 void PapercraftPlayerShip::OnSetPartitionID(int PartitionID)
 {
-	if(CollisionComp != NULL)
-	{
-		CollisionComp->PartitonID = PartitionID;
-	}
+	ShipData.CollisionProperties.PartitonID = PartitionID;
 }
 
 // EOF

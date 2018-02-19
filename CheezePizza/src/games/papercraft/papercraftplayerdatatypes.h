@@ -5,6 +5,10 @@
 #include "scene2ddatatypes.h"
 #endif
 
+#ifndef CollisionComponent_H_
+#include "collisioncomponent.h"
+#endif
+
 struct PapercraftPlayerShipData
 {
 public:
@@ -15,7 +19,6 @@ public:
 	float FacingDirY;
 	float Impulse;
 
-	int ParitionID;
 	int PlayerColor;
 
 	// Movement
@@ -25,6 +28,9 @@ public:
 
 	// Combat
 	float FireCooldownTimer;
+
+	// Collision
+	CollisionOwnerProperties CollisionProperties;
 
 	Scene2DObjectData SceneData;
 };
